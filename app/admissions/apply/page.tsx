@@ -18,7 +18,7 @@ import { RadioGroup, Radio } from "@heroui/radio";
 import { siteConfig } from "@/config/site";
 
 export default function ApplicationPage() {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(4);
   const totalSteps = 4;
 
   // État du formulaire
@@ -107,31 +107,59 @@ export default function ApplicationPage() {
 
     // Étape 3: Santé et éducation
     healthInfo: {
-      allergies: "",
-      medications: "",
-      medicalConditions: "",
-      specialNeeds: "",
+      allergies: false,
+      chronicIllness: false,
+      regularMedication: false,
+      specificMedicalConditions: {
+        asthma: false,
+        severeAllergies: false,
+        diabetes: false,
+        seizures: false,
+        other: false,
+      },
+      doctorName: "",
+      doctorPhone: "",
+      modeOfTransport: "",
     },
-    educationHistory: {
-      previousSchool: "",
-      previousGrade: "",
-      reasonForLeaving: "",
-      hasSpecialEducation: false,
-      specialEducationDetails: "",
-    },
+    educationHistory: [
+      {
+        schoolName: "",
+        reasonForLeaving: "",
+      },
+    ] as Array<{
+      schoolName: string;
+      reasonForLeaving: string;
+    }>,
 
     // Étape 4: Documents et consentements
-    mediaRelease: false,
-    feeAcceptance: false,
+    mediaRelease: "",
+    feeAcceptance: "",
     medicalAuthorization: false,
     documents: {
-      birthCertificate: false,
-      passportPhotos: false,
-      schoolRecords: false,
-      medicalRecords: false,
-      identificationDocuments: false,
+      passportPhotos: {
+        checked: false,
+        file: null as string | null,
+        fileName: "",
+      },
+      schoolReport: {
+        checked: false,
+        file: null as string | null,
+        fileName: "",
+      },
+      parentId: {
+        checked: false,
+        file: null as string | null,
+        fileName: "",
+      },
+      studentId: {
+        checked: false,
+        file: null as string | null,
+        fileName: "",
+      },
     },
     consentForm: false,
+    digitalSignature: "",
+    identificationDocuments: false,
   });
 
   // Gestion des changements dans le formulaire
@@ -139,6 +167,43 @@ export default function ApplicationPage() {
     setFormData({
       ...formData,
       [field]: value,
+    });
+  };
+
+  // Fonction pour gérer les fichiers
+  const handleFileUpload = (documentType: keyof typeof formData.documents, file: File) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const base64 = e.target?.result as string;
+      setFormData({
+        ...formData,
+        documents: {
+          ...formData.documents,
+          [documentType]: {
+            ...formData.documents[documentType],
+            file: base64,
+            fileName: file.name,
+            checked: true, // Auto-check when file is uploaded
+          },
+        },
+      });
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // Fonction pour supprimer un fichier
+  const handleFileRemove = (documentType: keyof typeof formData.documents) => {
+    setFormData({
+      ...formData,
+      documents: {
+        ...formData.documents,
+        [documentType]: {
+          ...formData.documents[documentType],
+          file: null,
+          fileName: "",
+          checked: false,
+        },
+      },
     });
   };
 
@@ -1341,21 +1406,800 @@ export default function ApplicationPage() {
         );
       case 3:
         return (
-          <div className="space-y-6">
-            <h3 className="text-xl font-semibold">Health and Education</h3>
-            <p className="text-default-600">
-              Information about the student's health, educational background,
-              and special needs.
-            </p>
+          <div className="space-y-8">
+            <div className="text-center">
+              <h3 className="text-xl font-semibold">Health and Education</h3>
+              <p className="text-default-600 mt-1">
+                Medical information and educational background
+              </p>
+            </div>
+
+            {/* Health Information */}
+            <div>
+              <h4 className="text-lg font-medium mb-4">Health Information</h4>
+
+              {/* Main Health Checkboxes */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div className="flex items-center gap-2">
+                  <Checkbox
+                    isSelected={formData.healthInfo.allergies}
+                    onValueChange={(value) => {
+                      setFormData({
+                        ...formData,
+                        healthInfo: {
+                          ...formData.healthInfo,
+                          allergies: value,
+                        },
+                      });
+                    }}
+                  />
+                  <span>Allergies</span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Checkbox
+                    isSelected={formData.healthInfo.chronicIllness}
+                    onValueChange={(value) => {
+                      setFormData({
+                        ...formData,
+                        healthInfo: {
+                          ...formData.healthInfo,
+                          chronicIllness: value,
+                        },
+                      });
+                    }}
+                  />
+                  <span>Chronic Illness</span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Checkbox
+                    isSelected={formData.healthInfo.regularMedication}
+                    onValueChange={(value) => {
+                      setFormData({
+                        ...formData,
+                        healthInfo: {
+                          ...formData.healthInfo,
+                          regularMedication: value,
+                        },
+                      });
+                    }}
+                  />
+                  <span>Regular Medication</span>
+                </div>
+              </div>
+
+              {/* Specific Medical Conditions */}
+              <div className="mb-6">
+                <h5 className="text-base font-medium mb-3">Specific Medical Conditions</h5>
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                  <div className="flex items-center gap-2">
+                    <Checkbox
+                      isSelected={formData.healthInfo.specificMedicalConditions.asthma}
+                      onValueChange={(value) => {
+                        setFormData({
+                          ...formData,
+                          healthInfo: {
+                            ...formData.healthInfo,
+                            specificMedicalConditions: {
+                              ...formData.healthInfo.specificMedicalConditions,
+                              asthma: value,
+                            },
+                          },
+                        });
+                      }}
+                    />
+                    <span className="text-sm">Asthma</span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <Checkbox
+                      isSelected={formData.healthInfo.specificMedicalConditions.severeAllergies}
+                      onValueChange={(value) => {
+                        setFormData({
+                          ...formData,
+                          healthInfo: {
+                            ...formData.healthInfo,
+                            specificMedicalConditions: {
+                              ...formData.healthInfo.specificMedicalConditions,
+                              severeAllergies: value,
+                            },
+                          },
+                        });
+                      }}
+                    />
+                    <span className="text-sm">Severe Allergies (EpiPen)</span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <Checkbox
+                      isSelected={formData.healthInfo.specificMedicalConditions.diabetes}
+                      onValueChange={(value) => {
+                        setFormData({
+                          ...formData,
+                          healthInfo: {
+                            ...formData.healthInfo,
+                            specificMedicalConditions: {
+                              ...formData.healthInfo.specificMedicalConditions,
+                              diabetes: value,
+                            },
+                          },
+                        });
+                      }}
+                    />
+                    <span className="text-sm">Diabetes</span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <Checkbox
+                      isSelected={formData.healthInfo.specificMedicalConditions.seizures}
+                      onValueChange={(value) => {
+                        setFormData({
+                          ...formData,
+                          healthInfo: {
+                            ...formData.healthInfo,
+                            specificMedicalConditions: {
+                              ...formData.healthInfo.specificMedicalConditions,
+                              seizures: value,
+                            },
+                          },
+                        });
+                      }}
+                    />
+                    <span className="text-sm">Seizures</span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <Checkbox
+                      isSelected={formData.healthInfo.specificMedicalConditions.other}
+                      onValueChange={(value) => {
+                        setFormData({
+                          ...formData,
+                          healthInfo: {
+                            ...formData.healthInfo,
+                            specificMedicalConditions: {
+                              ...formData.healthInfo.specificMedicalConditions,
+                              other: value,
+                            },
+                          },
+                        });
+                      }}
+                    />
+                    <span className="text-sm">Other</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Doctor Information */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <Input
+                  label="Doctor's Name"
+                  placeholder="Dr. Dupont"
+                  value={formData.healthInfo.doctorName}
+                  onValueChange={(value) => {
+                    setFormData({
+                      ...formData,
+                      healthInfo: {
+                        ...formData.healthInfo,
+                        doctorName: value,
+                      },
+                    });
+                  }}
+                />
+
+                <Input
+                  label="Doctor's Phone"
+                  type="tel"
+                  placeholder="+33 1 23 45 67 89"
+                  value={formData.healthInfo.doctorPhone}
+                  onValueChange={(value) => {
+                    setFormData({
+                      ...formData,
+                      healthInfo: {
+                        ...formData.healthInfo,
+                        doctorPhone: value,
+                      },
+                    });
+                  }}
+                />
+              </div>
+
+              {/* Mode of Transport */}
+              <div>
+                <h5 className="text-base font-medium mb-3">Mode of Transport</h5>
+                <RadioGroup
+                  orientation="horizontal"
+                  value={formData.healthInfo.modeOfTransport}
+                  onValueChange={(value) => {
+                    setFormData({
+                      ...formData,
+                      healthInfo: {
+                        ...formData.healthInfo,
+                        modeOfTransport: value,
+                      },
+                    });
+                  }}
+                  className="gap-6"
+                >
+                  <Radio value="private">Private Transport</Radio>
+                  <Radio value="school-bus">School Bus</Radio>
+                  <Radio value="on-foot">On foot</Radio>
+                </RadioGroup>
+              </div>
+            </div>
+
+            <Divider />
+
+            {/* Education Background */}
+            <div>
+              <h4 className="text-lg font-medium mb-4">Education Background</h4>
+
+              <div className="space-y-4">
+                {formData.educationHistory.map((school, index) => (
+                  <div key={index} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <Input
+                      label="School Name"
+                      placeholder="Name of Institution"
+                      value={school.schoolName || ""}
+                      onValueChange={(value) => {
+                        const newHistory = [...formData.educationHistory];
+                        newHistory[index] = {
+                          ...newHistory[index],
+                          schoolName: value,
+                        };
+                        setFormData({
+                          ...formData,
+                          educationHistory: newHistory,
+                        });
+                      }}
+                    />
+
+                    <div className="flex gap-2">
+                      <Input
+                        label="Reason for Leaving"
+                        placeholder="Reason for Change"
+                        value={school.reasonForLeaving || ""}
+                        onValueChange={(value) => {
+                          const newHistory = [...formData.educationHistory];
+                          newHistory[index] = {
+                            ...newHistory[index],
+                            reasonForLeaving: value,
+                          };
+                          setFormData({
+                            ...formData,
+                            educationHistory: newHistory,
+                          });
+                        }}
+                        className="flex-1"
+                      />
+
+                      {formData.educationHistory.length > 1 && (
+                        <Button
+                          size="sm"
+                          variant="light"
+                          color="danger"
+                          onClick={() => {
+                            const newHistory = formData.educationHistory.filter(
+                              (_, i) => i !== index
+                            );
+                            setFormData({
+                              ...formData,
+                              educationHistory: newHistory,
+                            });
+                          }}
+                          className="mt-6"
+                        >
+                          Remove
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+
+                <Button
+                  variant="bordered"
+                  onClick={() => {
+                    setFormData({
+                      ...formData,
+                      educationHistory: [
+                        ...formData.educationHistory,
+                        {
+                          schoolName: "",
+                          reasonForLeaving: "",
+                        },
+                      ],
+                    });
+                  }}
+                  className="w-full"
+                >
+                  + ADD ANOTHER SCHOOL
+                </Button>
+              </div>
+            </div>
           </div>
         );
       case 4:
         return (
-          <div className="space-y-6">
-            <h3 className="text-xl font-semibold">Documents and Consents</h3>
-            <p className="text-default-600">
-              Required documents and consent forms to complete your application.
-            </p>
+          <div className="space-y-8">
+            <div className="text-center">
+              <h3 className="text-xl font-semibold">Documents and Consents</h3>
+              <p className="text-default-600 mt-1">
+                Final validation and attachments
+              </p>
+            </div>
+
+            {/* Media Release */}
+            <div className="bg-default-50 p-6 rounded-lg">
+              <h4 className="text-lg font-medium mb-2">Media Release</h4>
+              <p className="text-default-600 text-sm mb-4">
+                Please indicate whether you authorize YALS to photograph or video record your child for school purposes.
+              </p>
+              
+              <RadioGroup
+                value={formData.mediaRelease}
+                onValueChange={(value) => {
+                  setFormData({
+                    ...formData,
+                    mediaRelease: value,
+                  });
+                }}
+                className="gap-4"
+              >
+                <Radio value="yes">Yes (photograph/video allowed)</Radio>
+                <Radio value="no">No (not allowed)</Radio>
+              </RadioGroup>
+            </div>
+
+            {/* Fee Acceptance */}
+            <div className="bg-default-50 p-6 rounded-lg">
+              <h4 className="text-lg font-medium mb-2">Fee Acceptance</h4>
+              <p className="text-default-600 text-sm mb-4">
+                Please acknowledge that you understand and agree to pay the non-refundable enrollment fee.
+              </p>
+              
+              <RadioGroup
+                value={formData.feeAcceptance}
+                onValueChange={(value) => {
+                  setFormData({
+                    ...formData,
+                    feeAcceptance: value,
+                  });
+                }}
+                className="gap-4"
+              >
+                <Radio value="yes">Yes (agree to pay $300 non-refundable fee)</Radio>
+                <Radio value="no">No</Radio>
+              </RadioGroup>
+            </div>
+
+            {/* Medical Authorization */}
+            <div className="bg-default-50 p-6 rounded-lg">
+              <h4 className="text-lg font-medium mb-2">Medical Authorization</h4>
+              <p className="text-default-600 text-sm mb-4">
+                In case of emergency, I authorize YALS to take necessary medical measures for my child.
+              </p>
+              
+              <div className="flex items-center gap-2">
+                <Checkbox
+                  isSelected={formData.medicalAuthorization}
+                  onValueChange={(value) => {
+                    setFormData({
+                      ...formData,
+                      medicalAuthorization: value,
+                    });
+                  }}
+                />
+                <span>I authorize emergency medical treatment if needed</span>
+              </div>
+            </div>
+
+            {/* Documents to Provide */}
+            <div className="bg-default-50 p-6 rounded-lg">
+              <h4 className="text-lg font-medium mb-2">Documents to Provide</h4>
+              <p className="text-default-600 text-sm mb-4">
+                Please check the documents you are submitting with this application.
+              </p>
+              
+              <div className="space-y-6">
+                {/* Document 1: Passport Photos */}
+                <div className="bg-white p-4 rounded-lg border border-default-200">
+                  <div className="flex items-start gap-3">
+                    <Checkbox
+                      isSelected={formData.documents.passportPhotos.checked}
+                      onValueChange={(value) => {
+                        setFormData({
+                          ...formData,
+                          documents: {
+                            ...formData.documents,
+                            passportPhotos: {
+                              ...formData.documents.passportPhotos,
+                              checked: value,
+                            },
+                          },
+                        });
+                      }}
+                      className="mt-1"
+                    />
+                    <div className="flex-1">
+                      <h5 className="font-medium text-default-900 mb-2">
+                        1. Two Recent Passport-sized Photographs
+                      </h5>
+                      
+                      {!formData.documents.passportPhotos.file ? (
+                        <div className="border-2 border-dashed border-default-300 rounded-lg p-6 text-center hover:border-primary-300 transition-colors">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                handleFileUpload('passportPhotos', file);
+                              }
+                            }}
+                            className="hidden"
+                            id="passportPhotos"
+                          />
+                          <label
+                            htmlFor="passportPhotos"
+                            className="cursor-pointer flex flex-col items-center gap-2"
+                          >
+                            <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                              <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                              </svg>
+                            </div>
+                            <div>
+                              <p className="text-sm font-medium text-default-700">Click to upload photos</p>
+                              <p className="text-xs text-default-500">PNG, JPG up to 10MB</p>
+                            </div>
+                          </label>
+                        </div>
+                      ) : (
+                        <div className="bg-success-50 border border-success-200 rounded-lg p-4">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 bg-success-100 rounded-full flex items-center justify-center">
+                                <svg className="w-5 h-5 text-success-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                              </div>
+                              <div>
+                                <p className="text-sm font-medium text-success-800">{formData.documents.passportPhotos.fileName}</p>
+                                <p className="text-xs text-success-600">File uploaded successfully</p>
+                              </div>
+                            </div>
+                            <Button
+                              size="sm"
+                              variant="light"
+                              color="danger"
+                              onClick={() => handleFileRemove('passportPhotos')}
+                            >
+                              Remove
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Document 2: School Report */}
+                <div className="bg-white p-4 rounded-lg border border-default-200">
+                  <div className="flex items-start gap-3">
+                    <Checkbox
+                      isSelected={formData.documents.schoolReport.checked}
+                      onValueChange={(value) => {
+                        setFormData({
+                          ...formData,
+                          documents: {
+                            ...formData.documents,
+                            schoolReport: {
+                              ...formData.documents.schoolReport,
+                              checked: value,
+                            },
+                          },
+                        });
+                      }}
+                      className="mt-1"
+                    />
+                    <div className="flex-1">
+                      <h5 className="font-medium text-default-900 mb-2">
+                        2. Previous School Report/Transcript
+                      </h5>
+                      
+                      {!formData.documents.schoolReport.file ? (
+                        <div className="border-2 border-dashed border-default-300 rounded-lg p-6 text-center hover:border-primary-300 transition-colors">
+                          <input
+                            type="file"
+                            accept=".pdf,.doc,.docx,image/*"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                handleFileUpload('schoolReport', file);
+                              }
+                            }}
+                            className="hidden"
+                            id="schoolReport"
+                          />
+                          <label
+                            htmlFor="schoolReport"
+                            className="cursor-pointer flex flex-col items-center gap-2"
+                          >
+                            <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                              <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                              </svg>
+                            </div>
+                            <div>
+                              <p className="text-sm font-medium text-default-700">Click to upload document</p>
+                              <p className="text-xs text-default-500">PDF, DOC, DOCX, or image up to 10MB</p>
+                            </div>
+                          </label>
+                        </div>
+                      ) : (
+                        <div className="bg-success-50 border border-success-200 rounded-lg p-4">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 bg-success-100 rounded-full flex items-center justify-center">
+                                <svg className="w-5 h-5 text-success-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                              </div>
+                              <div>
+                                <p className="text-sm font-medium text-success-800">{formData.documents.schoolReport.fileName}</p>
+                                <p className="text-xs text-success-600">File uploaded successfully</p>
+                              </div>
+                            </div>
+                            <Button
+                              size="sm"
+                              variant="light"
+                              color="danger"
+                              onClick={() => handleFileRemove('schoolReport')}
+                            >
+                              Remove
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Document 3: Parent ID */}
+                <div className="bg-white p-4 rounded-lg border border-default-200">
+                  <div className="flex items-start gap-3">
+                    <Checkbox
+                      isSelected={formData.documents.parentId.checked}
+                      onValueChange={(value) => {
+                        setFormData({
+                          ...formData,
+                          documents: {
+                            ...formData.documents,
+                            parentId: {
+                              ...formData.documents.parentId,
+                              checked: value,
+                            },
+                          },
+                        });
+                      }}
+                      className="mt-1"
+                    />
+                    <div className="flex-1">
+                      <h5 className="font-medium text-default-900 mb-2">
+                        3. Parent/Guardian ID Copy
+                      </h5>
+                      
+                      {!formData.documents.parentId.file ? (
+                        <div className="border-2 border-dashed border-default-300 rounded-lg p-6 text-center hover:border-primary-300 transition-colors">
+                          <input
+                            type="file"
+                            accept=".pdf,image/*"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                handleFileUpload('parentId', file);
+                              }
+                            }}
+                            className="hidden"
+                            id="parentId"
+                          />
+                          <label
+                            htmlFor="parentId"
+                            className="cursor-pointer flex flex-col items-center gap-2"
+                          >
+                            <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                              <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                              </svg>
+                            </div>
+                            <div>
+                              <p className="text-sm font-medium text-default-700">Click to upload ID copy</p>
+                              <p className="text-xs text-default-500">PDF or image up to 10MB</p>
+                            </div>
+                          </label>
+                        </div>
+                      ) : (
+                        <div className="bg-success-50 border border-success-200 rounded-lg p-4">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 bg-success-100 rounded-full flex items-center justify-center">
+                                <svg className="w-5 h-5 text-success-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                              </div>
+                              <div>
+                                <p className="text-sm font-medium text-success-800">{formData.documents.parentId.fileName}</p>
+                                <p className="text-xs text-success-600">File uploaded successfully</p>
+                              </div>
+                            </div>
+                            <Button
+                              size="sm"
+                              variant="light"
+                              color="danger"
+                              onClick={() => handleFileRemove('parentId')}
+                            >
+                              Remove
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Document 4: Student ID */}
+                <div className="bg-white p-4 rounded-lg border border-default-200">
+                  <div className="flex items-start gap-3">
+                    <Checkbox
+                      isSelected={formData.documents.studentId.checked}
+                      onValueChange={(value) => {
+                        setFormData({
+                          ...formData,
+                          documents: {
+                            ...formData.documents,
+                            studentId: {
+                              ...formData.documents.studentId,
+                              checked: value,
+                            },
+                          },
+                        });
+                      }}
+                      className="mt-1"
+                    />
+                    <div className="flex-1">
+                      <h5 className="font-medium text-default-900 mb-2">
+                        4. Student ID Copy
+                      </h5>
+                      
+                      {!formData.documents.studentId.file ? (
+                        <div className="border-2 border-dashed border-default-300 rounded-lg p-6 text-center hover:border-primary-300 transition-colors">
+                          <input
+                            type="file"
+                            accept=".pdf,image/*"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                handleFileUpload('studentId', file);
+                              }
+                            }}
+                            className="hidden"
+                            id="studentId"
+                          />
+                          <label
+                            htmlFor="studentId"
+                            className="cursor-pointer flex flex-col items-center gap-2"
+                          >
+                            <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                              <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                              </svg>
+                            </div>
+                            <div>
+                              <p className="text-sm font-medium text-default-700">Click to upload ID copy</p>
+                              <p className="text-xs text-default-500">PDF or image up to 10MB</p>
+                            </div>
+                          </label>
+                        </div>
+                      ) : (
+                        <div className="bg-success-50 border border-success-200 rounded-lg p-4">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 bg-success-100 rounded-full flex items-center justify-center">
+                                <svg className="w-5 h-5 text-success-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                              </div>
+                              <div>
+                                <p className="text-sm font-medium text-success-800">{formData.documents.studentId.fileName}</p>
+                                <p className="text-xs text-success-600">File uploaded successfully</p>
+                              </div>
+                            </div>
+                            <Button
+                              size="sm"
+                              variant="light"
+                              color="danger"
+                              onClick={() => handleFileRemove('studentId')}
+                            >
+                              Remove
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Consent Form */}
+            <div className="bg-default-50 p-6 rounded-lg">
+              <h4 className="text-lg font-medium mb-2">Consent Form</h4>
+              <p className="text-default-600 text-sm mb-4">
+                I certify that all information provided in this application is true and complete to the best of my knowledge.
+              </p>
+              
+              <div className="flex items-center gap-2">
+                <Checkbox
+                  isSelected={formData.consentForm}
+                  onValueChange={(value) => {
+                    setFormData({
+                      ...formData,
+                      consentForm: value,
+                    });
+                  }}
+                />
+                <span>I certify that all information provided is truthful and accurate</span>
+              </div>
+            </div>
+
+            {/* Digital Signature */}
+            <div className="bg-default-50 p-6 rounded-lg">
+              <h4 className="text-lg font-medium mb-2">Digital Signature</h4>
+              <p className="text-default-600 text-sm mb-4">
+                Sign below to confirm all information *
+              </p>
+              
+              <div className="space-y-4">
+                <div className="border-2 border-dashed border-default-300 rounded-lg p-8 min-h-[120px] bg-white">
+                  {formData.digitalSignature ? (
+                    <div className="text-center">
+                      <p className="text-lg font-medium">{formData.digitalSignature}</p>
+                      <p className="text-sm text-default-500 mt-2">Digital Signature</p>
+                    </div>
+                  ) : (
+                    <div className="text-center text-default-400">
+                      <p>Click below to add your signature</p>
+                    </div>
+                  )}
+                </div>
+                
+                <div className="flex gap-4">
+                  <Input
+                    placeholder="Type your full name as signature"
+                    value={formData.digitalSignature}
+                    onValueChange={(value) => {
+                      setFormData({
+                        ...formData,
+                        digitalSignature: value,
+                      });
+                    }}
+                    className="flex-1"
+                  />
+                  
+                  <Button
+                    variant="bordered"
+                    onClick={() => {
+                      setFormData({
+                        ...formData,
+                        digitalSignature: "",
+                      });
+                    }}
+                  >
+                    × CLEAR SIGNATURE
+                  </Button>
+                </div>
+              </div>
+            </div>
           </div>
         );
       default:
