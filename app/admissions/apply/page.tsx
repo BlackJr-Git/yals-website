@@ -8,13 +8,12 @@ import { Button } from "@heroui/button";
 import { button as buttonStyles } from "@heroui/theme";
 import NextLink from "next/link";
 import { Progress } from "@heroui/progress";
-import { Input } from "@heroui/input";
+import { Input, Textarea } from "@heroui/input";
 import { Select, SelectItem } from "@heroui/select";
 import { Checkbox } from "@heroui/checkbox";
 import { RadioGroup, Radio } from "@heroui/radio";
-import { Textarea } from "@heroui/input";
-import { DatePicker } from "@heroui/date-picker";
-import { useForm } from "@heroui/form";
+// import { DatePicker } from "@heroui/date-picker";
+// import { useForm } from "@heroui/form";
 
 import { siteConfig } from "@/config/site";
 
@@ -28,6 +27,8 @@ export default function ApplicationPage() {
     firstName: "",
     lastName: "",
     middleName: "",
+    suffix: "",
+    chosenName: "",
     gender: "",
     dateOfBirth: "",
     placeOfBirth: "",
@@ -38,19 +39,31 @@ export default function ApplicationPage() {
     phoneNumber: "",
     email: "",
     gradeApplying: "",
-    hasSiblings: false,
-    siblings: [],
+    academicYear: "",
+    siblings: [{ name: "", grade: "" }] as Array<{
+      name: string;
+      grade: string;
+    }>,
+
+    // Background Information
+    backgroundInfo: {
+      nationality: "",
+      languagesSpokenAtHome: "",
+      residentialAddress: "",
+      studentLivesWith: "",
+      learningSupport: false,
+    },
 
     // Étape 2: Parents/Tuteurs
     parent1: {
-      firstName: "",
-      lastName: "",
+      fullName: "",
       relationship: "",
       occupation: "",
       employer: "",
       workPhone: "",
       mobilePhone: "",
       email: "",
+      preferredLanguage: "",
       address: "same", // "same" ou "different"
       differentAddress: "",
       differentCity: "",
@@ -71,12 +84,25 @@ export default function ApplicationPage() {
       differentPostalCode: "",
     },
     hasSecondParent: false,
+    
+    // Authorized Pickup Contacts
+    authorizedPickupContacts: [
+      {
+        name: "",
+        cellPhone: "",
+        relationship: "",
+      },
+    ] as Array<{
+      name: string;
+      cellPhone: string;
+      relationship: string;
+    }>,
+    
+    // Emergency Contact
     emergencyContact: {
-      firstName: "",
-      lastName: "",
+      fullName: "",
       relationship: "",
-      phoneNumber: "",
-      address: "",
+      mobilePhone: "",
     },
 
     // Étape 3: Santé et éducation
@@ -109,7 +135,7 @@ export default function ApplicationPage() {
   });
 
   // Gestion des changements dans le formulaire
-  const handleInputChange = (field, value) => {
+  const handleInputChange = (field: string, value: any) => {
     setFormData({
       ...formData,
       [field]: value,
@@ -130,20 +156,44 @@ export default function ApplicationPage() {
           !formData.dateOfBirth ||
           !formData.placeOfBirth ||
           !formData.nationality ||
-          !formData.address ||
-          !formData.city ||
-          !formData.gradeApplying
+          // !formData.address ||
+          // !formData.city ||
+          !formData.gradeApplying ||
+          !formData.academicYear ||
+          !formData.backgroundInfo.nationality ||
+          !formData.backgroundInfo.languagesSpokenAtHome ||
+          !formData.backgroundInfo.residentialAddress ||
+          !formData.backgroundInfo.studentLivesWith
         ) {
           alert("Please fill in all required fields before proceeding.");
           canProceed = false;
+        }
+
+        // Vérifier les informations des frères et sœurs si des données sont saisies
+        const hasFilledSiblings = formData.siblings.some(
+          (sibling) => sibling.name.trim() !== "" || sibling.grade.trim() !== ""
+        );
+
+        if (hasFilledSiblings) {
+          const incompleteSibling = formData.siblings.find(
+            (sibling) =>
+              (sibling.name.trim() !== "" && !sibling.grade.trim()) ||
+              (sibling.grade.trim() !== "" && !sibling.name.trim())
+          );
+          if (incompleteSibling) {
+            alert(
+              "Please complete all sibling information (both name and grade are required)."
+            );
+            canProceed = false;
+          }
         }
       } else if (currentStep === 2) {
         // Vérifier les champs requis pour l'étape 2
         const parent1 = formData.parent1;
         if (
-          !parent1.firstName ||
-          !parent1.lastName ||
+          !parent1.fullName ||
           !parent1.relationship ||
+          !parent1.preferredLanguage ||
           !parent1.mobilePhone ||
           !parent1.email
         ) {
@@ -168,13 +218,30 @@ export default function ApplicationPage() {
           }
         }
 
+        // Vérifier les contacts autorisés pour le pickup
+        const hasFilledPickupContacts = formData.authorizedPickupContacts.some(
+          (contact) => contact.name.trim() !== "" || contact.cellPhone.trim() !== "" || contact.relationship.trim() !== ""
+        );
+        
+        if (hasFilledPickupContacts) {
+          const incompletePickupContact = formData.authorizedPickupContacts.find(
+            (contact) =>
+              (contact.name.trim() !== "" && (!contact.cellPhone.trim() || !contact.relationship.trim())) ||
+              (contact.cellPhone.trim() !== "" && (!contact.name.trim() || !contact.relationship.trim())) ||
+              (contact.relationship.trim() !== "" && (!contact.name.trim() || !contact.cellPhone.trim()))
+          );
+          if (incompletePickupContact) {
+            alert("Please complete all authorized pickup contact information (name, phone, and relationship are required).");
+            canProceed = false;
+          }
+        }
+
         // Vérifier le contact d'urgence
         const emergency = formData.emergencyContact;
         if (
-          !emergency.firstName ||
-          !emergency.lastName ||
+          !emergency.fullName ||
           !emergency.relationship ||
-          !emergency.phoneNumber
+          !emergency.mobilePhone
         ) {
           alert(
             "Please fill in all required fields for the emergency contact."
@@ -200,6 +267,82 @@ export default function ApplicationPage() {
       case 1:
         return (
           <div className="space-y-8">
+            {/* Informations académiques */}
+            <div>
+              <h4 className="text-lg font-medium mb-4">Academic Information</h4>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <Select
+                  isRequired
+                  label="Grade Applying For"
+                  placeholder="Select grade"
+                  selectedKeys={
+                    formData.gradeApplying ? [formData.gradeApplying] : []
+                  }
+                  onSelectionChange={(keys) =>
+                    handleInputChange("gradeApplying", Array.from(keys)[0] as string)
+                  }
+                  className="md:col-span-1"
+                >
+                  <SelectItem key="grade1">
+                    Grade 1
+                  </SelectItem>
+                  <SelectItem key="grade2">
+                    Grade 2
+                  </SelectItem>
+                  <SelectItem key="grade3">
+                    Grade 3
+                  </SelectItem>
+                  <SelectItem key="grade4">
+                    Grade 4
+                  </SelectItem>
+                  <SelectItem key="grade5">
+                    Grade 5
+                  </SelectItem>
+                  <SelectItem key="grade6">
+                    Grade 6
+                  </SelectItem>
+                  <SelectItem key="grade7">
+                    Grade 7
+                  </SelectItem>
+                  <SelectItem key="grade8">
+                    Grade 8
+                  </SelectItem>
+                  <SelectItem key="grade9">
+                    Grade 9
+                  </SelectItem>
+                  <SelectItem key="grade10">
+                    Grade 10
+                  </SelectItem>
+                  <SelectItem key="grade11">
+                    Grade 11
+                  </SelectItem>
+                  <SelectItem key="grade12">
+                    Grade 12
+                  </SelectItem>
+                </Select>
+
+                <Select
+                  isRequired
+                  label="Academic Year"
+                  placeholder="Select academic year"
+                  selectedKeys={
+                    formData.academicYear ? [formData.academicYear] : []
+                  }
+                  onSelectionChange={(keys) =>
+                    handleInputChange("academicYear", Array.from(keys)[0] as string)
+                  }
+                  className="md:col-span-1"
+                >
+                  <SelectItem key="2025">
+                    2025
+                  </SelectItem>
+                  {/* <SelectItem key="2026" value="2026">
+                    2026
+                  </SelectItem> */}
+                </Select>
+              </div>
+            </div>
+            <Divider />
             <div>
               <h3 className="text-xl font-semibold">Student Information</h3>
               <p className="text-default-600 mt-1">
@@ -209,21 +352,13 @@ export default function ApplicationPage() {
             </div>
 
             {/* Formulaire d'informations personnelles */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <Input
                 isRequired
                 label="First Name"
                 placeholder="Enter student's first name"
                 value={formData.firstName}
                 onValueChange={(value) => handleInputChange("firstName", value)}
-              />
-
-              <Input
-                isRequired
-                label="Last Name"
-                placeholder="Enter student's last name"
-                value={formData.lastName}
-                onValueChange={(value) => handleInputChange("lastName", value)}
               />
 
               <Input
@@ -235,20 +370,47 @@ export default function ApplicationPage() {
                 }
               />
 
+              <Input
+                isRequired
+                label="Last Name"
+                placeholder="Enter student's last name"
+                value={formData.lastName}
+                onValueChange={(value) => handleInputChange("lastName", value)}
+              />
+
+              <Input
+                label="Suffix (if applicable)"
+                placeholder="Jr, Sr, II, III, IV, V"
+                value={formData.suffix}
+                onValueChange={(value) => handleInputChange("suffix", value)}
+              />
+
+              <Input
+                label="Chosen Name (if applicable)"
+                placeholder="Preferred name or nickname"
+                value={formData.chosenName}
+                onValueChange={(value) =>
+                  handleInputChange("chosenName", value)
+                }
+              />
+
               <Select
                 isRequired
                 label="Gender"
                 placeholder="Select gender"
                 selectedKeys={formData.gender ? [formData.gender] : []}
                 onSelectionChange={(keys) =>
-                  handleInputChange("gender", Array.from(keys)[0])
+                  handleInputChange("gender", Array.from(keys)[0] as string)
                 }
               >
-                <SelectItem key="male" value="male">
+                <SelectItem key="male">
                   Male
                 </SelectItem>
-                <SelectItem key="female" value="female">
+                <SelectItem key="female">
                   Female
+                </SelectItem>
+                <SelectItem key="other">
+                  Other
                 </SelectItem>
               </Select>
 
@@ -287,7 +449,7 @@ export default function ApplicationPage() {
             <Divider className="my-4" />
 
             {/* Adresse */}
-            <div>
+            {/* <div>
               <h4 className="text-lg font-medium mb-4">Contact Information</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Input
@@ -334,69 +496,129 @@ export default function ApplicationPage() {
                   onValueChange={(value) => handleInputChange("email", value)}
                 />
               </div>
-            </div>
+            </div> */}
 
             <Divider className="my-4" />
 
-            {/* Informations académiques */}
+            {/* Background Information */}
             <div>
-              <h4 className="text-lg font-medium mb-4">Academic Information</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Select
-                  isRequired
-                  label="Grade Applying For"
-                  placeholder="Select grade"
-                  selectedKeys={
-                    formData.gradeApplying ? [formData.gradeApplying] : []
-                  }
-                  onSelectionChange={(keys) =>
-                    handleInputChange("gradeApplying", Array.from(keys)[0])
-                  }
-                  className="md:col-span-2"
-                >
-                  <SelectItem key="grade1" value="grade1">
-                    Grade 1
-                  </SelectItem>
-                  <SelectItem key="grade2" value="grade2">
-                    Grade 2
-                  </SelectItem>
-                  <SelectItem key="grade3" value="grade3">
-                    Grade 3
-                  </SelectItem>
-                  <SelectItem key="grade4" value="grade4">
-                    Grade 4
-                  </SelectItem>
-                  <SelectItem key="grade5" value="grade5">
-                    Grade 5
-                  </SelectItem>
-                  <SelectItem key="grade6" value="grade6">
-                    Grade 6
-                  </SelectItem>
-                  <SelectItem key="grade7" value="grade7">
-                    Grade 7
-                  </SelectItem>
-                  <SelectItem key="grade8" value="grade8">
-                    Grade 8
-                  </SelectItem>
-                  <SelectItem key="grade9" value="grade9">
-                    Grade 9
-                  </SelectItem>
-                  <SelectItem key="grade10" value="grade10">
-                    Grade 10
-                  </SelectItem>
-                  <SelectItem key="grade11" value="grade11">
-                    Grade 11
-                  </SelectItem>
-                  <SelectItem key="grade12" value="grade12">
-                    Grade 12
-                  </SelectItem>
-                </Select>
+              <h4 className="text-lg font-medium mb-4">
+                Background Information
+              </h4>
+
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <Input
+                    label="Nationality"
+                    placeholder="Nationality"
+                    value={formData.backgroundInfo.nationality}
+                    onValueChange={(value) => {
+                      setFormData({
+                        ...formData,
+                        backgroundInfo: {
+                          ...formData.backgroundInfo,
+                          nationality: value,
+                        },
+                      });
+                    }}
+                  />
+
+                  <Input
+                    label="Languages Spoken at Home"
+                    placeholder="Languages separated by commas (e.g., English, French)"
+                    value={formData.backgroundInfo.languagesSpokenAtHome}
+                    onValueChange={(value) => {
+                      setFormData({
+                        ...formData,
+                        backgroundInfo: {
+                          ...formData.backgroundInfo,
+                          languagesSpokenAtHome: value,
+                        },
+                      });
+                    }}
+                  />
+                </div>
+
+                <Textarea
+                  label="Residential Address"
+                  placeholder="Street Name, House Number, Commune/Neighborhood, City, Province, Postal Code"
+                  minRows={3}
+                  value={formData.backgroundInfo.residentialAddress}
+                  onValueChange={(value) => {
+                    setFormData({
+                      ...formData,
+                      backgroundInfo: {
+                        ...formData.backgroundInfo,
+                        residentialAddress: value,
+                      },
+                    });
+                  }}
+                />
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <Select
+                    label="Student Lives With"
+                    placeholder="Select an option"
+                    selectedKeys={
+                      formData.backgroundInfo.studentLivesWith
+                        ? [formData.backgroundInfo.studentLivesWith]
+                        : []
+                    }
+                    onSelectionChange={(keys) => {
+                      setFormData({
+                        ...formData,
+                        backgroundInfo: {
+                          ...formData.backgroundInfo,
+                          studentLivesWith: Array.from(keys)[0] as string,
+                        },
+                      });
+                    }}
+                  >
+                    <SelectItem key="both-parents">
+                      Both Parents
+                    </SelectItem>
+                    <SelectItem key="mother">
+                      Mother Only
+                    </SelectItem>
+                    <SelectItem key="father">
+                      Father Only
+                    </SelectItem>
+                    <SelectItem key="guardian">
+                      Legal Guardian
+                    </SelectItem>
+                    <SelectItem key="himself">
+                      Himself (18+ years old)
+                    </SelectItem>
+                    <SelectItem key="foster">
+                      Foster Parent
+                    </SelectItem>
+                    <SelectItem key="other">
+                      Other
+                    </SelectItem>
+                  </Select>
+
+                  <div className="flex items-center gap-2">
+                    <Checkbox
+                      isSelected={formData.backgroundInfo.learningSupport}
+                      onValueChange={(value) => {
+                        setFormData({
+                          ...formData,
+                          backgroundInfo: {
+                            ...formData.backgroundInfo,
+                            learningSupport: value,
+                          },
+                        });
+                      }}
+                    />
+                    <span className="text-sm">Learning Support Needs?</span>
+                  </div>
+                </div>
               </div>
             </div>
 
             <Divider className="my-4" />
 
-            {/* Frères et sœurs */}
+            {/* Siblings Enrolled at YALS */}
             <div>
               <h4 className="text-lg font-medium mb-2">
                 Siblings Enrolled at YALS
@@ -406,23 +628,127 @@ export default function ApplicationPage() {
                 provide their information below.
               </p>
 
-              <div className="flex items-center gap-2 mb-4">
-                <Checkbox
-                  isSelected={formData.hasSiblings}
-                  onValueChange={(value) =>
-                    handleInputChange("hasSiblings", value)
-                  }
-                />
-                <span>The student has siblings currently enrolled at YALS</span>
-              </div>
+              <div className="space-y-4">
+                {formData.siblings.map((sibling, index) => (
+                  <div
+                    key={index}
+                    className="grid grid-cols-1 md:grid-cols-2 gap-4"
+                  >
+                    <Input
+                      label="Name"
+                      placeholder="Full Name"
+                      value={sibling.name || ""}
+                      onValueChange={(value) => {
+                        const newSiblings = [...formData.siblings];
+                        newSiblings[index] = {
+                          ...newSiblings[index],
+                          name: value,
+                        };
+                        setFormData({
+                          ...formData,
+                          siblings: newSiblings,
+                        });
+                      }}
+                    />
 
-              {formData.hasSiblings && (
-                <div className="bg-default-50 p-4 rounded-lg">
-                  <p className="text-sm text-default-600 mb-4">
-                    Please add sibling information in the next step.
-                  </p>
-                </div>
-              )}
+                    <div className="flex gap-2">
+                      <Select
+                        label="Grade"
+                        placeholder="Grade/Class"
+                        selectedKeys={sibling.grade ? [sibling.grade] : []}
+                        onSelectionChange={(keys) => {
+                          const newSiblings = [...formData.siblings];
+                          newSiblings[index] = {
+                            ...newSiblings[index],
+                            grade: Array.from(keys)[0] as string,
+                          };
+                          setFormData({
+                            ...formData,
+                            siblings: newSiblings,
+                          });
+                        }}
+                        className="flex-1"
+                      >
+                        <SelectItem key="grade1">
+                          Grade 1
+                        </SelectItem>
+                        <SelectItem key="grade2">
+                          Grade 2
+                        </SelectItem>
+                        <SelectItem key="grade3">
+                          Grade 3
+                        </SelectItem>
+                        <SelectItem key="grade4">
+                          Grade 4
+                        </SelectItem>
+                        <SelectItem key="grade5">
+                          Grade 5
+                        </SelectItem>
+                        <SelectItem key="grade6">
+                          Grade 6
+                        </SelectItem>
+                        <SelectItem key="grade7">
+                          Grade 7
+                        </SelectItem>
+                        <SelectItem key="grade8">
+                          Grade 8
+                        </SelectItem>
+                        <SelectItem key="grade9">
+                          Grade 9
+                        </SelectItem>
+                        <SelectItem key="grade10">
+                          Grade 10
+                        </SelectItem>
+                        <SelectItem key="grade11">
+                          Grade 11
+                        </SelectItem>
+                        <SelectItem key="grade12">
+                          Grade 12
+                        </SelectItem>
+                      </Select>
+
+                      {formData.siblings.length > 1 && (
+                        <Button
+                          size="sm"
+                          variant="light"
+                          color="danger"
+                          onClick={() => {
+                            const newSiblings = formData.siblings.filter(
+                              (_, i) => i !== index
+                            );
+                            setFormData({
+                              ...formData,
+                              siblings: newSiblings,
+                            });
+                          }}
+                          className="mt-6"
+                        >
+                          Remove
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+
+                <Button
+                  variant="bordered"
+                  onClick={() => {
+                    setFormData({
+                      ...formData,
+                      siblings: [
+                        ...formData.siblings,
+                        {
+                          name: "",
+                          grade: "",
+                        },
+                      ],
+                    });
+                  }}
+                  className="w-full"
+                >
+                  + ADD ANOTHER SIBLING
+                </Button>
+              </div>
             </div>
           </div>
         );
@@ -442,34 +768,18 @@ export default function ApplicationPage() {
               <h4 className="text-lg font-medium mb-4">
                 Primary Parent/Guardian
               </h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <Input
                   isRequired
-                  label="First Name"
-                  placeholder="Enter first name"
-                  value={formData.parent1.firstName}
+                  label="Full Name"
+                  placeholder="Enter full name"
+                  value={formData.parent1.fullName}
                   onValueChange={(value) => {
                     setFormData({
                       ...formData,
                       parent1: {
                         ...formData.parent1,
-                        firstName: value,
-                      },
-                    });
-                  }}
-                />
-
-                <Input
-                  isRequired
-                  label="Last Name"
-                  placeholder="Enter last name"
-                  value={formData.parent1.lastName}
-                  onValueChange={(value) => {
-                    setFormData({
-                      ...formData,
-                      parent1: {
-                        ...formData.parent1,
-                        lastName: value,
+                        fullName: value,
                       },
                     });
                   }}
@@ -489,26 +799,53 @@ export default function ApplicationPage() {
                       ...formData,
                       parent1: {
                         ...formData.parent1,
-                        relationship: Array.from(keys)[0],
+                        relationship: Array.from(keys)[0] as string,
                       },
                     });
                   }}
                 >
-                  <SelectItem key="mother" value="mother">
+                  <SelectItem key="mother">
                     Mother
                   </SelectItem>
-                  <SelectItem key="father" value="father">
+                  <SelectItem key="father">
                     Father
                   </SelectItem>
-                  <SelectItem key="guardian" value="guardian">
+                  <SelectItem key="guardian">
                     Legal Guardian
                   </SelectItem>
-                  <SelectItem key="other" value="other">
+                  <SelectItem key="other">
                     Other
                   </SelectItem>
                 </Select>
 
-                <Input
+                <Select
+                  isRequired
+                  label="Preferred Communication Language"
+                  placeholder="Select preferred language"
+                  selectedKeys={
+                    formData.parent1.preferredLanguage
+                      ? [formData.parent1.preferredLanguage]
+                      : []
+                  }
+                  onSelectionChange={(keys) => {
+                    setFormData({
+                      ...formData,
+                      parent1: {
+                        ...formData.parent1,
+                        preferredLanguage: Array.from(keys)[0] as string,
+                      },
+                    });
+                  }}
+                >
+                  <SelectItem key="english">
+                    English
+                  </SelectItem>
+                  <SelectItem key="french">
+                    French
+                  </SelectItem>
+                </Select>
+
+                {/* <Input
                   label="Occupation"
                   placeholder="Enter occupation"
                   value={formData.parent1.occupation}
@@ -521,9 +858,9 @@ export default function ApplicationPage() {
                       },
                     });
                   }}
-                />
+                /> */}
 
-                <Input
+                {/* <Input
                   label="Employer"
                   placeholder="Enter employer"
                   value={formData.parent1.employer}
@@ -536,7 +873,7 @@ export default function ApplicationPage() {
                       },
                     });
                   }}
-                />
+                /> */}
 
                 <Input
                   label="Work Phone"
@@ -726,21 +1063,21 @@ export default function ApplicationPage() {
                           ...formData,
                           parent2: {
                             ...formData.parent2,
-                            relationship: Array.from(keys)[0],
+                            relationship: Array.from(keys)[0] as string,
                           },
                         });
                       }}
                     >
-                      <SelectItem key="mother" value="mother">
+                      <SelectItem key="mother">
                         Mother
                       </SelectItem>
-                      <SelectItem key="father" value="father">
+                      <SelectItem key="father">
                         Father
                       </SelectItem>
-                      <SelectItem key="guardian" value="guardian">
+                      <SelectItem key="guardian">
                         Legal Guardian
                       </SelectItem>
-                      <SelectItem key="other" value="other">
+                      <SelectItem key="other">
                         Other
                       </SelectItem>
                     </Select>
@@ -783,91 +1120,217 @@ export default function ApplicationPage() {
 
             <Divider className="my-4" />
 
-            {/* Contact d'urgence */}
+            {/* Authorized Pickup Contacts */}
+            <div>
+              <h4 className="text-lg font-medium mb-4">Authorized Pickup Contacts</h4>
+
+              <div className="space-y-4">
+                {formData.authorizedPickupContacts.map((contact, index) => (
+                  <div key={index} className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <Input
+                      isRequired
+                      label="Name *"
+                      placeholder="Full Name"
+                      value={contact.name || ""}
+                      onValueChange={(value) => {
+                        const newContacts = [...formData.authorizedPickupContacts];
+                        newContacts[index] = {
+                          ...newContacts[index],
+                          name: value,
+                        };
+                        setFormData({
+                          ...formData,
+                          authorizedPickupContacts: newContacts,
+                        });
+                      }}
+                    />
+
+                    <Input
+                      isRequired
+                      label="Cell Phone *"
+                      type="tel"
+                      placeholder="+243 999 999 999"
+                      value={contact.cellPhone || ""}
+                      onValueChange={(value) => {
+                        const newContacts = [...formData.authorizedPickupContacts];
+                        newContacts[index] = {
+                          ...newContacts[index],
+                          cellPhone: value,
+                        };
+                        setFormData({
+                          ...formData,
+                          authorizedPickupContacts: newContacts,
+                        });
+                      }}
+                    />
+
+                    <div className="flex gap-2">
+                      <Select
+                        isRequired
+                        label="Relationship *"
+                        placeholder="Select Relationship"
+                        selectedKeys={contact.relationship ? [contact.relationship] : []}
+                        onSelectionChange={(keys) => {
+                          const newContacts = [...formData.authorizedPickupContacts];
+                          newContacts[index] = {
+                            ...newContacts[index],
+                            relationship: Array.from(keys)[0] as string,
+                          };
+                          setFormData({
+                            ...formData,
+                            authorizedPickupContacts: newContacts,
+                          });
+                        }}
+                        className="flex-1"
+                      >
+                        <SelectItem key="parent">
+                          Parent
+                        </SelectItem>
+                        <SelectItem key="guardian">
+                          Guardian
+                        </SelectItem>
+                        <SelectItem key="grandparent">
+                          Grandparent
+                        </SelectItem>
+                        <SelectItem key="aunt-uncle">
+                          Aunt/Uncle
+                        </SelectItem>
+                        <SelectItem key="sibling">
+                          Sibling
+                        </SelectItem>
+                        <SelectItem key="family-friend">
+                          Family Friend
+                        </SelectItem>
+                        <SelectItem key="nanny-babysitter">
+                          Nanny/Babysitter
+                        </SelectItem>
+                        <SelectItem key="other">
+                          Other
+                        </SelectItem>
+                      </Select>
+
+                      {formData.authorizedPickupContacts.length > 1 && (
+                        <Button
+                          size="sm"
+                          variant="light"
+                          color="danger"
+                          onClick={() => {
+                            const newContacts = formData.authorizedPickupContacts.filter(
+                              (_, i) => i !== index
+                            );
+                            setFormData({
+                              ...formData,
+                              authorizedPickupContacts: newContacts,
+                            });
+                          }}
+                          className="mt-6"
+                        >
+                          Remove
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+
+                <Button
+                  variant="bordered"
+                  onClick={() => {
+                    setFormData({
+                      ...formData,
+                      authorizedPickupContacts: [
+                        ...formData.authorizedPickupContacts,
+                        {
+                          name: "",
+                          cellPhone: "",
+                          relationship: "",
+                        },
+                      ],
+                    });
+                  }}
+                  className="w-full"
+                >
+                  + ADD ANOTHER AUTHORIZED PERSON
+                </Button>
+              </div>
+            </div>
+
+            <Divider className="my-4" />
+
+            {/* Emergency Contact */}
             <div>
               <h4 className="text-lg font-medium mb-2">Emergency Contact</h4>
               <p className="text-default-500 text-sm mb-4">
-                Person to contact in case of emergency (other than
-                Parent/Guardian)
+                Person to contact in case of emergency (other than Parent/Guardian)
               </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <Input
                   isRequired
-                  label="First Name"
-                  placeholder="Enter first name"
-                  value={formData.emergencyContact.firstName}
+                  label="Full Name *"
+                  placeholder="Full Name"
+                  value={formData.emergencyContact.fullName}
                   onValueChange={(value) => {
                     setFormData({
                       ...formData,
                       emergencyContact: {
                         ...formData.emergencyContact,
-                        firstName: value,
+                        fullName: value,
                       },
                     });
                   }}
                 />
 
-                <Input
+                <Select
                   isRequired
-                  label="Last Name"
-                  placeholder="Enter last name"
-                  value={formData.emergencyContact.lastName}
-                  onValueChange={(value) => {
+                  label="Relationship *"
+                  placeholder="Select Relationship"
+                  selectedKeys={
+                    formData.emergencyContact.relationship
+                      ? [formData.emergencyContact.relationship]
+                      : []
+                  }
+                  onSelectionChange={(keys) => {
                     setFormData({
                       ...formData,
                       emergencyContact: {
                         ...formData.emergencyContact,
-                        lastName: value,
+                        relationship: Array.from(keys)[0] as string,
                       },
                     });
                   }}
-                />
+                >
+                  <SelectItem key="grandparent">
+                    Grandparent
+                  </SelectItem>
+                  <SelectItem key="aunt-uncle">
+                    Aunt/Uncle
+                  </SelectItem>
+                  <SelectItem key="sibling">
+                    Adult Sibling
+                  </SelectItem>
+                  <SelectItem key="family-friend">
+                    Family Friend
+                  </SelectItem>
+                  <SelectItem key="neighbor">
+                    Neighbor
+                  </SelectItem>
+                  <SelectItem key="other">
+                    Other
+                  </SelectItem>
+                </Select>
 
                 <Input
                   isRequired
-                  label="Relationship to Student"
-                  placeholder="e.g. Grandparent, Neighbor, Friend"
-                  value={formData.emergencyContact.relationship}
-                  onValueChange={(value) => {
-                    setFormData({
-                      ...formData,
-                      emergencyContact: {
-                        ...formData.emergencyContact,
-                        relationship: value,
-                      },
-                    });
-                  }}
-                />
-
-                <Input
-                  isRequired
-                  label="Phone Number"
+                  label="Mobile Phone *"
                   type="tel"
-                  placeholder="Enter phone number"
-                  value={formData.emergencyContact.phoneNumber}
+                  placeholder="+243 999 999 999"
+                  value={formData.emergencyContact.mobilePhone}
                   onValueChange={(value) => {
                     setFormData({
                       ...formData,
                       emergencyContact: {
                         ...formData.emergencyContact,
-                        phoneNumber: value,
-                      },
-                    });
-                  }}
-                />
-
-                <Input
-                  label="Address"
-                  placeholder="Enter address"
-                  className="md:col-span-2"
-                  value={formData.emergencyContact.address}
-                  onValueChange={(value) => {
-                    setFormData({
-                      ...formData,
-                      emergencyContact: {
-                        ...formData.emergencyContact,
-                        address: value,
+                        mobilePhone: value,
                       },
                     });
                   }}
