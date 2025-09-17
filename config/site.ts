@@ -1,69 +1,69 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: "Next.js + HeroUI",
-  description: "Make beautiful websites regardless of your design experience.",
+  name: "Young African Leaders School",
+  description: "At YALS, we don't just educate — we empower. We prepare students to lead, to dream big, to think critically, and to become global changemakers.",
   navItems: [
     {
       label: "Home",
       href: "/",
     },
     {
-      label: "Docs",
-      href: "/docs",
-    },
-    {
-      label: "Pricing",
-      href: "/pricing",
-    },
-    {
-      label: "Blog",
-      href: "/blog",
-    },
-    {
-      label: "About",
+      label: "About Us",
       href: "/about",
+    },
+    {
+      label: "Admissions",
+      href: "/admissions",
+    },
+    {
+      label: "Programs",
+      href: "/programs",
+    },
+    {
+      label: "Contact",
+      href: "/contact",
     },
   ],
   navMenuItems: [
     {
-      label: "Profile",
-      href: "/profile",
+      label: "Home",
+      href: "/",
     },
     {
-      label: "Dashboard",
-      href: "/dashboard",
+      label: "About Us",
+      href: "/about",
     },
     {
-      label: "Projects",
-      href: "/projects",
+      label: "Admissions",
+      href: "/admissions",
     },
     {
-      label: "Team",
-      href: "/team",
+      label: "Programs",
+      href: "/programs",
     },
     {
-      label: "Calendar",
-      href: "/calendar",
-    },
-    {
-      label: "Settings",
-      href: "/settings",
-    },
-    {
-      label: "Help & Feedback",
-      href: "/help-feedback",
-    },
-    {
-      label: "Logout",
-      href: "/logout",
+      label: "Contact",
+      href: "/contact",
     },
   ],
   links: {
-    github: "https://github.com/heroui-inc/heroui",
-    twitter: "https://twitter.com/hero_ui",
-    docs: "https://heroui.com",
-    discord: "https://discord.gg/9b6yyZKmH4",
-    sponsor: "https://patreon.com/jrgarciadev",
+    apply: "/admissions/apply",
+    payment: "/admissions/payment",
+    email: "yalsdrc@gmail.com",
+    phone: "+243 818 803 273",
+    address: "4, Avenue Le Marinel, Kinshasa/Gombe, Democratic Republic of Congo",
   },
+  languages: [
+    {
+      code: "en",
+      name: "English (US)",
+      href: "/"
+    },
+    {
+      code: "fr",
+      name: "Français",
+      href: "/fr"
+    }
+  ]
 };

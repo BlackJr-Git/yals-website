@@ -1,0 +1,332 @@
+{
+  "navigation": {
+    "home": "Accueil",
+    "about": "À Propos",
+    "admissions": "Admissions",
+    "programs": "Programmes",
+    "contact": "Contact"
+  },
+  "buttons": {
+    "applyNow": "Postuler",
+    "payNow": "Payer",
+    "learnMore": "En Savoir Plus",
+    "contactUs": "Nous Contacter"
+  },
+  "home": {
+    "hero": {
+      "title": "Bienvenue à l'École des Jeunes Leaders Africains",
+      "subtitle": "Où des leaders confiants sont formés grâce à l'excellence académique, l'immersion en anglais et la conscience mondiale",
+      "description": "À YALS, nous ne nous contentons pas d'éduquer — nous donnons les moyens d'agir. Nous préparons les élèves à diriger, à rêver grand, à penser de manière critique et à devenir des acteurs du changement mondial."
+    },
+    "features": {
+      "title": "Pourquoi Choisir YALS ?",
+      "description": "Découvrez ce qui rend YALS unique et comment nous créons une expérience d'apprentissage exceptionnelle pour chaque élève.",
+      "items": {
+        "englishImmersion": {
+          "title": "Immersion Totale en Anglais",
+          "description": "Un environnement 100% anglophone qui prépare les élèves aux opportunités mondiales."
+        },
+        "leadership": {
+          "title": "Leadership & Vision Mondiale",
+          "description": "Former les leaders de demain avec les compétences nécessaires pour s'épanouir dans un monde interconnecté."
+        },
+        "smallClasses": {
+          "title": "Petites Classes, Grands Rêves",
+          "description": "Une attention personnalisée pour chaque élève afin d'assurer l'excellence académique."
+        },
+        "stem": {
+          "title": "Accent sur les STEM",
+          "description": "Forte emphase sur les Sciences, la Technologie, l'Ingénierie et les Mathématiques pour préparer aux carrières futures."
+        },
+        "creativity": {
+          "title": "Créativité & Pensée Critique",
+          "description": "Encourager la résolution innovante de problèmes et la pensée indépendante."
+        },
+        "community": {
+          "title": "Engagement Communautaire",
+          "description": "Former des citoyens mondiaux responsables par le service et les projets communautaires."
+        }
+      }
+    },
+    "admissions": {
+      "title": "Admissions Ouvertes",
+      "description": "Places limitées ! Offrez à votre enfant l'avantage de l'anglais, du leadership et de l'excellence académique."
+    },
+    "education": {
+      "title": "Notre Parcours Éducatif",
+      "description": "YALS accueille fièrement des élèves de tous niveaux éducatifs, accueillant des enfants de divers horizons qui sont désireux de grandir, d'apprendre et de diriger.",
+      "levels": {
+        "preschool": {
+          "title": "Préscolaire",
+          "description": "Un espace nourricier axé sur le développement de la petite enfance, l'exposition linguistique et les compétences sociales par l'apprentissage pratique et exploratoire."
+        },
+        "kindergarten": {
+          "title": "Maternelle",
+          "description": "Un environnement d'apprentissage dynamique et structuré où les élèves développent des compétences sociales, linguistiques et des bases académiques précoces."
+        },
+        "elementary": {
+          "title": "École Primaire (Grades 1-5)",
+          "description": "Une phase vibrante de développement des compétences où les élèves renforcent leurs capacités académiques et développent une pensée indépendante."
+        },
+        "middle": {
+          "title": "Collège (Grades 6-8)",
+          "description": "Une étape de croissance critique où les élèves approfondissent leurs connaissances et s'engagent dans des opportunités de leadership."
+        },
+        "high": {
+          "title": "Lycée (Grades 9-12)",
+          "description": "Une étape axée sur la préparation qui équipe les élèves pour l'enseignement supérieur, l'entrepreneuriat et le leadership dans leurs communautés."
+        }
+      }
+    },
+    "cta": {
+      "title": "Prêt à Rejoindre YALS ?",
+      "description": "L'avenir de votre enfant commence ici. Préparez-le au succès dans une école internationale anglophone qui forme des leaders confiants et compétents.",
+      "note": "Places limitées !"
+    }
+  },
+  "about": {
+    "hero": {
+      "title": "À Propos de YALS",
+      "subtitle": "Fondée en 2017 à Kinshasa, l'École des Jeunes Leaders Africains est une école internationale anglophone de premier ordre dédiée à former la prochaine génération de leaders africains.",
+      "description": "À YALS, nous croyons qu'une éducation de qualité est le fondement d'un leadership fort. Notre mission est de fournir une éducation de classe mondiale en immersion anglaise qui permet aux élèves de devenir des leaders confiants et capables, aptes à avoir un impact positif dans leurs communautés et au-delà."
+    },
+    "story": {
+      "title": "Notre Histoire",
+      "content": [
+        "L'École des Jeunes Leaders Africains (YALS) a été fondée en 2017 par un groupe d'éducateurs passionnés et de leaders communautaires qui ont reconnu le besoin d'une éducation de haute qualité en langue anglaise à Kinshasa. Commençant avec seulement 35 élèves et 5 enseignants, notre école s'est développée pour servir des centaines d'élèves à tous les niveaux scolaires.",
+        "Nos fondateurs ont envisagé une école qui non seulement fournirait l'excellence académique, mais inculquerait également des valeurs de leadership, une conscience mondiale et une responsabilité communautaire. Cette vision continue de guider notre approche de l'éducation aujourd'hui.",
+        "Au fil des ans, YALS s'est établie comme une institution éducative de premier plan en République Démocratique du Congo, connue pour ses normes académiques rigoureuses, son environnement d'immersion anglaise et son accent sur le développement de futurs leaders complets."
+      ]
+    },
+    "values": {
+      "title": "Nos Valeurs Fondamentales",
+      "description": "Ces principes guident tout ce que nous faisons à YALS, du développement du curriculum à l'engagement communautaire.",
+      "items": {
+        "excellence": {
+          "title": "Excellence Académique",
+          "description": "Nous maintenons des normes et des attentes élevées, défiant nos élèves à atteindre leur plein potentiel grâce à un curriculum rigoureux et engageant et des méthodes d'enseignement innovantes."
+        },
+        "leadership": {
+          "title": "Développement du Leadership",
+          "description": "Nous cultivons des compétences de leadership chez chaque élève, les encourageant à prendre des initiatives, à résoudre des problèmes de manière créative et à apporter des contributions positives à leurs communautés."
+        },
+        "global": {
+          "title": "Perspective Mondiale",
+          "description": "Nous préparons les élèves à être des citoyens du monde en les exposant à diverses cultures, langues et perspectives, favorisant le respect et la compréhension pour les personnes de tous horizons."
+        },
+        "character": {
+          "title": "Formation du Caractère",
+          "description": "Nous mettons l'accent sur l'intégrité, la responsabilité, l'empathie et la résilience comme qualités essentielles pour la croissance personnelle et un leadership efficace."
+        },
+        "innovation": {
+          "title": "Innovation & Créativité",
+          "description": "Nous encourageons la pensée créative et les approches innovantes de l'apprentissage et de la résolution de problèmes, préparant les élèves aux défis d'un monde en rapide évolution."
+        },
+        "community": {
+          "title": "Engagement Communautaire",
+          "description": "Nous croyons en l'importance du service et de la participation active à la vie communautaire, enseignant aux élèves à utiliser leurs connaissances et compétences pour le bien commun."
+        }
+      }
+    },
+    "approach": {
+      "title": "Notre Approche Éducative",
+      "items": {
+        "english": {
+          "title": "Immersion en Anglais",
+          "description": "À YALS, tous les cours sont enseignés en anglais par des éducateurs qualifiés, créant un environnement d'immersion totale qui aide les élèves à développer de solides compétences en anglais de manière naturelle et efficace."
+        },
+        "smallClasses": {
+          "title": "Petites Classes",
+          "description": "Nous maintenons des classes de petite taille pour garantir que chaque élève reçoive une attention et un soutien personnalisés, permettant aux enseignants de répondre aux besoins d'apprentissage individuels et de favoriser des connexions significatives."
+        },
+        "stem": {
+          "title": "Accent sur les STEM",
+          "description": "Notre curriculum met l'accent sur les Sciences, la Technologie, l'Ingénierie et les Mathématiques, préparant les élèves aux futures carrières dans ces domaines à forte demande tout en développant la pensée critique et les compétences de résolution de problèmes."
+        },
+        "leadership": {
+          "title": "Intégration du Leadership",
+          "description": "Les principes de leadership sont intégrés dans tout notre curriculum et nos activités extrascolaires, donnant aux élèves des opportunités régulières de pratiquer et de développer leurs capacités de leadership."
+        }
+      }
+    },
+    "team": {
+      "title": "Notre Équipe de Direction",
+      "description": "Rencontrez les éducateurs et administrateurs dévoués qui guident la vision et les opérations de notre école."
+    },
+    "facilities": {
+      "title": "Notre Campus & Installations",
+      "description": "Notre campus moderne à Kinshasa offre un environnement sûr et stimulant pour l'apprentissage et la croissance. Nos installations comprennent :",
+      "items": [
+        "Des salles de classe lumineuses et bien équipées avec technologie moderne",
+        "Des laboratoires de sciences et d'informatique",
+        "Une bibliothèque et un centre de ressources",
+        "Des studios d'art et de musique",
+        "Des installations sportives incluant un terrain polyvalent",
+        "Des espaces d'apprentissage et de jeu en plein air",
+        "Une cafétéria servant des repas nutritifs"
+      ],
+      "note": "Notre campus est conçu pour soutenir à la fois l'excellence académique et le développement d'individus complets, offrant des espaces pour la collaboration, la créativité, l'activité physique et la réflexion tranquille."
+    },
+    "accreditation": {
+      "title": "Accréditation & Affiliations",
+      "description": "YALS est reconnue par le Ministère de l'Éducation de la République Démocratique du Congo et maintient des partenariats avec des organisations éducatives internationales pour garantir que notre curriculum répond aux normes mondiales."
+    },
+    "cta": {
+      "title": "Rejoignez la Communauté YALS",
+      "description": "Nous vous invitons à faire partie de notre vibrante communauté d'apprentissage. Planifiez une visite de notre campus pour voir de première main comment YALS forme les leaders de demain."
+    }
+  },
+  "contact": {
+    "hero": {
+      "title": "Contactez-Nous",
+      "description": "Nous sommes là pour répondre à vos questions et vous aider à en savoir plus sur YALS. Contactez-nous par l'un des canaux ci-dessous."
+    },
+    "info": {
+      "visit": "Visitez-Nous",
+      "contact": "Coordonnées",
+      "hours": "Heures d'Ouverture",
+      "weekdays": "Lundi - Vendredi : 8h00 - 17h00",
+      "saturday": "Samedi : 9h00 - 12h00",
+      "sunday": "Dimanche : Fermé"
+    },
+    "form": {
+      "title": "Envoyez-Nous un Message",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "email": "Email",
+      "phone": "Numéro de Téléphone",
+      "interest": "Je suis intéressé(e) par :",
+      "message": "Message",
+      "submit": "Envoyer le Message"
+    },
+    "faq": {
+      "title": "Questions Fréquemment Posées",
+      "description": "Trouvez des réponses rapides aux questions courantes sur la prise de contact et la visite de YALS."
+    }
+  },
+  "pricing": {
+    "hero": {
+      "title": "Frais de Scolarité",
+      "description": "Investir dans l'éducation de votre enfant à YALS offre une valeur exceptionnelle avec nos programmes académiques complets et nos activités parascolaires enrichissantes."
+    },
+    "levels": {
+      "all": "Tous les Niveaux",
+      "preschool": {
+        "title": "Préscolaire & Maternelle",
+        "description": "Âges 3-5 ans",
+        "price": "3 500 $",
+        "period": "/ an",
+        "features": [
+          "Environnement d'immersion totale en anglais",
+          "Classes à effectifs réduits (max 15 élèves)",
+          "Alphabétisation et numératie fondamentales",
+          "Arts créatifs et apprentissage par le jeu",
+          "Développement des compétences sociales"
+        ],
+        "programTitle": "Programme Préscolaire & Maternelle",
+        "overview": "Notre programme pour la petite enfance vise à créer un environnement nourricier où les jeunes apprenants peuvent développer des compétences fondamentales grâce à l'apprentissage par le jeu, aux activités créatives et à l'immersion précoce en anglais."
+      },
+      "elementary": {
+        "title": "École Primaire",
+        "description": "Grades 1-5",
+        "price": "4 200 $",
+        "period": "/ an",
+        "features": [
+          "Programme complet en anglais",
+          "Approche d'apprentissage axée sur les STEM",
+          "Activités de développement du leadership",
+          "Arts et éducation physique",
+          "Sorties scolaires et expériences culturelles"
+        ],
+        "programTitle": "Programme d'École Primaire",
+        "overview": "Notre programme primaire construit de solides bases académiques tout en favorisant la pensée critique, la créativité et les compétences de leadership. Les élèves bénéficient de notre environnement d'immersion en anglais et de notre programme axé sur les STEM."
+      },
+      "secondary": {
+        "title": "Collège & Lycée",
+        "description": "Grades 6-12",
+        "price": "4 800 $",
+        "period": "/ an",
+        "features": [
+          "Programme académique avancé",
+          "Programmes de préparation à l'université",
+          "Orientation professionnelle et conseils",
+          "Projets de leadership et communautaires",
+          "Accent sur la technologie et l'innovation"
+        ],
+        "programTitle": "Programme de Collège & Lycée",
+        "overview": "Notre programme d'éducation secondaire prépare les élèves à l'enseignement supérieur et aux futures carrières avec des études avancées, des opportunités de leadership et des perspectives mondiales. Les élèves développent la pensée critique, les compétences en communication et l'engagement communautaire."
+      }
+    },
+    "fees": {
+      "title": "Type de Frais",
+      "amount": "Montant",
+      "details": "Détails",
+      "tuition": "Frais de Scolarité Annuels",
+      "registration": "Frais d'Inscription",
+      "materials": "Matériel & Fournitures",
+      "books": "Livres & Matériel",
+      "technology": "Frais Technologiques",
+      "activities": "Activités & Sorties Scolaires",
+      "meals": "Repas & Collations",
+      "exam": "Frais d'Examen",
+      "installments": "Peut être payé en versements",
+      "nonRefundable": "Unique, non remboursable",
+      "annual": "Frais annuels",
+      "optional": "Optionnel, frais annuels"
+    },
+    "payment": {
+      "title": "Options de Paiement",
+      "description": "Nous offrons des plans de paiement flexibles pour répondre aux différents besoins des familles.",
+      "annual": {
+        "title": "Paiement Annuel",
+        "description": "Payez les frais de scolarité complets au début de l'année académique et bénéficiez d'une réduction de 5%."
+      },
+      "semester": {
+        "title": "Paiement Semestriel",
+        "description": "Payez en deux versements au début de chaque semestre."
+      },
+      "quarterly": {
+        "title": "Paiement Trimestriel",
+        "description": "Payez en quatre versements égaux tout au long de l'année académique."
+      }
+    },
+    "financial": {
+      "title": "Aide Financière & Bourses",
+      "description": "YALS s'engage à rendre l'éducation de qualité accessible. Nous offrons une aide financière limitée et des bourses au mérite aux familles éligibles.",
+      "contact": "Contactez-Nous pour Plus de Détails"
+    },
+    "faq": {
+      "title": "Questions Fréquemment Posées",
+      "additionalFees": {
+        "question": "Y a-t-il des frais supplémentaires ?",
+        "answer": "La structure de frais complète couvre la plupart des dépenses éducatives. Les coûts supplémentaires peuvent inclure les uniformes, les activités parascolaires optionnelles et les événements spéciaux."
+      },
+      "siblingDiscount": {
+        "question": "Y a-t-il une réduction pour les frères et sœurs ?",
+        "answer": "Oui, nous offrons une réduction de 10% sur les frais de scolarité pour chaque frère ou sœur supplémentaire inscrit à YALS."
+      },
+      "refundPolicy": {
+        "question": "Quelle est la politique de remboursement ?",
+        "answer": "Les remboursements des frais de scolarité sont calculés au prorata en fonction de la date de retrait. Les frais d'inscription ne sont pas remboursables. Veuillez contacter notre bureau administratif pour des détails spécifiques."
+      },
+      "financialAid": {
+        "question": "Comment puis-je demander une aide financière ?",
+        "answer": "Les demandes d'aide financière sont disponibles sur demande. Les familles doivent remplir la demande et fournir des documents financiers justificatifs pour examen."
+      }
+    },
+    "cta": {
+      "title": "Prêt à Investir dans l'Avenir de Votre Enfant ?",
+      "description": "Rejoignez la communauté YALS et offrez à votre enfant l'avantage d'une éducation de qualité, du développement du leadership et des perspectives mondiales."
+    }
+  },
+  "footer": {
+    "info": "Fondée en 2017 à Kinshasa, l'École des Jeunes Leaders Africains est une école internationale anglophone de premier ordre dédiée à former la prochaine génération de leaders africains.",
+    "quickLinks": "Liens Rapides",
+    "contactUs": "Contactez-Nous",
+    "applyNow": "Postulez Maintenant",
+    "rights": "© {year} École des Jeunes Leaders Africains. Tous droits réservés.",
+    "privacy": "Politique de Confidentialité",
+    "terms": "Conditions d'Utilisation",
+    "poweredBy": "Propulsé par Quantum Vertex"
+  }
+}

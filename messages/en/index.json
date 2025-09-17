@@ -1,0 +1,332 @@
+{
+  "navigation": {
+    "home": "Home",
+    "about": "About Us",
+    "admissions": "Admissions",
+    "programs": "Programs",
+    "contact": "Contact"
+  },
+  "buttons": {
+    "applyNow": "Apply Now",
+    "payNow": "Pay Now",
+    "learnMore": "Learn More",
+    "contactUs": "Contact Us"
+  },
+  "home": {
+    "hero": {
+      "title": "Welcome to Young African Leaders School",
+      "subtitle": "Where Confident Leaders Are Made through academic excellence, English immersion, and global awareness",
+      "description": "At YALS, we don't just educate — we empower. We prepare students to lead, to dream big, to think critically, and to become global changemakers."
+    },
+    "features": {
+      "title": "Why Choose YALS?",
+      "description": "Discover what makes YALS unique and how we create an exceptional learning experience for every student.",
+      "items": {
+        "englishImmersion": {
+          "title": "Full English Immersion",
+          "description": "100% English-speaking environment that prepares students for global opportunities."
+        },
+        "leadership": {
+          "title": "Leadership & Global Mindset",
+          "description": "Developing tomorrow's leaders with skills to thrive in an interconnected world."
+        },
+        "smallClasses": {
+          "title": "Small Classes, Big Dreams",
+          "description": "Personalized attention for every student to ensure academic excellence."
+        },
+        "stem": {
+          "title": "STEM Focus",
+          "description": "Strong emphasis on Science, Technology, Engineering & Math to prepare for future careers."
+        },
+        "creativity": {
+          "title": "Creativity & Critical Thinking",
+          "description": "Encouraging innovative problem-solving and independent thought."
+        },
+        "community": {
+          "title": "Community Engagement",
+          "description": "Building responsible global citizens through service and community projects."
+        }
+      }
+    },
+    "admissions": {
+      "title": "Admissions Now Open",
+      "description": "Limited seats available! Give your child the advantage of English, leadership, and academic excellence."
+    },
+    "education": {
+      "title": "Our Educational Journey",
+      "description": "YALS proudly serves students across multiple educational levels, welcoming children from diverse backgrounds who are eager to grow, learn and lead.",
+      "levels": {
+        "preschool": {
+          "title": "Preschool",
+          "description": "A nurturing space focused on early childhood development, language exposure, and social skills through hands-on, exploratory learning."
+        },
+        "kindergarten": {
+          "title": "Kindergarten",
+          "description": "A dynamic and structured learning environment where students build social skills, language development, and early academic foundations."
+        },
+        "elementary": {
+          "title": "Elementary School (Grade 1-5)",
+          "description": "A vibrant, skill-building phase where students strengthen their academic abilities and develop independent thinking."
+        },
+        "middle": {
+          "title": "Middle School (Grade 6-8)",
+          "description": "A critical growth stage where students deepen their knowledge and engage in leadership opportunities."
+        },
+        "high": {
+          "title": "High School (Grade 9-12)",
+          "description": "A preparation-focused stage that equips students for higher education, entrepreneurship, and leadership in their communities."
+        }
+      }
+    },
+    "cta": {
+      "title": "Ready to Join YALS?",
+      "description": "Your child's future starts here. Prepare them for success in an international, English-speaking school that builds confident, capable leaders.",
+      "note": "Limited seats available!"
+    }
+  },
+  "about": {
+    "hero": {
+      "title": "About YALS",
+      "subtitle": "Founded in 2017 in Kinshasa, Young African Leaders School is a premium, English-speaking international school dedicated to shaping Africa's next generation of leaders.",
+      "description": "At YALS, we believe that quality education is the foundation of strong leadership. Our mission is to provide a world-class, English-immersive education that empowers students to become confident, capable leaders who can make a positive impact in their communities and beyond."
+    },
+    "story": {
+      "title": "Our Story",
+      "content": [
+        "Young African Leaders School (YALS) was founded in 2017 by a group of passionate educators and community leaders who recognized the need for high-quality, English-language education in Kinshasa. Starting with just 35 students and 5 teachers, our school has grown to serve hundreds of students across all grade levels.",
+        "Our founders envisioned a school that would not only provide academic excellence but would also instill leadership values, global awareness, and community responsibility. This vision continues to guide our approach to education today.",
+        "Over the years, YALS has established itself as a premier educational institution in the Democratic Republic of Congo, known for its rigorous academic standards, English immersion environment, and focus on developing well-rounded future leaders."
+      ]
+    },
+    "values": {
+      "title": "Our Core Values",
+      "description": "These principles guide everything we do at YALS, from curriculum development to community engagement.",
+      "items": {
+        "excellence": {
+          "title": "Academic Excellence",
+          "description": "We maintain high standards and expectations, challenging our students to achieve their full potential through rigorous, engaging curriculum and innovative teaching methods."
+        },
+        "leadership": {
+          "title": "Leadership Development",
+          "description": "We cultivate leadership skills in every student, encouraging them to take initiative, solve problems creatively, and make positive contributions to their communities."
+        },
+        "global": {
+          "title": "Global Perspective",
+          "description": "We prepare students to be global citizens by exposing them to diverse cultures, languages, and perspectives, fostering respect and understanding for people from all backgrounds."
+        },
+        "character": {
+          "title": "Character Building",
+          "description": "We emphasize integrity, responsibility, empathy, and resilience as essential qualities for personal growth and effective leadership."
+        },
+        "innovation": {
+          "title": "Innovation & Creativity",
+          "description": "We encourage creative thinking and innovative approaches to learning and problem-solving, preparing students for the challenges of a rapidly changing world."
+        },
+        "community": {
+          "title": "Community Engagement",
+          "description": "We believe in the importance of service and active participation in community life, teaching students to use their knowledge and skills for the greater good."
+        }
+      }
+    },
+    "approach": {
+      "title": "Our Educational Approach",
+      "items": {
+        "english": {
+          "title": "English Immersion",
+          "description": "At YALS, all classes are taught in English by qualified educators, creating a full immersion environment that helps students develop strong English language skills naturally and effectively."
+        },
+        "smallClasses": {
+          "title": "Small Class Sizes",
+          "description": "We maintain small class sizes to ensure each student receives personalized attention and support, allowing teachers to address individual learning needs and foster meaningful connections."
+        },
+        "stem": {
+          "title": "STEM Focus",
+          "description": "Our curriculum emphasizes Science, Technology, Engineering, and Mathematics, preparing students for future careers in these high-demand fields while developing critical thinking and problem-solving skills."
+        },
+        "leadership": {
+          "title": "Leadership Integration",
+          "description": "Leadership principles are woven throughout our curriculum and extracurricular activities, giving students regular opportunities to practice and develop their leadership abilities."
+        }
+      }
+    },
+    "team": {
+      "title": "Our Leadership Team",
+      "description": "Meet the dedicated educators and administrators who guide our school's vision and operations."
+    },
+    "facilities": {
+      "title": "Our Campus & Facilities",
+      "description": "Our modern campus in Kinshasa provides a safe, stimulating environment for learning and growth. Our facilities include:",
+      "items": [
+        "Bright, well-equipped classrooms with modern technology",
+        "Science and computer laboratories",
+        "Library and resource center",
+        "Art and music studios",
+        "Sports facilities including a multi-purpose court",
+        "Outdoor learning and play areas",
+        "Cafeteria serving nutritious meals"
+      ],
+      "note": "Our campus is designed to support both academic excellence and the development of well-rounded individuals, providing spaces for collaboration, creativity, physical activity, and quiet reflection."
+    },
+    "accreditation": {
+      "title": "Accreditation & Affiliations",
+      "description": "YALS is recognized by the Ministry of Education of the Democratic Republic of Congo and maintains partnerships with international educational organizations to ensure our curriculum meets global standards."
+    },
+    "cta": {
+      "title": "Join the YALS Community",
+      "description": "We invite you to become part of our vibrant learning community. Schedule a visit to our campus to see firsthand how YALS is shaping the leaders of tomorrow."
+    }
+  },
+  "contact": {
+    "hero": {
+      "title": "Contact Us",
+      "description": "We're here to answer your questions and help you learn more about YALS. Get in touch with us through any of the channels below."
+    },
+    "info": {
+      "visit": "Visit Us",
+      "contact": "Contact Information",
+      "hours": "Office Hours",
+      "weekdays": "Monday - Friday: 8:00 AM - 5:00 PM",
+      "saturday": "Saturday: 9:00 AM - 12:00 PM",
+      "sunday": "Sunday: Closed"
+    },
+    "form": {
+      "title": "Send Us a Message",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "phone": "Phone Number",
+      "interest": "I am interested in:",
+      "message": "Message",
+      "submit": "Send Message"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "description": "Find quick answers to common questions about contacting and visiting YALS."
+    }
+  },
+  "pricing": {
+    "hero": {
+      "title": "Tuition & Fees",
+      "description": "Investing in your child's education at YALS provides exceptional value with our comprehensive academic programs and enriching extracurricular activities."
+    },
+    "levels": {
+      "all": "All Levels",
+      "preschool": {
+        "title": "Preschool & Kindergarten",
+        "description": "Ages 3-5",
+        "price": "$3,500",
+        "period": "/ year",
+        "features": [
+          "Full English immersion environment",
+          "Small class sizes (max 15 students)",
+          "Foundational literacy and numeracy",
+          "Creative arts and play-based learning",
+          "Social skills development"
+        ],
+        "programTitle": "Preschool & Kindergarten Program",
+        "overview": "Our early childhood program focuses on creating a nurturing environment where young learners can develop foundational skills through play-based learning, creative activities, and early English language immersion."
+      },
+      "elementary": {
+        "title": "Elementary School",
+        "description": "Grades 1-5",
+        "price": "$4,200",
+        "period": "/ year",
+        "features": [
+          "Comprehensive curriculum in English",
+          "STEM-focused learning approach",
+          "Leadership development activities",
+          "Arts and physical education",
+          "Field trips and cultural experiences"
+        ],
+        "programTitle": "Elementary School Program",
+        "overview": "Our elementary program builds strong academic foundations while fostering critical thinking, creativity, and leadership skills. Students benefit from our English immersion environment and STEM-focused curriculum."
+      },
+      "secondary": {
+        "title": "Middle & High School",
+        "description": "Grades 6-12",
+        "price": "$4,800",
+        "period": "/ year",
+        "features": [
+          "Advanced academic curriculum",
+          "College preparation programs",
+          "Career guidance and counseling",
+          "Leadership and community projects",
+          "Technology and innovation focus"
+        ],
+        "programTitle": "Middle & High School Program",
+        "overview": "Our secondary education program prepares students for higher education and future careers with advanced academics, leadership opportunities, and global perspectives. Students develop critical thinking, communication skills, and community engagement."
+      }
+    },
+    "fees": {
+      "title": "Fee Type",
+      "amount": "Amount",
+      "details": "Details",
+      "tuition": "Annual Tuition",
+      "registration": "Registration Fee",
+      "materials": "Materials & Supplies",
+      "books": "Books & Materials",
+      "technology": "Technology Fee",
+      "activities": "Activities & Field Trips",
+      "meals": "Meals & Snacks",
+      "exam": "Examination Fees",
+      "installments": "Can be paid in installments",
+      "nonRefundable": "One-time, non-refundable",
+      "annual": "Annual fee",
+      "optional": "Optional, annual fee"
+    },
+    "payment": {
+      "title": "Payment Options",
+      "description": "We offer flexible payment plans to accommodate different family needs.",
+      "annual": {
+        "title": "Annual Payment",
+        "description": "Pay the full tuition at the beginning of the academic year and receive a 5% discount."
+      },
+      "semester": {
+        "title": "Semester Payment",
+        "description": "Pay in two installments at the beginning of each semester."
+      },
+      "quarterly": {
+        "title": "Quarterly Payment",
+        "description": "Pay in four equal installments throughout the academic year."
+      }
+    },
+    "financial": {
+      "title": "Financial Aid & Scholarships",
+      "description": "YALS is committed to making quality education accessible. We offer limited financial aid and merit-based scholarships to qualifying families.",
+      "contact": "Contact Us for Details"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "additionalFees": {
+        "question": "Are there any additional fees?",
+        "answer": "The comprehensive fee structure covers most educational expenses. Additional costs may include uniforms, optional extracurricular activities, and special events."
+      },
+      "siblingDiscount": {
+        "question": "Is there a sibling discount?",
+        "answer": "Yes, we offer a 10% tuition discount for each additional sibling enrolled at YALS."
+      },
+      "refundPolicy": {
+        "question": "What is the refund policy?",
+        "answer": "Tuition refunds are prorated based on the withdrawal date. Registration fees are non-refundable. Please contact our administration office for specific details."
+      },
+      "financialAid": {
+        "question": "How can I apply for financial aid?",
+        "answer": "Financial aid applications are available upon request. Families must complete the application and provide supporting financial documentation for consideration."
+      }
+    },
+    "cta": {
+      "title": "Ready to Invest in Your Child's Future?",
+      "description": "Join the YALS community and give your child the advantage of quality education, leadership development, and global perspectives."
+    }
+  },
+  "footer": {
+    "info": "Founded in 2017 in Kinshasa, Young African Leaders School is a premium, English-speaking international school dedicated to shaping Africa's next generation of leaders.",
+    "quickLinks": "Quick Links",
+    "contactUs": "Contact Us",
+    "applyNow": "Apply Now",
+    "rights": "© {year} Young African Leaders School. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "poweredBy": "Powered by Quantum Vertex"
+  }
+}
