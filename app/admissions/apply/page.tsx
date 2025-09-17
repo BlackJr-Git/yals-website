@@ -109,48 +109,76 @@ export default function ApplicationPage() {
               <div className="flex justify-between mb-8 px-6 relative w-full">
                 {/* Connecting Line */}
                 <div className="absolute h-1 bg-default-200 left-[12%] right-[12%] top-6 transform -translate-y-1/2"></div>
-                
+
                 {/* Step 1 */}
-                <div className="flex flex-col items-center z-10 mx-2" style={{ minWidth: '60px' }}>
-                  <div className={`w-12 h-12 rounded-full flex items-center justify-center text-base font-medium ${currentStep >= 1 ? "bg-primary text-white" : "bg-default-100 text-default-500"} ${currentStep === 1 ? "ring-4 ring-primary/30 ring-offset-2" : ""} shadow-md`}>
+                <div
+                  className="flex flex-col items-center z-10 mx-2"
+                  style={{ minWidth: "60px" }}
+                >
+                  <div
+                    className={`w-12 h-12 rounded-full flex items-center justify-center text-base font-medium ${currentStep >= 1 ? "bg-primary text-white" : "bg-default-100 text-default-500"} ${currentStep === 1 ? "ring-4 ring-primary/30 ring-offset-2" : ""} shadow-md`}
+                  >
                     1
                   </div>
-                  <span className={`text-xs mt-2 text-center ${currentStep === 1 ? "text-primary font-medium" : "text-default-500"}`}>
+                  <span
+                    className={`text-xs mt-2 text-center ${currentStep === 1 ? "text-primary font-medium" : "text-default-500"}`}
+                  >
                     Student Information
                   </span>
                 </div>
-                
+
                 {/* Step 2 */}
-                <div className="flex flex-col items-center z-10 mx-2" style={{ minWidth: '60px' }}>
-                  <div className={`w-12 h-12 rounded-full flex items-center justify-center text-base font-medium ${currentStep >= 2 ? "bg-primary text-white" : "bg-default-100 text-default-500"} ${currentStep === 2 ? "ring-4 ring-primary/30 ring-offset-2" : ""} shadow-md`}>
+                <div
+                  className="flex flex-col items-center z-10 mx-2"
+                  style={{ minWidth: "60px" }}
+                >
+                  <div
+                    className={`w-12 h-12 rounded-full flex items-center justify-center text-base font-medium ${currentStep >= 2 ? "bg-primary text-white" : "bg-default-100 text-default-500"} ${currentStep === 2 ? "ring-4 ring-primary/30 ring-offset-2" : ""} shadow-md`}
+                  >
                     2
                   </div>
-                  <span className={`text-xs mt-2 text-center ${currentStep === 2 ? "text-primary font-medium" : "text-default-500"}`}>
+                  <span
+                    className={`text-xs mt-2 text-center ${currentStep === 2 ? "text-primary font-medium" : "text-default-500"}`}
+                  >
                     Parents/Guardians
                   </span>
                 </div>
-                
+
                 {/* Step 3 */}
-                <div className="flex flex-col items-center z-10 mx-2" style={{ minWidth: '60px' }}>
-                  <div className={`w-12 h-12 rounded-full flex items-center justify-center text-base font-medium ${currentStep >= 3 ? "bg-primary text-white" : "bg-default-100 text-default-500"} ${currentStep === 3 ? "ring-4 ring-primary/30 ring-offset-2" : ""} shadow-md`}>
+                <div
+                  className="flex flex-col items-center z-10 mx-2"
+                  style={{ minWidth: "60px" }}
+                >
+                  <div
+                    className={`w-12 h-12 rounded-full flex items-center justify-center text-base font-medium ${currentStep >= 3 ? "bg-primary text-white" : "bg-default-100 text-default-500"} ${currentStep === 3 ? "ring-4 ring-primary/30 ring-offset-2" : ""} shadow-md`}
+                  >
                     3
                   </div>
-                  <span className={`text-xs mt-2 text-center ${currentStep === 3 ? "text-primary font-medium" : "text-default-500"}`}>
+                  <span
+                    className={`text-xs mt-2 text-center ${currentStep === 3 ? "text-primary font-medium" : "text-default-500"}`}
+                  >
                     Health and Education
                   </span>
                 </div>
-                
+
                 {/* Step 4 */}
-                <div className="flex flex-col items-center z-10 mx-2" style={{ minWidth: '60px' }}>
-                  <div className={`w-12 h-12 rounded-full flex items-center justify-center text-base font-medium ${currentStep >= 4 ? "bg-primary text-white" : "bg-default-100 text-default-500"} ${currentStep === 4 ? "ring-4 ring-primary/30 ring-offset-2" : ""} shadow-md`}>
+                <div
+                  className="flex flex-col items-center z-10 mx-2"
+                  style={{ minWidth: "60px" }}
+                >
+                  <div
+                    className={`w-12 h-12 rounded-full flex items-center justify-center text-base font-medium ${currentStep >= 4 ? "bg-primary text-white" : "bg-default-100 text-default-500"} ${currentStep === 4 ? "ring-4 ring-primary/30 ring-offset-2" : ""} shadow-md`}
+                  >
                     4
                   </div>
-                  <span className={`text-xs mt-2 text-center ${currentStep === 4 ? "text-primary font-medium" : "text-default-500"}`}>
+                  <span
+                    className={`text-xs mt-2 text-center ${currentStep === 4 ? "text-primary font-medium" : "text-default-500"}`}
+                  >
                     Documents and Consents
                   </span>
                 </div>
               </div>
-              
+
               <Progress
                 value={(currentStep / totalSteps) * 100}
                 className="mt-2"
