@@ -10,6 +10,7 @@ import { Providers } from "../providers";
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
+import { Logo } from "@/components/logo";
 
 export const metadata: Metadata = {
   title: {
@@ -75,10 +76,8 @@ export default async function RootLayout({
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     {/* School Info */}
                     <div className="space-y-4">
-                      <div className="flex items-center gap-2">
-                        <span className="font-bold text-xl text-primary">YALS</span>
-                        <span className="text-default-600 text-sm">Young African Leaders School</span>
-                      </div>
+                      <Logo locale={locale} size="md" showText={false} />
+                      {/* <span className="text-default-600 text-sm">Young African Leaders School</span> */}
                       <p className="text-default-500 text-sm">
                         {messages.footer.info}
                       </p>

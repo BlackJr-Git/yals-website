@@ -20,12 +20,7 @@ import { usePathname } from 'next/navigation';
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 
-// Logo component for YALS
-const YALSLogo = () => (
-  <div className="flex items-center">
-    <span className="font-bold text-xl text-primary">YALS</span>
-  </div>
-);
+import { Logo } from "@/components/logo";
 
 export const Navbar = ({ locale }: { locale: string }) => {
   const t = useTranslations();
@@ -49,13 +44,7 @@ export const Navbar = ({ locale }: { locale: string }) => {
     >
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
-          <NextLink className="flex justify-start items-center gap-1" href={`/${locale}`}>
-            <YALSLogo />
-            <div className="flex flex-col">
-              <p className="font-bold text-inherit text-sm md:text-base">Young African Leaders School</p>
-              <p className="text-xs text-default-500 hidden md:block">{t('home.hero.subtitle')}</p>
-            </div>
-          </NextLink>
+          <Logo locale={locale} showText={true} size="md" />
         </NavbarBrand>
         <ul className="hidden lg:flex gap-4 justify-start ml-2">
           {siteConfig.navItems.map((item) => (

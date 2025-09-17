@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import {
   Navbar as HeroUINavbar,
   NavbarContent,
@@ -9,40 +9,35 @@ import {
   NavbarMenuItem,
 } from "@heroui/navbar";
 import { Button } from "@heroui/button";
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@heroui/dropdown";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+} from "@heroui/dropdown";
 import { Link } from "@heroui/link";
 import { link as linkStyles, button as buttonStyles } from "@heroui/theme";
 import NextLink from "next/link";
 import clsx from "clsx";
-import { usePathname } from 'next/navigation';
+import { usePathname } from "next/navigation";
 
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
-
-// Logo component for YALS
-const YALSLogo = () => (
-  <div className="flex items-center">
-    <span className="font-bold text-xl text-primary">YALS</span>
-  </div>
-);
+import { Logo } from "@/components/logo";
 
 export const BasicNavbar = () => {
   const pathname = usePathname();
-  
+
   return (
-    <HeroUINavbar 
-      maxWidth="xl" 
-      position="sticky" 
+    <HeroUINavbar
+      maxWidth="xl"
+      position="sticky"
       className="bg-background/70 backdrop-blur-md border-b border-divider"
     >
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
-            <YALSLogo />
-            <div className="flex flex-col">
-              <p className="font-bold text-inherit text-sm md:text-base">Young African Leaders School</p>
-              <p className="text-xs text-default-500 hidden md:block">Shaping Africa's Next Generation of Leaders</p>
-            </div>
+            <Logo size="lg" showText={false} />
           </NextLink>
         </NavbarBrand>
         <ul className="hidden lg:flex gap-4 justify-start ml-2">
@@ -51,7 +46,7 @@ export const BasicNavbar = () => {
               <NextLink
                 className={clsx(
                   linkStyles({ color: "foreground" }),
-                  "data-[active=true]:text-primary data-[active=true]:font-medium hover:text-primary transition-colors",
+                  "data-[active=true]:text-primary data-[active=true]:font-medium hover:text-primary transition-colors"
                 )}
                 color="foreground"
                 href={item.href}
@@ -95,19 +90,13 @@ export const BasicNavbar = () => {
         <NavbarItem>
           <Dropdown>
             <DropdownTrigger>
-              <Button 
-                variant="light" 
-                className="text-sm"
-              >
+              <Button variant="light" className="text-sm">
                 English
               </Button>
             </DropdownTrigger>
             <DropdownMenu aria-label="Language options">
               {siteConfig.languages.map((lang) => (
-                <DropdownItem 
-                  key={lang.code} 
-                  href={lang.href}
-                >
+                <DropdownItem key={lang.code} href={lang.href}>
                   {lang.name}
                 </DropdownItem>
               ))}
@@ -131,7 +120,7 @@ export const BasicNavbar = () => {
               <NextLink
                 className={clsx(
                   linkStyles({ color: index === 0 ? "primary" : "foreground" }),
-                  "font-medium text-lg",
+                  "font-medium text-lg"
                 )}
                 href={item.href}
               >

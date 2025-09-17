@@ -1,60 +1,23 @@
-import { title, subtitle } from "@/components/primitives";
-import { Card, CardBody, CardHeader, CardFooter } from "@heroui/card";
-import { Divider } from "@heroui/divider";
 import { Button } from "@heroui/button";
 import { Image } from "@heroui/image";
 import { button as buttonStyles } from "@heroui/theme";
-import { Accordion, AccordionItem } from "@heroui/accordion";
-import { Tabs, Tab } from "@heroui/tabs";
 import NextLink from "next/link";
 
 import { siteConfig } from "@/config/site";
 
-// Components for the admissions process
-const ProcessStep = ({ 
-  number, 
-  title, 
-  description 
-}: { 
-  number: number; 
-  title: string; 
-  description: string 
-}) => (
-  <div className="flex gap-4">
-    <div className="flex-shrink-0">
-      <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold">
-        {number}
-      </div>
-    </div>
-    <div className="space-y-2">
-      <h3 className="text-lg font-bold">{title}</h3>
-      <p className="text-default-600">{description}</p>
-    </div>
-  </div>
-);
-
-// Components for the required documents
-const DocumentItem = ({ title, description }: { title: string; description: string }) => (
-  <Card className="border border-divider">
-    <CardBody className="p-5">
-      <h3 className="text-lg font-semibold mb-2">{title}</h3>
-      <p className="text-default-500 text-sm">{description}</p>
-    </CardBody>
-  </Card>
-);
-
-export default function AdmissionsPage() {
+export default function AdmissionsPageSimple() {
   return (
     <div className="flex flex-col gap-16 py-8 md:py-10">
       {/* Hero Section */}
       <section className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12">
         <div className="flex-1 space-y-6">
-          <h1 className={title()}>Admissions</h1>
-          <p className={subtitle({ class: "max-w-3xl" })}>
+          <h1 className="tracking-tight inline font-semibold text-[2.3rem] lg:text-5xl">Admissions</h1>
+          <p className="w-full md:w-1/2 my-2 text-lg lg:text-xl text-default-600 block max-w-3xl">
             Join our vibrant community of future leaders at Young African Leaders School
           </p>
           <p className="text-default-500 text-lg">
-            We welcome applications from families who share our vision of academic excellence, leadership development, and global awareness. Our admissions process is designed to identify students who will thrive in our challenging and supportive environment.
+            We welcome applications from families who share our vision of academic excellence, leadership development, and global awareness.
+            Our admissions process is designed to identify students who will thrive in our challenging and supportive environment.
           </p>
           <div className="flex flex-wrap gap-4">
             <Button
@@ -97,262 +60,16 @@ export default function AdmissionsPage() {
       {/* Admissions Process Section */}
       <section id="admissions-process" className="space-y-6">
         <div className="text-center">
-          <h2 className={title({ size: "sm" })}>Admissions Process</h2>
+          <h2 className="tracking-tight inline font-semibold text-3xl lg:text-4xl">Admissions Process</h2>
           <p className="text-default-500 mt-2 max-w-2xl mx-auto">
             Our admissions process is designed to be clear and straightforward, guiding you from your initial application to a successful enrollment.
           </p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-          <div className="space-y-8">
-            <ProcessStep 
-              number={1}
-              title="Complete the Application Form"
-              description="Register your child online by filling in our comprehensive application form. This helps us understand your child's background, interests, and educational needs."
-            />
-            <ProcessStep 
-              number={2}
-              title="Submit Required Documents"
-              description="Provide the necessary documentation, including identification, previous school records, and other required paperwork."
-            />
-            <ProcessStep 
-              number={3}
-              title="Assessment and Interview"
-              description="Depending on the grade level, your child may be invited for an academic assessment and interview to help us determine the appropriate placement."
-            />
-            <ProcessStep 
-              number={4}
-              title="Admission Decision"
-              description="Our admissions committee will review your application and notify you of the decision within two weeks of completing all steps."
-            />
-            <ProcessStep 
-              number={5}
-              title="Confirm Your Enrollment"
-              description="Upon acceptance, secure your child's place by paying the enrollment fee and completing the registration process."
-            />
-          </div>
-          <div>
-            <Card className="border border-divider h-full">
-              <CardHeader>
-                <h3 className="text-xl font-bold">Application Timeline</h3>
-              </CardHeader>
-              <Divider />
-              <CardBody className="space-y-4">
-                <div>
-                  <h4 className="font-semibold text-primary">Early Application Period</h4>
-                  <p className="text-default-600">January 15 - March 31</p>
-                  <p className="text-default-500 text-sm mt-1">Priority consideration and early decision benefits</p>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-primary">Regular Application Period</h4>
-                  <p className="text-default-600">April 1 - June 30</p>
-                  <p className="text-default-500 text-sm mt-1">Standard application processing</p>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-primary">Late Application Period</h4>
-                  <p className="text-default-600">July 1 - August 15</p>
-                  <p className="text-default-500 text-sm mt-1">Subject to space availability</p>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-primary">Mid-Year Admissions</h4>
-                  <p className="text-default-600">Throughout the academic year</p>
-                  <p className="text-default-500 text-sm mt-1">Considered on a case-by-case basis, subject to space availability</p>
-                </div>
-              </CardBody>
-              <Divider />
-              <CardFooter>
-                <p className="text-default-500 text-sm">
-                  <span className="font-semibold">Note:</span> We encourage families to apply early as spaces fill quickly, especially for certain grade levels.
-                </p>
-              </CardFooter>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Required Documents Section */}
-      <section className="space-y-6">
-        <div className="text-center">
-          <h2 className={title({ size: "sm" })}>Required Documents</h2>
-          <p className="text-default-500 mt-2 max-w-2xl mx-auto">
-            To ensure a smooth and complete enrollment process, we kindly ask all applicants to prepare the following documents.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-          <DocumentItem 
-            title="Two recent passport-sized photographs"
-            description="Two recent passport-sized photos of the student, taken on a light background. These will be used for administrative records and the student ID card."
-          />
-          <DocumentItem 
-            title="Copy of the student's identification"
-            description="A copy of a valid identification document for the student (passport, national ID, or birth certificate). This ensures the accuracy of personal details and verifies the student's identity."
-          />
-          <DocumentItem 
-            title="Copy of parent/guardian identification"
-            description="A copy of the parent or legal guardian's identification. This is essential to formalize enrollment and confirm legal responsibility."
-          />
-          <DocumentItem 
-            title="Previous school report/transcript"
-            description="Copies of the student's previous school reports or transcripts (if applicable). These documents help us understand the student's academic background and place them in the most suitable class or program."
-          />
-          <DocumentItem 
-            title="Health and immunization records"
-            description="Up-to-date health and immunization records to ensure the safety and wellbeing of all students in our community."
-          />
-          <DocumentItem 
-            title="Completed application form"
-            description="The fully completed and signed application form with all required fields and information about the student and family."
-          />
-        </div>
-      </section>
-
-      {/* Grade Level Requirements */}
-      <section className="bg-primary/10 p-8 rounded-2xl space-y-6">
-        <div className="text-center">
-          <h2 className={title({ size: "sm" })}>Grade Level Requirements</h2>
-          <p className="text-default-600 mt-2 max-w-2xl mx-auto">
-            Each grade level has specific requirements and expectations. Select a level to learn more.
-          </p>
-        </div>
-        <div className="mt-4">
-          <Tabs aria-label="Grade levels" className="justify-center">
-            <Tab key="preschool" title="Preschool & Kindergarten">
-              <Card className="border-none shadow-sm mt-4">
-                <CardBody className="p-6">
-                  <div className="space-y-4">
-                    <h3 className="text-xl font-bold">Preschool & Kindergarten (Ages 3-5)</h3>
-                    <p className="text-default-600">
-                      Our early childhood program focuses on creating a nurturing environment where young learners can develop foundational skills through play-based learning, creative activities, and early English language immersion.
-                    </p>
-                    <div className="space-y-2">
-                      <h4 className="font-semibold">Admission Requirements:</h4>
-                      <ul className="list-disc list-inside space-y-1 text-default-600">
-                        <li>Child must be at least 3 years old by September 1st of the enrollment year</li>
-                        <li>Toilet trained (for Preschool)</li>
-                        <li>Parent interview</li>
-                        <li>Informal assessment of developmental readiness</li>
-                      </ul>
-                    </div>
-                  </div>
-                </CardBody>
-              </Card>
-            </Tab>
-            <Tab key="elementary" title="Elementary School">
-              <Card className="border-none shadow-sm mt-4">
-                <CardBody className="p-6">
-                  <div className="space-y-4">
-                    <h3 className="text-xl font-bold">Elementary School (Grades 1-5)</h3>
-                    <p className="text-default-600">
-                      Our elementary program builds strong academic foundations while fostering critical thinking, creativity, and leadership skills. Students benefit from our English immersion environment and STEM-focused curriculum.
-                    </p>
-                    <div className="space-y-2">
-                      <h4 className="font-semibold">Admission Requirements:</h4>
-                      <ul className="list-disc list-inside space-y-1 text-default-600">
-                        <li>Previous school records (if applicable)</li>
-                        <li>Age-appropriate academic assessment</li>
-                        <li>English language proficiency assessment</li>
-                        <li>Student and parent interview</li>
-                      </ul>
-                    </div>
-                  </div>
-                </CardBody>
-              </Card>
-            </Tab>
-            <Tab key="middle" title="Middle School">
-              <Card className="border-none shadow-sm mt-4">
-                <CardBody className="p-6">
-                  <div className="space-y-4">
-                    <h3 className="text-xl font-bold">Middle School (Grades 6-8)</h3>
-                    <p className="text-default-600">
-                      Our middle school program prepares students for the rigors of high school while supporting their social-emotional development during these important transitional years.
-                    </p>
-                    <div className="space-y-2">
-                      <h4 className="font-semibold">Admission Requirements:</h4>
-                      <ul className="list-disc list-inside space-y-1 text-default-600">
-                        <li>Previous school transcripts</li>
-                        <li>Academic assessment in core subjects</li>
-                        <li>English language proficiency assessment</li>
-                        <li>Student and parent interview</li>
-                        <li>Teacher recommendations (if available)</li>
-                      </ul>
-                    </div>
-                  </div>
-                </CardBody>
-              </Card>
-            </Tab>
-            <Tab key="high" title="High School">
-              <Card className="border-none shadow-sm mt-4">
-                <CardBody className="p-6">
-                  <div className="space-y-4">
-                    <h3 className="text-xl font-bold">High School (Grades 9-12)</h3>
-                    <p className="text-default-600">
-                      Our high school program prepares students for higher education and future careers with advanced academics, leadership opportunities, and global perspectives.
-                    </p>
-                    <div className="space-y-2">
-                      <h4 className="font-semibold">Admission Requirements:</h4>
-                      <ul className="list-disc list-inside space-y-1 text-default-600">
-                        <li>Complete academic transcripts from previous schools</li>
-                        <li>Comprehensive academic assessment</li>
-                        <li>Advanced English language proficiency assessment</li>
-                        <li>Student essay and interview</li>
-                        <li>Parent interview</li>
-                        <li>Two teacher recommendations</li>
-                      </ul>
-                    </div>
-                  </div>
-                </CardBody>
-              </Card>
-            </Tab>
-          </Tabs>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="space-y-6">
-        <div className="text-center">
-          <h2 className={title({ size: "sm" })}>Frequently Asked Questions</h2>
-          <p className="text-default-500 mt-2 max-w-2xl mx-auto">
-            Find answers to common questions about our admissions process.
-          </p>
-        </div>
-        <div className="mt-8 max-w-4xl mx-auto">
-          <Accordion variant="splitted">
-            <AccordionItem key="1" aria-label="What is the student-to-teacher ratio?" title="What is the student-to-teacher ratio?">
-              <p className="text-default-600">
-                At YALS, we maintain small class sizes to ensure personalized attention for each student. Our student-to-teacher ratio is typically 15:1 in preschool and kindergarten, and 20:1 in elementary through high school.
-              </p>
-            </AccordionItem>
-            <AccordionItem key="2" aria-label="Do you accept mid-year transfers?" title="Do you accept mid-year transfers?">
-              <p className="text-default-600">
-                Yes, we accept mid-year transfers depending on space availability. Each case is evaluated individually to ensure a smooth transition for the student. Additional support may be provided to help new students adjust to our curriculum and environment.
-              </p>
-            </AccordionItem>
-            <AccordionItem key="3" aria-label="Is English proficiency required for admission?" title="Is English proficiency required for admission?">
-              <p className="text-default-600">
-                While we prefer students to have some English proficiency, it is not a strict requirement for admission, especially for younger students. We offer English language support for non-native speakers. However, students entering higher grades (6-12) should have intermediate to advanced English skills to succeed in our program.
-              </p>
-            </AccordionItem>
-            <AccordionItem key="4" aria-label="Are there scholarships available?" title="Are there scholarships available?">
-              <p className="text-default-600">
-                YALS offers a limited number of merit-based scholarships and financial aid packages to qualifying students. These are awarded based on academic excellence, leadership potential, and financial need. Please contact our admissions office for more information about scholarship opportunities.
-              </p>
-            </AccordionItem>
-            <AccordionItem key="5" aria-label="What is the application fee?" title="What is the application fee?">
-              <p className="text-default-600">
-                The application fee is $50, which covers the administrative costs of processing your application. This fee is non-refundable and must be paid at the time of application submission.
-              </p>
-            </AccordionItem>
-            <AccordionItem key="6" aria-label="How are placement decisions made?" title="How are placement decisions made?">
-              <p className="text-default-600">
-                Placement decisions are made based on a combination of factors, including the student's age, previous academic records, assessment results, interview performance, and space availability in each grade level. Our goal is to place each student in an environment where they will be appropriately challenged and supported.
-              </p>
-            </AccordionItem>
-          </Accordion>
         </div>
       </section>
 
       {/* CTA Section */}
       <section className="text-center space-y-6">
-        <h2 className={title({ size: "sm" })}>Ready to Apply?</h2>
+        <h2 className="tracking-tight inline font-semibold text-3xl lg:text-4xl">Ready to Apply?</h2>
         <p className="text-default-600 max-w-2xl mx-auto">
           Take the first step towards providing your child with an exceptional education that develops leadership, character, and academic excellence.
         </p>
