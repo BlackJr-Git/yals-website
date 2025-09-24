@@ -18,7 +18,7 @@ import { RadioGroup, Radio } from "@heroui/radio";
 import { siteConfig } from "@/config/site";
 
 export default function ApplicationPage() {
-  const [currentStep, setCurrentStep] = useState(4);
+  const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 4;
 
   // État du formulaire
@@ -205,6 +205,164 @@ export default function ApplicationPage() {
         },
       },
     });
+  };
+
+  // Function to transform form data to API format
+  const transformFormDataToAPI = () => {
+    // Filter out empty siblings
+    const validSiblings = formData.siblings.filter(
+      (sibling) => sibling.name.trim() !== "" && sibling.grade.trim() !== ""
+    );
+
+    // Filter out empty authorized pickup contacts
+    const validPickupContacts = formData.authorizedPickupContacts.filter(
+      (contact) => contact.name.trim() !== "" && contact.cellPhone.trim() !== "" && contact.relationship.trim() !== ""
+    );
+
+    // Build guardians array
+    const guardians = [];
+    
+    // Add primary guardian
+    if (formData.parent1.fullName) {
+      guardians.push({
+        full_name: formData.parent1.fullName,
+        relationship: formData.parent1.relationship,
+        phone_mobile: formData.parent1.mobilePhone,
+        phone_home: formData.parent1.mobilePhone, // Using mobile as home for now
+        phone_work: formData.parent1.workPhone || formData.parent1.mobilePhone,
+        physical_address: formData.parent1.address === "same" 
+          ? formData.backgroundInfo.residentialAddress 
+          : formData.parent1.differentAddress,
+        email: formData.parent1.email,
+        lives_with_student: true, // Assuming primary guardian lives with student
+        authorized_pickup: true, // Assuming primary guardian is authorized for pickup
+        preferred_language: formData.parent1.preferredLanguage === "english" ? "en" : "fr"
+      });
+    }
+
+    // Add second guardian if exists
+    if (formData.hasSecondParent && formData.parent2.firstName && formData.parent2.lastName) {
+      guardians.push({
+        full_name: `${formData.parent2.firstName} ${formData.parent2.lastName}`,
+        relationship: formData.parent2.relationship,
+        phone_mobile: formData.parent2.mobilePhone || "",
+        phone_home: formData.parent2.mobilePhone || "",
+        phone_work: formData.parent2.workPhone || formData.parent2.mobilePhone || "",
+        physical_address: formData.backgroundInfo.residentialAddress, // Assuming same address
+        email: formData.parent2.email || "",
+        lives_with_student: false, // Assuming second guardian doesn't live with student
+        authorized_pickup: false, // Assuming second guardian is not authorized for pickup by default
+        preferred_language: "en" // Default to English
+      });
+    }
+
+    // Build authorized pickups array
+    const authorizedPickups = validPickupContacts.map(contact => ({
+      full_name: contact.name,
+      relationship: contact.relationship,
+      phone_mobile: contact.cellPhone
+    }));
+
+    // Build medical conditions array
+    const specificMedicalConditions = [];
+    if (formData.healthInfo.specificMedicalConditions.asthma) {
+      specificMedicalConditions.push({
+        name: "Asthme",
+        description: "Maladie respiratoire chronique"
+      });
+    }
+    if (formData.healthInfo.specificMedicalConditions.diabetes) {
+      specificMedicalConditions.push({
+        name: "Diabète",
+        description: "Taux élevé de glucose"
+      });
+    }
+    if (formData.healthInfo.specificMedicalConditions.severeAllergies) {
+      specificMedicalConditions.push({
+        name: "Allergies sévères",
+        description: "Allergies nécessitant une attention médicale"
+      });
+    }
+    if (formData.healthInfo.specificMedicalConditions.seizures) {
+      specificMedicalConditions.push({
+        name: "Convulsions",
+        description: "Troubles convulsifs"
+      });
+    }
+    if (formData.healthInfo.specificMedicalConditions.other) {
+      specificMedicalConditions.push({
+        name: "Autre condition",
+        description: "Autre condition médicale spécifique"
+      });
+    }
+
+    // Build schools array
+    const schools = formData.educationHistory
+      .filter(school => school.schoolName.trim() !== "")
+      .map(school => ({
+        name: school.schoolName,
+        reason_for_leaving: school.reasonForLeaving || ""
+      }));
+
+    return {
+      student: {
+        name: formData.firstName,
+        middle_name: formData.middleName || "",
+        last_name: formData.lastName,
+        suffix: formData.suffix || "",
+        chosen_name: formData.chosenName || "",
+        gender: formData.gender,
+        birth_date: formData.dateOfBirth,
+        requested_class_id: parseInt(formData.gradeApplying.replace('grade', '')) || 1,
+        birth_place: formData.placeOfBirth,
+        nationality: formData.nationality,
+        languages_spoken: formData.backgroundInfo.languagesSpokenAtHome,
+        residential_address: formData.backgroundInfo.residentialAddress,
+        lives_with: formData.backgroundInfo.studentLivesWith.replace('-', '_'),
+        has_learning_support_needs: formData.backgroundInfo.learningSupport,
+        learning_support_details: formData.backgroundInfo.learningSupport ? "Learning support needed" : "",
+        academic_year_id: parseInt(formData.academicYear) - 2023 // Convert year to ID (assuming 2024 = 1, 2025 = 2)
+      },
+      guardians: guardians,
+      authorized_pickups: authorizedPickups,
+      emergency: {
+        full_name: formData.emergencyContact.fullName,
+        relationship: formData.emergencyContact.relationship.replace('-', '_'),
+        phone_mobile: formData.emergencyContact.mobilePhone
+      },
+      siblings: validSiblings,
+      medical: {
+        has_allergies: formData.healthInfo.allergies,
+        allergies: formData.healthInfo.allergies ? "Allergies present" : "",
+        has_chronic_illness: formData.healthInfo.chronicIllness,
+        chronic_illness: formData.healthInfo.chronicIllness ? "Chronic illness present" : "",
+        takes_medication: formData.healthInfo.regularMedication,
+        medications: formData.healthInfo.regularMedication ? "Takes regular medication" : "",
+        doctor_name: formData.healthInfo.doctorName || "",
+        doctor_phone: formData.healthInfo.doctorPhone || "",
+        transport_mode: formData.healthInfo.modeOfTransport || "walk",
+        specific_medical_conditions: specificMedicalConditions
+      },
+      schools: schools,
+      documents: {
+        medical_authorization: formData.medicalAuthorization,
+        media_release: formData.mediaRelease === "yes",
+        fee_acceptance: formData.feeAcceptance === "yes",
+        consent_agreement: formData.consentForm,
+        has_passport_photos_file: formData.documents.passportPhotos.checked,
+        passport_photos_file: formData.documents.passportPhotos.file || "",
+        has_school_records_file: formData.documents.schoolReport.checked,
+        school_records_file: formData.documents.schoolReport.file || "",
+        has_parent_id_copy_file: formData.documents.parentId.checked,
+        parent_id_copy_file: formData.documents.parentId.file || "",
+        has_student_id_copy_file: formData.documents.studentId.checked,
+        student_id_copy_file: formData.documents.studentId.file || "",
+        has_authorized_signature: formData.digitalSignature !== "",
+        authorized_signature: formData.digitalSignature || "",
+        has_other: false,
+        other: ""
+      }
+    };
   };
 
   const handleNext = () => {
@@ -639,22 +797,19 @@ export default function ApplicationPage() {
                       });
                     }}
                   >
-                    <SelectItem key="both-parents">
-                      Both Parents
+                    <SelectItem key="father">
+                      Father
                     </SelectItem>
                     <SelectItem key="mother">
-                      Mother Only
+                      Mother
                     </SelectItem>
-                    <SelectItem key="father">
-                      Father Only
+                    <SelectItem key="self">
+                      Self (18+ years old)
                     </SelectItem>
-                    <SelectItem key="guardian">
+                    <SelectItem key="legal_guardian">
                       Legal Guardian
                     </SelectItem>
-                    <SelectItem key="himself">
-                      Himself (18+ years old)
-                    </SelectItem>
-                    <SelectItem key="foster">
+                    <SelectItem key="foster_parent">
                       Foster Parent
                     </SelectItem>
                     <SelectItem key="other">
@@ -875,8 +1030,20 @@ export default function ApplicationPage() {
                   <SelectItem key="father">
                     Father
                   </SelectItem>
-                  <SelectItem key="guardian">
+                  <SelectItem key="grandparent">
+                    Grandparent
+                  </SelectItem>
+                  <SelectItem key="uncle">
+                    Uncle
+                  </SelectItem>
+                  <SelectItem key="aunt">
+                    Aunt
+                  </SelectItem>
+                  <SelectItem key="legal_guardian">
                     Legal Guardian
+                  </SelectItem>
+                  <SelectItem key="self">
+                    Self (18+ years old)
                   </SelectItem>
                   <SelectItem key="other">
                     Other
@@ -1139,8 +1306,20 @@ export default function ApplicationPage() {
                       <SelectItem key="father">
                         Father
                       </SelectItem>
-                      <SelectItem key="guardian">
+                      <SelectItem key="grandparent">
+                        Grandparent
+                      </SelectItem>
+                      <SelectItem key="uncle">
+                        Uncle
+                      </SelectItem>
+                      <SelectItem key="aunt">
+                        Aunt
+                      </SelectItem>
+                      <SelectItem key="legal_guardian">
                         Legal Guardian
+                      </SelectItem>
+                      <SelectItem key="self">
+                        Self (18+ years old)
                       </SelectItem>
                       <SelectItem key="other">
                         Other
@@ -1248,26 +1427,14 @@ export default function ApplicationPage() {
                         }}
                         className="flex-1"
                       >
-                        <SelectItem key="parent">
-                          Parent
+                        <SelectItem key="step_parent">
+                          Step Parent
                         </SelectItem>
-                        <SelectItem key="guardian">
-                          Guardian
+                        <SelectItem key="relative">
+                          Relative
                         </SelectItem>
-                        <SelectItem key="grandparent">
-                          Grandparent
-                        </SelectItem>
-                        <SelectItem key="aunt-uncle">
-                          Aunt/Uncle
-                        </SelectItem>
-                        <SelectItem key="sibling">
-                          Sibling
-                        </SelectItem>
-                        <SelectItem key="family-friend">
-                          Family Friend
-                        </SelectItem>
-                        <SelectItem key="nanny-babysitter">
-                          Nanny/Babysitter
+                        <SelectItem key="neighbor">
+                          Neighbor
                         </SelectItem>
                         <SelectItem key="other">
                           Other
@@ -1364,20 +1531,11 @@ export default function ApplicationPage() {
                     });
                   }}
                 >
-                  <SelectItem key="grandparent">
-                    Grandparent
-                  </SelectItem>
-                  <SelectItem key="aunt-uncle">
-                    Aunt/Uncle
-                  </SelectItem>
-                  <SelectItem key="sibling">
-                    Adult Sibling
-                  </SelectItem>
-                  <SelectItem key="family-friend">
-                    Family Friend
-                  </SelectItem>
                   <SelectItem key="neighbor">
                     Neighbor
+                  </SelectItem>
+                  <SelectItem key="family">
+                    Family
                   </SelectItem>
                   <SelectItem key="other">
                     Other
@@ -1621,9 +1779,10 @@ export default function ApplicationPage() {
                   }}
                   className="gap-6"
                 >
-                  <Radio value="private">Private Transport</Radio>
-                  <Radio value="school-bus">School Bus</Radio>
-                  <Radio value="on-foot">On foot</Radio>
+                  <Radio value="walk">Walk</Radio>
+                  <Radio value="bus">Bus</Radio>
+                  <Radio value="car">Car</Radio>
+                  <Radio value="public">Public Transport</Radio>
                 </RadioGroup>
               </div>
             </div>
@@ -2361,9 +2520,37 @@ export default function ApplicationPage() {
                     color: "primary",
                     variant: "shadow",
                   })}
-                  onClick={() => {
-                    // Validation finale et soumission du formulaire
-                    alert("Application submitted successfully!");
+                  onClick={async () => {
+                    try {
+                      // Transform form data to API format
+                      const apiData = transformFormDataToAPI();
+                      
+                      // Log the data for debugging
+                      console.log("API Data:", JSON.stringify(apiData, null, 2));
+                      
+                      // Send the data to your API
+                      const response = await fetch('/api/admissions/apply', {
+                        method: 'POST',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(apiData)
+                      });
+                      
+                      const result = await response.json();
+                      
+                      if (response.ok && result.success) {
+                        alert(`Application submitted successfully! Application ID: ${result.applicationId}`);
+                        // Optionally redirect to a success page
+                        // window.location.href = '/admissions/success';
+                      } else {
+                        alert(`Error submitting application: ${result.message}`);
+                      }
+                      
+                    } catch (error) {
+                      console.error("Error submitting application:", error);
+                      alert("Error submitting application. Please try again.");
+                    }
                   }}
                 >
                   Submit Application
