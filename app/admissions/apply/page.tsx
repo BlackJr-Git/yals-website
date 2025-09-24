@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { title, subtitle } from "@/components/primitives";
 import { Card, CardBody, CardHeader, CardFooter } from "@heroui/card";
 import { Divider } from "@heroui/divider";
@@ -2367,7 +2367,7 @@ export default function ApplicationPage() {
   };
 
   return (
-    <div className="flex flex-col gap-16 py-8 md:py-10">
+    <div className="flex flex-col gap-8 py-8 md:py-10 max-w-7xl mx-auto">
       {/* Hero Section */}
       <section className="text-center space-y-4">
         <h1 className={title()}>Application Form</h1>
@@ -2377,192 +2377,224 @@ export default function ApplicationPage() {
         </p>
       </section>
 
-      {/* Application Form */}
+      {/* Application Form - New Layout */}
       <section>
-        <Card className="border border-divider max-w-5xl mx-auto">
-          <CardHeader className="flex flex-col gap-4 pb-6">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 w-full">
-              <div>
-                <h2 className="text-2xl font-bold text-primary">
-                  Student Application
+        <Card className="border border-divider w-full overflow-hidden">
+          <div className="flex flex-row">
+            {/* Left Sidebar with Steps */}
+            <div className="w-1/4 min-w-[250px] border-r border-divider bg-content1 py-8 px-4">
+              <div className="mb-8">
+                <h2 className="text-lg font-bold text-primary flex items-center">
+                  YALS
                 </h2>
-                <p className="text-default-500 text-sm mt-1">
-                  Complete all required information to submit your application
-                </p>
               </div>
-              <div className="bg-primary-50 dark:bg-primary-900/20 px-4 py-2 rounded-full">
-                <span className="text-primary font-medium">
-                  Step {currentStep} of {totalSteps}
-                </span>
-              </div>
-            </div>
-
-            <div className="mt-6 w-full">
-              {/* Stepper */}
-              <div className="flex justify-between mb-8 px-6 relative w-full">
-                {/* Connecting Line */}
-                <div className="absolute h-1 bg-default-200 left-[12%] right-[12%] top-6 transform -translate-y-1/2"></div>
-
+              
+              {/* Vertical Progress Steps */}
+              <div className="space-y-6">
                 {/* Step 1 */}
-                <div
-                  className="flex flex-col items-center z-10 mx-2"
-                  style={{ minWidth: "60px" }}
-                >
-                  <div
-                    className={`w-12 h-12 rounded-full flex items-center justify-center text-base font-medium ${currentStep >= 1 ? "bg-primary text-white" : "bg-default-100 text-default-500"} ${currentStep === 1 ? "ring-4 ring-primary/30 ring-offset-2" : ""} shadow-md`}
+                <div className="flex items-start gap-3">
+                  <div 
+                    className={`w-6 h-6 rounded-full flex items-center justify-center text-sm 
+                    ${currentStep >= 1 ? "bg-primary text-white border-2 border-primary" : "border-2 border-default-200 text-default-400"}`}
                   >
-                    1
+                    {currentStep > 1 ? "✓" : "1"}
                   </div>
-                  <span
-                    className={`text-xs mt-2 text-center ${currentStep === 1 ? "text-primary font-medium" : "text-default-500"}`}
-                  >
-                    Student Information
-                  </span>
+                  <div className="flex flex-col">
+                    <span className={`text-sm font-medium ${currentStep === 1 ? "text-primary" : "text-default-700"}`}>
+                      Student Information
+                    </span>
+                    <span className="text-xs text-default-400 mt-1">
+                      Basic details about the student
+                    </span>
+                  </div>
                 </div>
-
+                
+                {/* Connecting Line */}
+                {currentStep > 1 ? (
+                  <div className="ml-3 h-10 w-0.5 bg-primary"></div>
+                ) : (
+                  <div className="ml-3 h-10 w-0.5 bg-default-200"></div>
+                )}
+                
                 {/* Step 2 */}
-                <div
-                  className="flex flex-col items-center z-10 mx-2"
-                  style={{ minWidth: "60px" }}
-                >
-                  <div
-                    className={`w-12 h-12 rounded-full flex items-center justify-center text-base font-medium ${currentStep >= 2 ? "bg-primary text-white" : "bg-default-100 text-default-500"} ${currentStep === 2 ? "ring-4 ring-primary/30 ring-offset-2" : ""} shadow-md`}
+                <div className="flex items-start gap-3">
+                  <div 
+                    className={`w-6 h-6 rounded-full flex items-center justify-center text-sm 
+                    ${currentStep >= 2 ? "bg-primary text-white border-2 border-primary" : "border-2 border-default-200 text-default-400"}`}
                   >
-                    2
+                    {currentStep > 2 ? "✓" : "2"}
                   </div>
-                  <span
-                    className={`text-xs mt-2 text-center ${currentStep === 2 ? "text-primary font-medium" : "text-default-500"}`}
-                  >
-                    Parents/Guardians
-                  </span>
+                  <div className="flex flex-col">
+                    <span className={`text-sm font-medium ${currentStep === 2 ? "text-primary" : "text-default-700"}`}>
+                      Parents   
+                    </span>
+                    <span className="text-xs text-default-400 mt-1">
+                      Contact information
+                    </span>
+                  </div>
                 </div>
-
+                
+                {/* Connecting Line */}
+                {currentStep > 2 ? (
+                  <div className="ml-3 h-10 w-0.5 bg-primary"></div>
+                ) : (
+                  <div className="ml-3 h-10 w-0.5 bg-default-200"></div>
+                )}
+                
                 {/* Step 3 */}
-                <div
-                  className="flex flex-col items-center z-10 mx-2"
-                  style={{ minWidth: "60px" }}
-                >
-                  <div
-                    className={`w-12 h-12 rounded-full flex items-center justify-center text-base font-medium ${currentStep >= 3 ? "bg-primary text-white" : "bg-default-100 text-default-500"} ${currentStep === 3 ? "ring-4 ring-primary/30 ring-offset-2" : ""} shadow-md`}
+                <div className="flex items-start gap-3">
+                  <div 
+                    className={`w-6 h-6 rounded-full flex items-center justify-center text-sm 
+                    ${currentStep >= 3 ? "bg-primary text-white border-2 border-primary" : "border-2 border-default-200 text-default-400"}`}
                   >
-                    3
+                    {currentStep > 3 ? "✓" : "3"}
                   </div>
-                  <span
-                    className={`text-xs mt-2 text-center ${currentStep === 3 ? "text-primary font-medium" : "text-default-500"}`}
-                  >
-                    Health and Education
-                  </span>
+                  <div className="flex flex-col">
+                    <span className={`text-sm font-medium ${currentStep === 3 ? "text-primary" : "text-default-700"}`}>
+                      Health and Education
+                    </span>
+                    <span className="text-xs text-default-400 mt-1">
+                      Health details and school history
+                    </span>
+                  </div>
                 </div>
-
+                
+                {/* Connecting Line */}
+                {currentStep > 3 ? (
+                  <div className="ml-3 h-10 w-0.5 bg-primary"></div>
+                ) : (
+                  <div className="ml-3 h-10 w-0.5 bg-default-200"></div>
+                )}
+                
                 {/* Step 4 */}
-                <div
-                  className="flex flex-col items-center z-10 mx-2"
-                  style={{ minWidth: "60px" }}
-                >
-                  <div
-                    className={`w-12 h-12 rounded-full flex items-center justify-center text-base font-medium ${currentStep >= 4 ? "bg-primary text-white" : "bg-default-100 text-default-500"} ${currentStep === 4 ? "ring-4 ring-primary/30 ring-offset-2" : ""} shadow-md`}
+                <div className="flex items-start gap-3">
+                  <div 
+                    className={`w-6 h-6 rounded-full flex items-center justify-center text-sm 
+                    ${currentStep >= 4 ? "bg-primary text-white border-2 border-primary" : "border-2 border-default-200 text-default-400"}`}
                   >
                     4
                   </div>
-                  <span
-                    className={`text-xs mt-2 text-center ${currentStep === 4 ? "text-primary font-medium" : "text-default-500"}`}
-                  >
-                    Documents and Consents
-                  </span>
+                  <div className="flex flex-col">
+                    <span className={`text-sm font-medium ${currentStep === 4 ? "text-primary" : "text-default-700"}`}>
+                      Documents and Consents
+                    </span>
+                    <span className="text-xs text-default-400 mt-1">
+                      Required files and agreements
+                    </span>
+                  </div>
                 </div>
               </div>
-
-              <Progress
-                value={(currentStep / totalSteps) * 100}
-                className="mt-2"
-                color="primary"
-                size="md"
-                showValueLabel={false}
-              />
             </div>
-          </CardHeader>
-          <Divider />
-          <CardBody className="py-8">{renderStepContent()}</CardBody>
-          <Divider />
-          <CardFooter className="flex justify-between">
-            <Button
-              className={buttonStyles({
-                variant: "light",
-              })}
-              onClick={handlePrevious}
-              isDisabled={currentStep === 1}
-            >
-              Previous
-            </Button>
-            <div className="flex gap-2">
-              <Button
-                className={buttonStyles({
-                  variant: "bordered",
-                })}
-                as={NextLink}
-                href="/admissions"
-              >
-                Cancel
-              </Button>
-              {currentStep < totalSteps ? (
-                <Button
-                  className={buttonStyles({
-                    color: "primary",
-                  })}
-                  onClick={handleNext}
-                >
-                  Next
-                </Button>
-              ) : (
-                <Button
-                  type="button"
-                  className={buttonStyles({
-                    color: "primary",
-                    variant: "shadow",
-                  })}
-                  onClick={async () => {
-                    try {
-                      // Transform form data to API format
-                      const apiData = transformFormDataToAPI();
-                      
-                      // Log the data for debugging
-                      console.log("API Data:", JSON.stringify(apiData, null, 2));
-                      
-                      // Send the data to your API
-                      const response = await fetch('/api/admissions/apply', {
-                        method: 'POST',
-                        headers: {
-                          'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(apiData)
-                      });
-                      
-                      const result = await response.json();
-                      
-                      if (response.ok && result.success) {
-                        alert(`Application submitted successfully! Application ID: ${result.applicationId}`);
-                        // Optionally redirect to a success page
-                        // window.location.href = '/admissions/success';
-                      } else {
-                        alert(`Error submitting application: ${result.message}`);
-                      }
-                      
-                    } catch (error) {
-                      console.error("Error submitting application:", error);
-                      alert("Error submitting application. Please try again.");
-                    }
-                  }}
-                >
-                  Submit Application
-                </Button>
-              )}
+            
+            {/* Right Content Area */}
+            <div className="w-3/4 flex flex-col">
+              <div className="p-8 flex-1">
+                <div className="mb-6">
+                  <h2 className="text-xl font-semibold">
+                    {currentStep === 1 && "Student Information"}
+                    {currentStep === 2 && "Parents/Guardians"}
+                    {currentStep === 3 && "Health and Education"}
+                    {currentStep === 4 && "Documents and Consents"}
+                  </h2>
+                  <p className="text-default-500 mt-1">
+                    {currentStep === 1 && "Please provide the student's personal details"}
+                    {currentStep === 2 && "Information about parents and emergency contacts"}
+                    {currentStep === 3 && "Medical information and educational background"}
+                    {currentStep === 4 && "Upload necessary documents and provide consent"}
+                  </p>
+                </div>
+                
+                <div className="py-4">
+                  {renderStepContent()}
+                </div>
+              </div>
+              
+              {/* Footer with Navigation */}
+              <div className="mt-auto p-6 bg-default-50 border-t border-divider">
+                <div className="flex justify-between items-center">
+                  <Button
+                    className={buttonStyles({
+                      variant: "light",
+                    })}
+                    onClick={handlePrevious}
+                    isDisabled={currentStep === 1}
+                  >
+                    Previous
+                  </Button>
+                  
+                  <div className="flex gap-2">
+                    <Button
+                      className={buttonStyles({
+                        variant: "bordered",
+                      })}
+                      as={NextLink}
+                      href="/admissions"
+                    >
+                      Cancel
+                    </Button>
+                    
+                    {currentStep < totalSteps ? (
+                      <Button
+                        className={buttonStyles({
+                          color: "primary",
+                        })}
+                        onClick={handleNext}
+                      >
+                        Continue
+                      </Button>
+                    ) : (
+                      <Button
+                        type="button"
+                        className={buttonStyles({
+                          color: "primary",
+                          variant: "shadow",
+                        })}
+                        onClick={async () => {
+                          try {
+                            // Transform form data to API format
+                            const apiData = transformFormDataToAPI();
+                            
+                            // Log the data for debugging
+                            console.log("API Data:", JSON.stringify(apiData, null, 2));
+                            
+                            // Send the data to your API
+                            const response = await fetch('/api/admissions/apply', {
+                              method: 'POST',
+                              headers: {
+                                'Content-Type': 'application/json',
+                              },
+                              body: JSON.stringify(apiData)
+                            });
+                            
+                            const result = await response.json();
+                            
+                            if (response.ok && result.success) {
+                              alert(`Application submitted successfully! Application ID: ${result.applicationId}`);
+                              // Optionally redirect to a success page
+                              // window.location.href = '/admissions/success';
+                            } else {
+                              alert(`Error submitting application: ${result.message}`);
+                            }
+                            
+                          } catch (error) {
+                            console.error("Error submitting application:", error);
+                            alert("Error submitting application. Please try again.");
+                          }
+                        }}
+                      >
+                        Submit Application
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
-          </CardFooter>
+          </div>
         </Card>
       </section>
 
       {/* Help Section */}
-      <section className="text-center space-y-4 max-w-2xl mx-auto mt-16">
+      <section className="text-center space-y-4 max-w-2xl mx-auto mt-8">
         <h2 className="text-xl font-bold">Need Help?</h2>
         <p className="text-default-600">
           If you have any questions or need assistance with your application,

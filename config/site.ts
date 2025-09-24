@@ -8,17 +8,13 @@ export const siteConfig = {
       label: "Home",
       href: "/",
     },
-    {
-      label: "About Us",
-      href: "/about",
-    },
+    // {
+    //   label: "About Us",
+    //   href: "/about",
+    // },
     {
       label: "Admissions",
       href: "/admissions",
-    },
-    {
-      label: "Programs",
-      href: "/programs",
     },
     {
       label: "Contact",
@@ -30,17 +26,13 @@ export const siteConfig = {
       label: "Home",
       href: "/",
     },
-    {
-      label: "About Us",
-      href: "/about",
-    },
+    // {
+    //   label: "About Us",
+    //   href: "/about",
+    // },
     {
       label: "Admissions",
       href: "/admissions",
-    },
-    {
-      label: "Programs",
-      href: "/programs",
     },
     {
       label: "Contact",

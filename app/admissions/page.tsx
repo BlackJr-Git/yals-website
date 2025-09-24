@@ -52,7 +52,7 @@ export default function AdmissionsPageSimple() {
             height={400}
             alt="YALS Students"
             className="object-cover rounded-xl shadow-lg"
-            src="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?q=80&w=2670&auto=format&fit=crop"
+            src="/images/hero_yals_1.webp"
           />
         </div>
       </section>

@@ -34,8 +34,8 @@ const FeatureCard = ({
   <Card className="border-none shadow-md">
     <CardBody className="p-5">
       <div className="flex items-center gap-3 mb-3">
-        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-          <Icon className="text-primary w-5 h-5" />
+        <div className="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center">
+          <Icon className="text-primary-500 w-5 h-5" />
         </div>
         <h3 className="text-lg font-semibold text-primary">{title}</h3>
       </div>
