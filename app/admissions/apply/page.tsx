@@ -489,11 +489,11 @@ export default function ApplicationPage() {
     switch (currentStep) {
       case 1:
         return (
-          <div className="space-y-8">
+          <div className="space-y-6 sm:space-y-8">
             {/* Informations académiques */}
             <div>
-              <h4 className="text-lg font-medium mb-4">Academic Information</h4>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <h4 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">Academic Information</h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <Select
                   isRequired
                   label="Grade Applying For"
@@ -504,7 +504,15 @@ export default function ApplicationPage() {
                   onSelectionChange={(keys) =>
                     handleInputChange("gradeApplying", Array.from(keys)[0] as string)
                   }
-                  className="md:col-span-1"
+                  size="sm"
+                  classNames={{
+                    label: "text-small",
+                  }}
+                  popoverProps={{
+                    classNames: {
+                      content: "max-h-[300px] overflow-y-auto",
+                    }
+                  }}
                 >
                   <SelectItem key="grade1">
                     Grade 1
@@ -554,7 +562,10 @@ export default function ApplicationPage() {
                   onSelectionChange={(keys) =>
                     handleInputChange("academicYear", Array.from(keys)[0] as string)
                   }
-                  className="md:col-span-1"
+                  size="sm"
+                  classNames={{
+                    label: "text-small",
+                  }}
                 >
                   <SelectItem key="2025">
                     2025
@@ -565,23 +576,29 @@ export default function ApplicationPage() {
                 </Select>
               </div>
             </div>
-            <Divider />
+            
+            <Divider className="my-2 sm:my-4" />
+            
             <div>
-              <h3 className="text-xl font-semibold">Student Information</h3>
-              <p className="text-default-600 mt-1">
+              <h3 className="text-lg sm:text-xl font-semibold">Student Information</h3>
+              <p className="text-default-600 text-sm mt-1">
                 In this section, you'll provide basic information about the
                 student applying for admission.
               </p>
             </div>
 
             {/* Formulaire d'informations personnelles */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
               <Input
                 isRequired
                 label="First Name"
                 placeholder="Enter student's first name"
                 value={formData.firstName}
                 onValueChange={(value) => handleInputChange("firstName", value)}
+                size="sm"
+                classNames={{
+                  label: "text-small",
+                }}
               />
 
               <Input
@@ -591,6 +608,10 @@ export default function ApplicationPage() {
                 onValueChange={(value) =>
                   handleInputChange("middleName", value)
                 }
+                size="sm"
+                classNames={{
+                  label: "text-small",
+                }}
               />
 
               <Input
@@ -599,6 +620,10 @@ export default function ApplicationPage() {
                 placeholder="Enter student's last name"
                 value={formData.lastName}
                 onValueChange={(value) => handleInputChange("lastName", value)}
+                size="sm"
+                classNames={{
+                  label: "text-small",
+                }}
               />
 
               <Input
@@ -606,6 +631,10 @@ export default function ApplicationPage() {
                 placeholder="Jr, Sr, II, III, IV, V"
                 value={formData.suffix}
                 onValueChange={(value) => handleInputChange("suffix", value)}
+                size="sm"
+                classNames={{
+                  label: "text-small",
+                }}
               />
 
               <Input
@@ -615,6 +644,10 @@ export default function ApplicationPage() {
                 onValueChange={(value) =>
                   handleInputChange("chosenName", value)
                 }
+                size="sm"
+                classNames={{
+                  label: "text-small",
+                }}
               />
 
               <Select
@@ -625,6 +658,10 @@ export default function ApplicationPage() {
                 onSelectionChange={(keys) =>
                   handleInputChange("gender", Array.from(keys)[0] as string)
                 }
+                size="sm"
+                classNames={{
+                  label: "text-small",
+                }}
               >
                 <SelectItem key="male">
                   Male
@@ -646,6 +683,10 @@ export default function ApplicationPage() {
                 onValueChange={(value) =>
                   handleInputChange("dateOfBirth", value)
                 }
+                size="sm"
+                classNames={{
+                  label: "text-small",
+                }}
               />
 
               <Input
@@ -656,6 +697,10 @@ export default function ApplicationPage() {
                 onValueChange={(value) =>
                   handleInputChange("placeOfBirth", value)
                 }
+                size="sm"
+                classNames={{
+                  label: "text-small",
+                }}
               />
 
               <Input
@@ -666,71 +711,23 @@ export default function ApplicationPage() {
                 onValueChange={(value) =>
                   handleInputChange("nationality", value)
                 }
+                size="sm"
+                classNames={{
+                  label: "text-small",
+                }}
               />
             </div>
 
-            <Divider className="my-4" />
-
-            {/* Adresse */}
-            {/* <div>
-              <h4 className="text-lg font-medium mb-4">Contact Information</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Input
-                  isRequired
-                  label="Address"
-                  placeholder="Street address"
-                  className="md:col-span-2"
-                  value={formData.address}
-                  onValueChange={(value) => handleInputChange("address", value)}
-                />
-
-                <Input
-                  isRequired
-                  label="City"
-                  placeholder="City"
-                  value={formData.city}
-                  onValueChange={(value) => handleInputChange("city", value)}
-                />
-
-                <Input
-                  label="Postal Code"
-                  placeholder="Postal code"
-                  value={formData.postalCode}
-                  onValueChange={(value) =>
-                    handleInputChange("postalCode", value)
-                  }
-                />
-
-                <Input
-                  label="Phone Number"
-                  type="tel"
-                  placeholder="Phone number"
-                  value={formData.phoneNumber}
-                  onValueChange={(value) =>
-                    handleInputChange("phoneNumber", value)
-                  }
-                />
-
-                <Input
-                  label="Email"
-                  type="email"
-                  placeholder="Email address"
-                  value={formData.email}
-                  onValueChange={(value) => handleInputChange("email", value)}
-                />
-              </div>
-            </div> */}
-
-            <Divider className="my-4" />
+            <Divider className="my-2 sm:my-4" />
 
             {/* Background Information */}
             <div>
-              <h4 className="text-lg font-medium mb-4">
+              <h4 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">
                 Background Information
               </h4>
 
-              <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-4 sm:space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                   <Input
                     label="Nationality"
                     placeholder="Nationality"
@@ -744,11 +741,15 @@ export default function ApplicationPage() {
                         },
                       });
                     }}
+                    size="sm"
+                    classNames={{
+                      label: "text-small",
+                    }}
                   />
 
                   <Input
                     label="Languages Spoken at Home"
-                    placeholder="Languages separated by commas (e.g., English, French)"
+                    placeholder="Languages separated by commas"
                     value={formData.backgroundInfo.languagesSpokenAtHome}
                     onValueChange={(value) => {
                       setFormData({
@@ -759,13 +760,17 @@ export default function ApplicationPage() {
                         },
                       });
                     }}
+                    size="sm"
+                    classNames={{
+                      label: "text-small",
+                    }}
                   />
                 </div>
 
                 <Textarea
                   label="Residential Address"
                   placeholder="Street Name, House Number, Commune/Neighborhood, City, Province, Postal Code"
-                  minRows={3}
+                  minRows={2}
                   value={formData.backgroundInfo.residentialAddress}
                   onValueChange={(value) => {
                     setFormData({
@@ -776,9 +781,13 @@ export default function ApplicationPage() {
                       },
                     });
                   }}
+                  size="sm"
+                  classNames={{
+                    label: "text-small",
+                  }}
                 />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                   <Select
                     label="Student Lives With"
                     placeholder="Select an option"
@@ -795,6 +804,10 @@ export default function ApplicationPage() {
                           studentLivesWith: Array.from(keys)[0] as string,
                         },
                       });
+                    }}
+                    size="sm"
+                    classNames={{
+                      label: "text-small",
                     }}
                   >
                     <SelectItem key="father">
@@ -829,6 +842,7 @@ export default function ApplicationPage() {
                           },
                         });
                       }}
+                      size="sm"
                     />
                     <span className="text-sm">Learning Support Needs?</span>
                   </div>
@@ -836,23 +850,23 @@ export default function ApplicationPage() {
               </div>
             </div>
 
-            <Divider className="my-4" />
+            <Divider className="my-2 sm:my-4" />
 
             {/* Siblings Enrolled at YALS */}
             <div>
-              <h4 className="text-lg font-medium mb-2">
+              <h4 className="text-base sm:text-lg font-medium mb-2">
                 Siblings Enrolled at YALS
               </h4>
-              <p className="text-default-500 text-sm mb-4">
+              <p className="text-default-500 text-xs sm:text-sm mb-3 sm:mb-4">
                 If the student has siblings currently enrolled at YALS, please
                 provide their information below.
               </p>
 
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 {formData.siblings.map((sibling, index) => (
                   <div
                     key={index}
-                    className="grid grid-cols-1 md:grid-cols-2 gap-4"
+                    className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4"
                   >
                     <Input
                       label="Name"
@@ -868,6 +882,10 @@ export default function ApplicationPage() {
                           ...formData,
                           siblings: newSiblings,
                         });
+                      }}
+                      size="sm"
+                      classNames={{
+                        label: "text-small",
                       }}
                     />
 
@@ -888,6 +906,10 @@ export default function ApplicationPage() {
                           });
                         }}
                         className="flex-1"
+                        size="sm"
+                        classNames={{
+                          label: "text-small",
+                        }}
                       >
                         <SelectItem key="grade1">
                           Grade 1
@@ -941,9 +963,12 @@ export default function ApplicationPage() {
                               siblings: newSiblings,
                             });
                           }}
-                          className="mt-6"
+                          className="mt-5 px-2 min-w-0 h-8"
+                          isIconOnly
                         >
-                          Remove
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
                         </Button>
                       )}
                     </div>
@@ -964,9 +989,15 @@ export default function ApplicationPage() {
                       ],
                     });
                   }}
-                  className="w-full"
+                  className="w-full text-xs sm:text-sm py-2 mt-2"
+                  size="sm"
+                  startContent={
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                    </svg>
+                  }
                 >
-                  + ADD ANOTHER SIBLING
+                  Add Another Sibling
                 </Button>
               </div>
             </div>
@@ -974,10 +1005,10 @@ export default function ApplicationPage() {
         );
       case 2:
         return (
-          <div className="space-y-8">
+          <div className="space-y-6 sm:space-y-8">
             <div>
-              <h3 className="text-xl font-semibold">Parents/Guardians</h3>
-              <p className="text-default-600 mt-1">
+              <h3 className="text-lg sm:text-xl font-semibold">Parents/Guardians</h3>
+              <p className="text-default-600 text-sm mt-1">
                 Please provide information about the student's parents or legal
                 guardians.
               </p>
@@ -985,10 +1016,10 @@ export default function ApplicationPage() {
 
             {/* Premier parent/tuteur */}
             <div>
-              <h4 className="text-lg font-medium mb-4">
+              <h4 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">
                 Primary Parent/Guardian
               </h4>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 <Input
                   isRequired
                   label="Full Name"
@@ -1002,6 +1033,10 @@ export default function ApplicationPage() {
                         fullName: value,
                       },
                     });
+                  }}
+                  size="sm"
+                  classNames={{
+                    label: "text-small",
                   }}
                 />
 
@@ -1022,6 +1057,10 @@ export default function ApplicationPage() {
                         relationship: Array.from(keys)[0] as string,
                       },
                     });
+                  }}
+                  size="sm"
+                  classNames={{
+                    label: "text-small",
                   }}
                 >
                   <SelectItem key="mother">
@@ -1053,7 +1092,7 @@ export default function ApplicationPage() {
                 <Select
                   isRequired
                   label="Preferred Communication Language"
-                  placeholder="Select preferred language"
+                  placeholder="Select language"
                   selectedKeys={
                     formData.parent1.preferredLanguage
                       ? [formData.parent1.preferredLanguage]
@@ -1068,6 +1107,10 @@ export default function ApplicationPage() {
                       },
                     });
                   }}
+                  size="sm"
+                  classNames={{
+                    label: "text-small",
+                  }}
                 >
                   <SelectItem key="english">
                     English
@@ -1076,36 +1119,6 @@ export default function ApplicationPage() {
                     French
                   </SelectItem>
                 </Select>
-
-                {/* <Input
-                  label="Occupation"
-                  placeholder="Enter occupation"
-                  value={formData.parent1.occupation}
-                  onValueChange={(value) => {
-                    setFormData({
-                      ...formData,
-                      parent1: {
-                        ...formData.parent1,
-                        occupation: value,
-                      },
-                    });
-                  }}
-                /> */}
-
-                {/* <Input
-                  label="Employer"
-                  placeholder="Enter employer"
-                  value={formData.parent1.employer}
-                  onValueChange={(value) => {
-                    setFormData({
-                      ...formData,
-                      parent1: {
-                        ...formData.parent1,
-                        employer: value,
-                      },
-                    });
-                  }}
-                /> */}
 
                 <Input
                   label="Work Phone"
@@ -1120,6 +1133,10 @@ export default function ApplicationPage() {
                         workPhone: value,
                       },
                     });
+                  }}
+                  size="sm"
+                  classNames={{
+                    label: "text-small",
                   }}
                 />
 
@@ -1138,6 +1155,10 @@ export default function ApplicationPage() {
                       },
                     });
                   }}
+                  size="sm"
+                  classNames={{
+                    label: "text-small",
+                  }}
                 />
 
                 <Input
@@ -1155,11 +1176,15 @@ export default function ApplicationPage() {
                       },
                     });
                   }}
+                  size="sm"
+                  classNames={{
+                    label: "text-small",
+                  }}
                 />
               </div>
 
-              <div className="mt-6">
-                <h5 className="text-base font-medium mb-3">Address</h5>
+              <div className="mt-4 sm:mt-6">
+                <h5 className="text-sm sm:text-base font-medium mb-2 sm:mb-3">Address</h5>
                 <RadioGroup
                   orientation="horizontal"
                   value={formData.parent1.address}
@@ -1172,17 +1197,21 @@ export default function ApplicationPage() {
                       },
                     });
                   }}
+                  size="sm"
+                  classNames={{
+                    wrapper: "gap-4"
+                  }}
                 >
                   <Radio value="same">Same as Student</Radio>
                   <Radio value="different">Different Address</Radio>
                 </RadioGroup>
 
                 {formData.parent1.address === "different" && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mt-3 sm:mt-4">
                     <Input
                       label="Address"
                       placeholder="Enter address"
-                      className="md:col-span-2"
+                      className="sm:col-span-2"
                       value={formData.parent1.differentAddress}
                       onValueChange={(value) => {
                         setFormData({
@@ -1192,6 +1221,10 @@ export default function ApplicationPage() {
                             differentAddress: value,
                           },
                         });
+                      }}
+                      size="sm"
+                      classNames={{
+                        label: "text-small",
                       }}
                     />
 
@@ -1208,6 +1241,10 @@ export default function ApplicationPage() {
                           },
                         });
                       }}
+                      size="sm"
+                      classNames={{
+                        label: "text-small",
+                      }}
                     />
 
                     <Input
@@ -1223,32 +1260,37 @@ export default function ApplicationPage() {
                           },
                         });
                       }}
+                      size="sm"
+                      classNames={{
+                        label: "text-small",
+                      }}
                     />
                   </div>
                 )}
               </div>
             </div>
 
-            <Divider className="my-4" />
+            <Divider className="my-2 sm:my-4" />
 
             {/* Deuxième parent/tuteur */}
             <div>
-              <div className="flex items-center gap-2 mb-4">
+              <div className="flex items-center gap-2 mb-3 sm:mb-4">
                 <Checkbox
                   isSelected={formData.hasSecondParent}
                   onValueChange={(value) =>
                     handleInputChange("hasSecondParent", value)
                   }
+                  size="sm"
                 />
-                <span>Add a second parent/guardian</span>
+                <span className="text-sm">Add a second parent/guardian</span>
               </div>
 
               {formData.hasSecondParent && (
-                <div className="mt-4">
-                  <h4 className="text-lg font-medium mb-4">
+                <div className="mt-3 sm:mt-4">
+                  <h4 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">
                     Second Parent/Guardian
                   </h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                     <Input
                       isRequired
                       label="First Name"
@@ -1262,6 +1304,10 @@ export default function ApplicationPage() {
                             firstName: value,
                           },
                         });
+                      }}
+                      size="sm"
+                      classNames={{
+                        label: "text-small",
                       }}
                     />
 
@@ -1278,6 +1324,10 @@ export default function ApplicationPage() {
                             lastName: value,
                           },
                         });
+                      }}
+                      size="sm"
+                      classNames={{
+                        label: "text-small",
                       }}
                     />
 
@@ -1298,6 +1348,10 @@ export default function ApplicationPage() {
                             relationship: Array.from(keys)[0] as string,
                           },
                         });
+                      }}
+                      size="sm"
+                      classNames={{
+                        label: "text-small",
                       }}
                     >
                       <SelectItem key="mother">
@@ -2367,11 +2421,11 @@ export default function ApplicationPage() {
   };
 
   return (
-    <div className="flex flex-col gap-8 py-8 md:py-10 max-w-7xl mx-auto">
+    <div className="flex flex-col gap-8 py-4 sm:py-6 md:py-10 max-w-7xl mx-auto px-4 sm:px-6">
       {/* Hero Section */}
-      <section className="text-center space-y-4">
-        <h1 className={title()}>Application Form</h1>
-        <p className={subtitle({ class: "max-w-3xl mx-auto" })}>
+      <section className="text-center space-y-3 sm:space-y-4">
+        <h1 className={title({ class: "text-3xl sm:text-4xl md:text-5xl" })}>Application Form</h1>
+        <p className={subtitle({ class: "max-w-3xl mx-auto text-sm sm:text-base" })}>
           Complete the form below to apply for admission to Young African
           Leaders School
         </p>
@@ -2380,16 +2434,17 @@ export default function ApplicationPage() {
       {/* Application Form - New Layout */}
       <section>
         <Card className="border border-divider w-full overflow-hidden">
-          <div className="flex flex-row">
-            {/* Left Sidebar with Steps */}
-            <div className="w-1/4 min-w-[250px] border-r border-divider bg-content1 py-8 px-4">
+          {/* Responsive Layout Container */}
+          <div className="flex flex-col md:flex-row">
+            {/* Left Sidebar with Steps - Hidden on small screens, shown at top as horizontal steps */}
+            <div className="hidden md:block md:w-1/4 md:min-w-[200px] lg:min-w-[250px] border-r border-divider bg-content1 py-8 px-4">
               <div className="mb-8">
                 <h2 className="text-lg font-bold text-primary flex items-center">
                   YALS
                 </h2>
               </div>
               
-              {/* Vertical Progress Steps */}
+              {/* Vertical Progress Steps - Only visible on md and larger screens */}
               <div className="space-y-6">
                 {/* Step 1 */}
                 <div className="flex items-start gap-3">
@@ -2486,17 +2541,40 @@ export default function ApplicationPage() {
               </div>
             </div>
             
+            {/* Mobile Progress Indicator - Only visible on small screens */}
+            <div className="block md:hidden w-full bg-content1 p-4 border-b border-divider">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-base font-bold text-primary">YALS</h2>
+                <span className="text-sm text-default-500">Step {currentStep} of {totalSteps}</span>
+              </div>
+              
+              {/* Horizontal Progress Bar */}
+              <Progress 
+                value={(currentStep / totalSteps) * 100} 
+                className="h-2 mb-4" 
+                color="primary"
+              />
+              
+              {/* Current Step Title */}
+              <h3 className="text-sm font-medium text-center">
+                {currentStep === 1 && "Student Information"}
+                {currentStep === 2 && "Parents/Guardians"}
+                {currentStep === 3 && "Health and Education"}
+                {currentStep === 4 && "Documents and Consents"}
+              </h3>
+            </div>
+            
             {/* Right Content Area */}
-            <div className="w-3/4 flex flex-col">
-              <div className="p-8 flex-1">
-                <div className="mb-6">
-                  <h2 className="text-xl font-semibold">
+            <div className="w-full md:w-3/4 flex flex-col">
+              <div className="p-4 sm:p-6 md:p-8 flex-1">
+                <div className="mb-4 md:mb-6">
+                  <h2 className="text-lg sm:text-xl font-semibold">
                     {currentStep === 1 && "Student Information"}
                     {currentStep === 2 && "Parents/Guardians"}
                     {currentStep === 3 && "Health and Education"}
                     {currentStep === 4 && "Documents and Consents"}
                   </h2>
-                  <p className="text-default-500 mt-1">
+                  <p className="text-sm text-default-500 mt-1">
                     {currentStep === 1 && "Please provide the student's personal details"}
                     {currentStep === 2 && "Information about parents and emergency contacts"}
                     {currentStep === 3 && "Medical information and educational background"}
@@ -2504,17 +2582,19 @@ export default function ApplicationPage() {
                   </p>
                 </div>
                 
-                <div className="py-4">
+                <div className="py-2 sm:py-4">
                   {renderStepContent()}
                 </div>
               </div>
               
               {/* Footer with Navigation */}
-              <div className="mt-auto p-6 bg-default-50 border-t border-divider">
-                <div className="flex justify-between items-center">
+              <div className="mt-auto p-4 sm:p-6 bg-default-50 border-t border-divider">
+                <div className="flex flex-col sm:flex-row justify-between items-center gap-3">
                   <Button
                     className={buttonStyles({
                       variant: "light",
+                      fullWidth: true,
+                      class: "sm:w-auto"
                     })}
                     onClick={handlePrevious}
                     isDisabled={currentStep === 1}
@@ -2522,10 +2602,12 @@ export default function ApplicationPage() {
                     Previous
                   </Button>
                   
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 w-full sm:w-auto">
                     <Button
                       className={buttonStyles({
                         variant: "bordered",
+                        fullWidth: true,
+                        class: "sm:w-auto"
                       })}
                       as={NextLink}
                       href="/admissions"
@@ -2537,6 +2619,8 @@ export default function ApplicationPage() {
                       <Button
                         className={buttonStyles({
                           color: "primary",
+                          fullWidth: true,
+                          class: "sm:w-auto"
                         })}
                         onClick={handleNext}
                       >
@@ -2548,6 +2632,8 @@ export default function ApplicationPage() {
                         className={buttonStyles({
                           color: "primary",
                           variant: "shadow",
+                          fullWidth: true,
+                          class: "sm:w-auto"
                         })}
                         onClick={async () => {
                           try {

@@ -10,7 +10,7 @@ interface LogoProps {
 export const Logo = ({
   size = "md",
   showText = true,
-  locale = "en",
+  locale = "",
 }: LogoProps) => {
   // Define size dimensions
   const sizes = {

@@ -109,73 +109,159 @@ export default function Home() {
             </Button>
           </div>
         </div>
-        <div className="flex-1">
-          <div className="grid grid-cols-3 grid-rows-3 gap-2 h-[400px]">
+        <div className="flex-1 relative max-w-[600px] mx-auto md:mx-0">
+          {/* Version desktop - Une structure de photos en mosaïque plus fluide */}
+          <div className="hidden md:block relative w-full aspect-[4/3] rounded-xl overflow-hidden">
             {/* Image principale (grande) */}
-            <div className="col-span-2 row-span-2">
+            <div className="absolute left-0 top-0 w-[65%] h-[65%] p-1">
               <Image
                 isBlurred
                 alt="YALS Students"
                 className="object-cover rounded-xl shadow-lg w-full h-full"
                 src="/images/hero_yals_1.webp"
-                width={400}
+                width={600}
                 height={400}
+                radius="lg"
               />
             </div>
             
             {/* Image en haut à droite */}
-            <div className="">
+            <div className="absolute right-0 top-0 w-[35%] h-[35%] p-1">
               <Image
                 isBlurred
                 alt="YALS Students"
                 className="object-cover rounded-xl shadow-lg w-full h-full"
                 src="/images/hero_yals_2.webp"
-                width={200}
+                width={300}
                 height={200}
+                radius="lg"
               />
             </div>
             
             {/* Image au milieu à droite */}
-            <div className="">
+            <div className="absolute right-0 top-[35%] w-[35%] h-[30%] p-1">
               <Image
                 isBlurred
                 alt="YALS Students"
                 className="object-cover rounded-xl shadow-lg w-full h-full"
                 src="/images/hero_yals_3.webp"
-                width={200}
+                width={300}
                 height={200}
+                radius="lg"
               />
             </div>
             
             {/* Image en bas à gauche */}
-            <div className="">
+            <div className="absolute left-0 bottom-0 w-[30%] h-[35%] p-1">
               <Image
                 isBlurred
                 alt="YALS Students"
                 className="object-cover rounded-xl shadow-lg w-full h-full"
                 src="/images/hero_yals_4.webp"
-                width={200}
+                width={300}
                 height={200}
+                radius="lg"
               />
             </div>
             
             {/* Image en bas au milieu */}
-            <div className="">
+            <div className="absolute left-[30%] bottom-0 w-[35%] h-[35%] p-1">
               <Image
                 isBlurred
                 alt="YALS Students"
                 className="object-cover rounded-xl shadow-lg w-full h-full"
                 src="/images/hero_yals_5.webp"
-                width={200}
+                width={300}
                 height={200}
+                radius="lg"
               />
             </div>
             
-            {/* Espace vide en bas à droite ou logo */}
-            <div className="bg-primary/10 rounded-xl flex items-center justify-center">
-              <span className="font-bold text-xl text-primary">YALS</span>
+            {/* Espace logo YALS - repositionné plus bas */}
+            {/* <div className="absolute right-0 bottom-0 w-[35%] h-[35%] p-1">
+              <div className="bg-gradient-to-br from-primary/10 to-primary/30 rounded-xl flex items-center justify-center w-full h-full shadow-lg">
+                <span className="font-bold text-2xl text-primary">YALS</span>
+              </div>
+            </div> */}
+            
+            {/* Overlay d'effet avec dégradé */}
+            <div className="absolute inset-0 bg-gradient-to-br from-transparent to-background/10 pointer-events-none"></div>
+          </div>
+          
+          {/* Version mobile - Affichage de plusieurs images en grille simple */}
+          <div className="md:hidden space-y-2">
+            {/* Première rangée - Image principale */}
+            <div className="w-full h-[220px] relative rounded-xl overflow-hidden">
+              <Image
+                isBlurred
+                alt="YALS Students"
+                className="object-cover w-full h-full"
+                src="/images/hero_yals_1.webp"
+                width={500}
+                height={300}
+                radius="lg"
+              />
+            </div>
+            
+            {/* Deuxième rangée - Deux images plus petites */}
+            <div className="flex gap-2">
+              <div className="w-1/2 h-[120px] relative rounded-xl overflow-hidden">
+                <Image
+                  isBlurred
+                  alt="YALS Students"
+                  className="object-cover w-full h-full"
+                  src="/images/hero_yals_2.webp"
+                  width={250}
+                  height={150}
+                  radius="lg"
+                />
+              </div>
+              <div className="w-1/2 h-[120px] relative rounded-xl overflow-hidden">
+                <Image
+                  isBlurred
+                  alt="YALS Students"
+                  className="object-cover w-full h-full"
+                  src="/images/hero_yals_3.webp"
+                  width={250}
+                  height={150}
+                  radius="lg"
+                />
+              </div>
+            </div>
+            
+            {/* Troisième rangée - Deux images et le logo */}
+            <div className="flex gap-2">
+              <div className="w-1/3 h-[80px] relative rounded-xl overflow-hidden">
+                <Image
+                  isBlurred
+                  alt="YALS Students"
+                  className="object-cover w-full h-full"
+                  src="/images/hero_yals_4.webp"
+                  width={150}
+                  height={100}
+                  radius="lg"
+                />
+              </div>
+              <div className="w-1/3 h-[80px] relative rounded-xl overflow-hidden">
+                <Image
+                  isBlurred
+                  alt="YALS Students"
+                  className="object-cover w-full h-full"
+                  src="/images/hero_yals_5.webp"
+                  width={150}
+                  height={100}
+                  radius="lg"
+                />
+              </div>
+              <div className="w-1/3 h-[80px] bg-gradient-to-br from-primary/10 to-primary/30 rounded-xl flex items-center justify-center">
+                <span className="font-bold text-base text-primary">YALS</span>
+              </div>
             </div>
           </div>
+          
+          {/* Effet de décoration */}
+          <div className="absolute -bottom-10 -right-10 w-40 h-40 rounded-full bg-primary/5 filter blur-3xl pointer-events-none hidden md:block"></div>
+          <div className="absolute -top-5 -left-5 w-20 h-20 rounded-full bg-secondary/5 filter blur-xl pointer-events-none hidden md:block"></div>
         </div>
       </section>
 

@@ -10,6 +10,7 @@ import NextLink from "next/link";
 import { Input } from "@heroui/input";
 import { Select, SelectItem } from "@heroui/select";
 import { Checkbox } from "@heroui/checkbox";
+import { Progress } from "@heroui/progress";
 import { siteConfig } from "@/config/site";
 
 export default function PaymentPage() {
@@ -112,13 +113,13 @@ export default function PaymentPage() {
     switch (currentStep) {
       case 1:
         return (
-          <div className="space-y-8">
+          <div className="space-y-6 sm:space-y-8">
             <div>
-              <h3 className="text-xl font-semibold text-center mb-2">Payment Information</h3>
-              <p className="text-default-600 text-center mb-8">Enter your payment details</p>
+              <h3 className="text-lg sm:text-xl font-semibold text-center mb-2">Payment Information</h3>
+              <p className="text-default-600 text-sm text-center mb-6 sm:mb-8">Enter your payment details</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               <div className="col-span-1">
                 <Input
                   isRequired
@@ -126,6 +127,10 @@ export default function PaymentPage() {
                   placeholder="Enter application reference code"
                   value={formData.code}
                   onValueChange={(value) => handleInputChange("code", value)}
+                  size="sm"
+                  classNames={{
+                    label: "text-small",
+                  }}
                 />
               </div>
               
@@ -137,6 +142,10 @@ export default function PaymentPage() {
                   placeholder="Enter email address"
                   value={formData.payer_email}
                   onValueChange={(value) => handleInputChange("payer_email", value)}
+                  size="sm"
+                  classNames={{
+                    label: "text-small",
+                  }}
                 />
               </div>
               
@@ -148,6 +157,10 @@ export default function PaymentPage() {
                   placeholder="+243 123 456 789"
                   value={formData.payer_phone}
                   onValueChange={(value) => handleInputChange("payer_phone", value)}
+                  size="sm"
+                  classNames={{
+                    label: "text-small",
+                  }}
                 />
               </div>
               
@@ -158,6 +171,10 @@ export default function PaymentPage() {
                   placeholder="Select payment method"
                   selectedKeys={formData.paytype ? [formData.paytype] : []}
                   onSelectionChange={(keys) => handleInputChange("paytype", Array.from(keys)[0] as string)}
+                  size="sm"
+                  classNames={{
+                    label: "text-small",
+                  }}
                 >
                   <SelectItem key="maxicash">MaxiCash</SelectItem>
                   <SelectItem key="bank_transfer">Bank Transfer</SelectItem>
@@ -170,51 +187,52 @@ export default function PaymentPage() {
         );
       case 2:
         return (
-          <div className="space-y-8">
+          <div className="space-y-6 sm:space-y-8">
             <div>
-              <h3 className="text-xl font-semibold text-center mb-2">Payment Confirmation</h3>
-              <p className="text-default-600 text-center mb-8">Review your payment details before submitting</p>
+              <h3 className="text-lg sm:text-xl font-semibold text-center mb-2">Payment Confirmation</h3>
+              <p className="text-default-600 text-sm text-center mb-6 sm:mb-8">Review your payment details before submitting</p>
             </div>
 
-            <div className="space-y-6">
-              <div className="bg-default-50 p-6 rounded-lg">
-                <h4 className="text-lg font-medium mb-4">Application Details</h4>
-                <div className="flex border-b border-divider py-3">
-                  <span className="font-medium w-1/3">Application Code:</span>
+            <div className="space-y-4 sm:space-y-6">
+              <div className="bg-default-50 p-4 sm:p-6 rounded-lg">
+                <h4 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">Application Details</h4>
+                <div className="flex flex-col sm:flex-row border-b border-divider py-2 sm:py-3">
+                  <span className="font-medium sm:w-1/3">Application Code:</span>
                   <span className="text-default-700">{formData.code}</span>
                 </div>
-                <div className="flex border-b border-divider py-3">
-                  <span className="font-medium w-1/3">Payment Reason:</span>
+                <div className="flex flex-col sm:flex-row border-b border-divider py-2 sm:py-3">
+                  <span className="font-medium sm:w-1/3">Payment Reason:</span>
                   <span className="text-default-700">{formData.reason === "admission" ? "Admission" : "Scolarity"}</span>
                 </div>
-                <div className="flex border-b border-divider py-3">
-                  <span className="font-medium w-1/3">Academic Year:</span>
+                <div className="flex flex-col sm:flex-row border-b border-divider py-2 sm:py-3">
+                  <span className="font-medium sm:w-1/3">Academic Year:</span>
                   <span className="text-default-700">{2024 + formData.academic_year_id}</span>
                 </div>
               </div>
 
-              <div className="bg-default-50 p-6 rounded-lg">
-                <h4 className="text-lg font-medium mb-4">Payer Information</h4>
-                <div className="flex border-b border-divider py-3">
-                  <span className="font-medium w-1/3">Email:</span>
-                  <span className="text-default-700">{formData.payer_email}</span>
+              <div className="bg-default-50 p-4 sm:p-6 rounded-lg">
+                <h4 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">Payer Information</h4>
+                <div className="flex flex-col sm:flex-row border-b border-divider py-2 sm:py-3">
+                  <span className="font-medium sm:w-1/3">Email:</span>
+                  <span className="text-default-700 break-words">{formData.payer_email}</span>
                 </div>
-                <div className="flex border-b border-divider py-3">
-                  <span className="font-medium w-1/3">Phone:</span>
+                <div className="flex flex-col sm:flex-row border-b border-divider py-2 sm:py-3">
+                  <span className="font-medium sm:w-1/3">Phone:</span>
                   <span className="text-default-700">{formData.payer_phone}</span>
                 </div>
-                <div className="flex py-3">
-                  <span className="font-medium w-1/3">Payment Method:</span>
-                  <span className="text-default-700">{formData.paytype}</span>
+                <div className="flex flex-col sm:flex-row py-2 sm:py-3">
+                  <span className="font-medium sm:w-1/3">Payment Method:</span>
+                  <span className="text-default-700 capitalize">{formData.paytype.replace('_', ' ')}</span>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-start sm:items-center gap-2 bg-primary-50 p-3 sm:p-4 rounded-lg">
                 <Checkbox
                   isSelected={formData.confirmTerms}
                   onValueChange={(value) => handleInputChange("confirmTerms", value)}
+                  size="sm"
                 />
-                <span className="text-sm">
+                <span className="text-xs sm:text-sm text-primary-800">
                   I confirm that all the information provided is correct and I agree to the terms and conditions of payment
                 </span>
               </div>
@@ -227,11 +245,11 @@ export default function PaymentPage() {
   };
 
   return (
-    <div className="flex flex-col gap-8 py-8 md:py-10 max-w-7xl mx-auto">
+    <div className="flex flex-col gap-8 py-4 sm:py-6 md:py-10 max-w-7xl mx-auto px-4 sm:px-6">
       {/* Hero Section */}
-      <section className="text-center space-y-4">
-        <h1 className={title()}>YALS Payment</h1>
-        <p className={subtitle({ class: "max-w-3xl mx-auto" })}>
+      <section className="text-center space-y-3 sm:space-y-4">
+        <h1 className={title({ class: "text-3xl sm:text-4xl md:text-5xl" })}>YALS Payment</h1>
+        <p className={subtitle({ class: "max-w-3xl mx-auto text-sm sm:text-base" })}>
           Complete your admission process by making a payment
         </p>
       </section>
@@ -239,16 +257,17 @@ export default function PaymentPage() {
       {/* Payment Form - New Layout */}
       <section>
         <Card className="border border-divider w-full overflow-hidden">
-          <div className="flex flex-row">
-            {/* Left Sidebar with Steps */}
-            <div className="w-1/4 min-w-[250px] border-r border-divider bg-content1 py-8 px-4">
+          {/* Responsive Layout Container */}
+          <div className="flex flex-col md:flex-row">
+            {/* Left Sidebar with Steps - Hidden on small screens, shown at top as horizontal steps */}
+            <div className="hidden md:block md:w-1/4 md:min-w-[200px] lg:min-w-[250px] border-r border-divider bg-content1 py-8 px-4">
               <div className="mb-8">
                 <h2 className="text-lg font-bold text-primary flex items-center">
                   YALS
                 </h2>
               </div>
               
-              {/* Vertical Progress Steps */}
+              {/* Vertical Progress Steps - Only visible on md and larger screens */}
               <div className="space-y-6">
                 {/* Step 1 */}
                 <div className="flex items-start gap-3">
@@ -295,21 +314,45 @@ export default function PaymentPage() {
               </div>
             </div>
             
+            {/* Mobile Progress Indicator - Only visible on small screens */}
+            <div className="block md:hidden w-full bg-content1 p-4 border-b border-divider">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-base font-bold text-primary">YALS</h2>
+                <span className="text-sm text-default-500">Step {currentStep} of {totalSteps}</span>
+              </div>
+              
+              {/* Import Progress from @heroui/progress at the top of the file */}
+              <div className="h-2 w-full bg-default-200 rounded-full mb-4">
+                <div 
+                  className="h-full bg-primary rounded-full" 
+                  style={{ width: `${(currentStep / totalSteps) * 100}%` }}
+                ></div>
+              </div>
+              
+              {/* Current Step Title */}
+              <h3 className="text-sm font-medium text-center">
+                {currentStep === 1 && "Payment Details"}
+                {currentStep === 2 && "Confirmation"}
+              </h3>
+            </div>
+            
             {/* Right Content Area */}
-            <div className="w-3/4 flex flex-col">
-              <div className="p-8 flex-1">
-                <div className="py-4">
+            <div className="w-full md:w-3/4 flex flex-col">
+              <div className="p-4 sm:p-6 md:p-8 flex-1">
+                <div className="py-2 sm:py-4">
                   {renderStepContent()}
                 </div>
               </div>
               
               {/* Footer with Navigation */}
-              <div className="mt-auto p-6 bg-default-50 border-t border-divider">
-                <div className="flex justify-between items-center">
+              <div className="mt-auto p-4 sm:p-6 bg-default-50 border-t border-divider">
+                <div className="flex flex-col sm:flex-row justify-between items-center gap-3">
                   {currentStep === 1 ? (
                     <Button
                       className={buttonStyles({
                         variant: "light",
+                        fullWidth: true,
+                        class: "sm:w-auto"
                       })}
                       as={NextLink}
                       href="/admissions"
@@ -320,6 +363,8 @@ export default function PaymentPage() {
                     <Button
                       className={buttonStyles({
                         variant: "light",
+                        fullWidth: true,
+                        class: "sm:w-auto"
                       })}
                       onClick={handlePrevious}
                     >
@@ -327,11 +372,13 @@ export default function PaymentPage() {
                     </Button>
                   )}
                   
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 w-full sm:w-auto">
                     {currentStep < totalSteps ? (
                       <Button
                         className={buttonStyles({
                           color: "primary",
+                          fullWidth: true,
+                          class: "sm:w-auto"
                         })}
                         onClick={handleNext}
                       >
@@ -343,6 +390,8 @@ export default function PaymentPage() {
                         className={buttonStyles({
                           color: "success",
                           variant: "shadow",
+                          fullWidth: true,
+                          class: "sm:w-auto"
                         })}
                         onClick={handleSubmitPayment}
                         isDisabled={!formData.confirmTerms}
@@ -359,9 +408,9 @@ export default function PaymentPage() {
       </section>
 
       {/* Check Payment Status Section */}
-      <section className="text-center space-y-4 max-w-2xl mx-auto mt-8 border border-default-200 p-6 rounded-xl bg-default-50">
-        <h2 className="text-xl font-bold">Already Have a Payment Reference?</h2>
-        <p className="text-default-600">
+      <section className="text-center space-y-3 sm:space-y-4 max-w-2xl mx-auto mt-6 sm:mt-8 border border-default-200 p-4 sm:p-6 rounded-xl bg-default-50">
+        <h2 className="text-lg sm:text-xl font-bold">Already Have a Payment Reference?</h2>
+        <p className="text-default-600 text-sm sm:text-base px-2">
           If you've already initiated a payment and want to check its status, you can verify it using your payment reference.
         </p>
         <div className="flex justify-center">
@@ -371,7 +420,8 @@ export default function PaymentPage() {
             className={buttonStyles({
               color: "primary",
               variant: "flat",
-              size: "lg",
+              size: "md",
+              class: "px-3 py-1 sm:px-6 sm:py-2"
             })}
           >
             Verify Payment Status
@@ -380,19 +430,21 @@ export default function PaymentPage() {
       </section>
 
       {/* Help Section */}
-      <section className="text-center space-y-4 max-w-2xl mx-auto mt-8">
-        <h2 className="text-xl font-bold">Need Help?</h2>
-        <p className="text-default-600">
+      <section className="text-center space-y-3 sm:space-y-4 max-w-2xl mx-auto mt-6 sm:mt-8">
+        <h2 className="text-lg sm:text-xl font-bold">Need Help?</h2>
+        <p className="text-default-600 text-sm sm:text-base px-2">
           If you have any questions or need assistance with your payment,
           please don't hesitate to contact our finance office.
         </p>
-        <div className="flex justify-center gap-4">
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4">
           <Button
             as={NextLink}
             href="/contact"
             className={buttonStyles({
               variant: "bordered",
               radius: "full",
+              fullWidth: true,
+              class: "sm:w-auto"
             })}
           >
             Contact Us
@@ -403,6 +455,8 @@ export default function PaymentPage() {
             className={buttonStyles({
               variant: "light",
               radius: "full",
+              fullWidth: true,
+              class: "sm:w-auto"
             })}
           >
             Email Finance Office
