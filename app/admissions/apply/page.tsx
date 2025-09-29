@@ -2015,7 +2015,7 @@ export default function ApplicationPage() {
               
               <div className="space-y-6">
                 {/* Document 1: Passport Photos */}
-                <div className="bg-white p-4 rounded-lg border border-default-200">
+                <div className="bg-content1 p-4 rounded-lg border border-divider">
                   <div className="flex items-start gap-3">
                     <Checkbox
                       isSelected={formData.documents.passportPhotos.checked}
@@ -2077,8 +2077,8 @@ export default function ApplicationPage() {
                                 </svg>
                               </div>
                               <div>
-                                <p className="text-sm font-medium text-success-800">{formData.documents.passportPhotos.fileName}</p>
-                                <p className="text-xs text-success-600">File uploaded successfully</p>
+                                <p className="text-sm font-medium text-success">{formData.documents.passportPhotos.fileName}</p>
+                                <p className="text-xs text-success">File uploaded successfully</p>
                               </div>
                             </div>
                             <Button
@@ -2097,7 +2097,7 @@ export default function ApplicationPage() {
                 </div>
 
                 {/* Document 2: School Report */}
-                <div className="bg-white p-4 rounded-lg border border-default-200">
+                <div className="bg-content1 p-4 rounded-lg border border-divider">
                   <div className="flex items-start gap-3">
                     <Checkbox
                       isSelected={formData.documents.schoolReport.checked}
@@ -2159,8 +2159,8 @@ export default function ApplicationPage() {
                                 </svg>
                               </div>
                               <div>
-                                <p className="text-sm font-medium text-success-800">{formData.documents.schoolReport.fileName}</p>
-                                <p className="text-xs text-success-600">File uploaded successfully</p>
+                                <p className="text-sm font-medium text-success">{formData.documents.schoolReport.fileName}</p>
+                                <p className="text-xs text-success">File uploaded successfully</p>
                               </div>
                             </div>
                             <Button
@@ -2179,7 +2179,7 @@ export default function ApplicationPage() {
                 </div>
 
                 {/* Document 3: Parent ID */}
-                <div className="bg-white p-4 rounded-lg border border-default-200">
+                <div className="bg-content1 p-4 rounded-lg border border-divider">
                   <div className="flex items-start gap-3">
                     <Checkbox
                       isSelected={formData.documents.parentId.checked}
@@ -2241,8 +2241,8 @@ export default function ApplicationPage() {
                                 </svg>
                               </div>
                               <div>
-                                <p className="text-sm font-medium text-success-800">{formData.documents.parentId.fileName}</p>
-                                <p className="text-xs text-success-600">File uploaded successfully</p>
+                                <p className="text-sm font-medium text-success">{formData.documents.parentId.fileName}</p>
+                                <p className="text-xs text-success">File uploaded successfully</p>
                               </div>
                             </div>
                             <Button
@@ -2261,7 +2261,7 @@ export default function ApplicationPage() {
                 </div>
 
                 {/* Document 4: Student ID */}
-                <div className="bg-white p-4 rounded-lg border border-default-200">
+                <div className="bg-content1 p-4 rounded-lg border border-divider">
                   <div className="flex items-start gap-3">
                     <Checkbox
                       isSelected={formData.documents.studentId.checked}
@@ -2323,8 +2323,8 @@ export default function ApplicationPage() {
                                 </svg>
                               </div>
                               <div>
-                                <p className="text-sm font-medium text-success-800">{formData.documents.studentId.fileName}</p>
-                                <p className="text-xs text-success-600">File uploaded successfully</p>
+                                <p className="text-sm font-medium text-success">{formData.documents.studentId.fileName}</p>
+                                <p className="text-xs text-success">File uploaded successfully</p>
                               </div>
                             </div>
                             <Button
