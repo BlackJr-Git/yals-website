@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { SchoolService, Grade, AcademicYear } from "@/services/api";
 import { title, subtitle } from "@/components/primitives";
 import { Card, CardBody, CardHeader, CardFooter } from "@heroui/card";
 import { Divider } from "@heroui/divider";
@@ -20,6 +21,48 @@ import { siteConfig } from "@/config/site";
 export default function ApplicationPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 4;
+  
+  // États pour les données des API
+  const [grades, setGrades] = useState<Grade[]>([]);
+  const [academicYears, setAcademicYears] = useState<AcademicYear[]>([]);
+  const [isLoading, setIsLoading] = useState({
+    grades: false,
+    academicYears: false
+  });
+  
+  // Récupération des données des API
+  useEffect(() => {
+    const fetchGrades = async () => {
+      setIsLoading(prev => ({ ...prev, grades: true }));
+      try {
+        const response = await SchoolService.getGrades();
+        if (response.result && response.result.grades) {
+          setGrades(response.result.grades);
+        }
+      } catch (error) {
+        console.error("Error fetching grades:", error);
+      } finally {
+        setIsLoading(prev => ({ ...prev, grades: false }));
+      }
+    };
+    
+    const fetchAcademicYears = async () => {
+      setIsLoading(prev => ({ ...prev, academicYears: true }));
+      try {
+        const response = await SchoolService.getAcademicYears();
+        if (response.result && response.result.academic_years) {
+          setAcademicYears(response.result.academic_years);
+        }
+      } catch (error) {
+        console.error("Error fetching academic years:", error);
+      } finally {
+        setIsLoading(prev => ({ ...prev, academicYears: false }));
+      }
+    };
+    
+    fetchGrades();
+    fetchAcademicYears();
+  }, []);
 
   // État du formulaire
   const [formData, setFormData] = useState({
@@ -211,7 +254,7 @@ export default function ApplicationPage() {
   const transformFormDataToAPI = () => {
     // Filter out empty siblings
     const validSiblings = formData.siblings.filter(
-      (sibling) => sibling.name.trim() !== "" && sibling.grade.trim() !== ""
+      (sibling) => sibling.name.trim() !== "" && sibling.grade !== ""
     );
 
     // Filter out empty authorized pickup contacts
@@ -313,7 +356,7 @@ export default function ApplicationPage() {
         chosen_name: formData.chosenName || "",
         gender: formData.gender,
         birth_date: formData.dateOfBirth,
-        requested_class_id: parseInt(formData.gradeApplying.replace('grade', '')) || 1,
+        requested_class_id: parseInt(formData.gradeApplying) || 1, // Utilise directement l'ID du grade de l'API
         birth_place: formData.placeOfBirth,
         nationality: formData.nationality,
         languages_spoken: formData.backgroundInfo.languagesSpokenAtHome,
@@ -321,7 +364,7 @@ export default function ApplicationPage() {
         lives_with: formData.backgroundInfo.studentLivesWith.replace('-', '_'),
         has_learning_support_needs: formData.backgroundInfo.learningSupport,
         learning_support_details: formData.backgroundInfo.learningSupport ? "Learning support needed" : "",
-        academic_year_id: parseInt(formData.academicYear) - 2023 // Convert year to ID (assuming 2024 = 1, 2025 = 2)
+        academic_year_id: parseInt(formData.academicYear) // Utilise directement l'ID de l'année académique de l'API
       },
       guardians: guardians,
       authorized_pickups: authorizedPickups,
@@ -394,14 +437,14 @@ export default function ApplicationPage() {
 
         // Vérifier les informations des frères et sœurs si des données sont saisies
         const hasFilledSiblings = formData.siblings.some(
-          (sibling) => sibling.name.trim() !== "" || sibling.grade.trim() !== ""
+          (sibling) => sibling.name.trim() !== "" || sibling.grade !== ""
         );
 
         if (hasFilledSiblings) {
           const incompleteSibling = formData.siblings.find(
             (sibling) =>
-              (sibling.name.trim() !== "" && !sibling.grade.trim()) ||
-              (sibling.grade.trim() !== "" && !sibling.name.trim())
+              (sibling.name.trim() !== "" && !sibling.grade) ||
+              (sibling.grade && !sibling.name.trim())
           );
           if (incompleteSibling) {
             alert(
@@ -501,57 +544,34 @@ export default function ApplicationPage() {
                   selectedKeys={
                     formData.gradeApplying ? [formData.gradeApplying] : []
                   }
-                  onSelectionChange={(keys) =>
-                    handleInputChange("gradeApplying", Array.from(keys)[0] as string)
-                  }
+                  onSelectionChange={(keys) => {
+                    const gradeKey = Array.from(keys)[0] as string;
+                    handleInputChange("gradeApplying", gradeKey);
+                    
+                    // Mettre à jour le cycle automatiquement
+                    const selectedGrade = grades.find(g => g.id.toString() === gradeKey);
+                    if (selectedGrade) {
+                      // Vous pouvez stocker le cycle dans le formData si nécessaire
+                      // handleInputChange("cycle", selectedGrade.cycle);
+                    }
+                  }}
                   size="sm"
+                  isLoading={isLoading.grades}
                   classNames={{
                     label: "text-small",
                   }}
-                  popoverProps={{
-                    classNames: {
-                      content: "max-h-[300px] overflow-y-auto",
-                    }
-                  }}
                 >
-                  <SelectItem key="grade1">
-                    Grade 1
-                  </SelectItem>
-                  <SelectItem key="grade2">
-                    Grade 2
-                  </SelectItem>
-                  <SelectItem key="grade3">
-                    Grade 3
-                  </SelectItem>
-                  <SelectItem key="grade4">
-                    Grade 4
-                  </SelectItem>
-                  <SelectItem key="grade5">
-                    Grade 5
-                  </SelectItem>
-                  <SelectItem key="grade6">
-                    Grade 6
-                  </SelectItem>
-                  <SelectItem key="grade7">
-                    Grade 7
-                  </SelectItem>
-                  <SelectItem key="grade8">
-                    Grade 8
-                  </SelectItem>
-                  <SelectItem key="grade9">
-                    Grade 9
-                  </SelectItem>
-                  <SelectItem key="grade10">
-                    Grade 10
-                  </SelectItem>
-                  <SelectItem key="grade11">
-                    Grade 11
-                  </SelectItem>
-                  <SelectItem key="grade12">
-                    Grade 12
-                  </SelectItem>
+                  {grades.length === 0 ? (
+                    <SelectItem key="loading">No grades available</SelectItem>
+                  ) : (
+                    grades.map((grade) => (
+                      <SelectItem key={grade.id.toString()}>
+                        {grade.name} ({grade.cycle === "maternel" ? "Maternel" : "Primary"})
+                      </SelectItem>
+                    ))
+                  )}
                 </Select>
-
+                
                 <Select
                   isRequired
                   label="Academic Year"
@@ -563,16 +583,20 @@ export default function ApplicationPage() {
                     handleInputChange("academicYear", Array.from(keys)[0] as string)
                   }
                   size="sm"
+                  isLoading={isLoading.academicYears}
                   classNames={{
                     label: "text-small",
                   }}
                 >
-                  <SelectItem key="2025">
-                    2025
-                  </SelectItem>
-                  {/* <SelectItem key="2026" value="2026">
-                    2026
-                  </SelectItem> */}
+                  {academicYears.length === 0 ? (
+                    <SelectItem key="loading">No academic years available</SelectItem>
+                  ) : (
+                    academicYears.map((year) => (
+                      <SelectItem key={year.id.toString()}>
+                        {year.name}
+                      </SelectItem>
+                    ))
+                  )}
                 </Select>
               </div>
             </div>
@@ -907,46 +931,20 @@ export default function ApplicationPage() {
                         }}
                         className="flex-1"
                         size="sm"
+                        isLoading={isLoading.grades}
                         classNames={{
                           label: "text-small",
                         }}
                       >
-                        <SelectItem key="grade1">
-                          Grade 1
-                        </SelectItem>
-                        <SelectItem key="grade2">
-                          Grade 2
-                        </SelectItem>
-                        <SelectItem key="grade3">
-                          Grade 3
-                        </SelectItem>
-                        <SelectItem key="grade4">
-                          Grade 4
-                        </SelectItem>
-                        <SelectItem key="grade5">
-                          Grade 5
-                        </SelectItem>
-                        <SelectItem key="grade6">
-                          Grade 6
-                        </SelectItem>
-                        <SelectItem key="grade7">
-                          Grade 7
-                        </SelectItem>
-                        <SelectItem key="grade8">
-                          Grade 8
-                        </SelectItem>
-                        <SelectItem key="grade9">
-                          Grade 9
-                        </SelectItem>
-                        <SelectItem key="grade10">
-                          Grade 10
-                        </SelectItem>
-                        <SelectItem key="grade11">
-                          Grade 11
-                        </SelectItem>
-                        <SelectItem key="grade12">
-                          Grade 12
-                        </SelectItem>
+                        {grades.length === 0 ? (
+                          <SelectItem key="loading">No grades available</SelectItem>
+                        ) : (
+                          grades.map((grade) => (
+                            <SelectItem key={grade.id.toString()}>
+                              {grade.name} ({grade.cycle === "maternel" ? "Maternel" : "Primary"})
+                            </SelectItem>
+                          ))
+                        )}
                       </Select>
 
                       {formData.siblings.length > 1 && (
