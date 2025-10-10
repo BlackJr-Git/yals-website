@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import axios from 'axios';
 
 // Type pour le format du premier formulaire
 type PaymentRequest = {
@@ -42,6 +43,40 @@ export async function POST(request: NextRequest) {
     // 2. Process the payment through a payment gateway
     // 3. Update the database records
     // 4. Generate a receipt
+    
+    // Exemple d'utilisation d'Axios pour appeler un service de paiement externe
+    // try {
+    //   const paymentGatewayResponse = await axios.post(
+    //     process.env.PAYMENT_GATEWAY_URL || 'https://api.payment-gateway.com/process',
+    //     {
+    //       amount: 500,
+    //       currency: 'USD',
+    //       paymentMethod: data.paytype,
+    //       customerEmail: data.payer_email,
+    //       customerPhone: data.payer_phone,
+    //       reference: invoiceRef
+    //     },
+    //     {
+    //       headers: {
+    //         'Authorization': `Bearer ${process.env.PAYMENT_GATEWAY_API_KEY}`,
+    //         'Content-Type': 'application/json'
+    //       }
+    //     }
+    //   );
+    //   
+    //   // Traiter la réponse du service de paiement
+    //   const gatewayData = paymentGatewayResponse.data;
+    //   // Mettre à jour le statut en fonction de la réponse
+    // } catch (paymentError) {
+    //   console.error('Payment gateway error:', paymentError);
+    //   return NextResponse.json(
+    //     { 
+    //       success: false, 
+    //       message: 'Payment gateway error' 
+    //     },
+    //     { status: 502 }
+    //   );
+    // }
     
     // For now, we'll just return a success response with the format expected
     return NextResponse.json(

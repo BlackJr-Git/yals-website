@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import axios from 'axios';
 
 // Type pour la vérification de paiement
 type VerifyRequest = {
@@ -24,7 +25,61 @@ export async function POST(request: NextRequest) {
     console.log('Received payment verification request:', JSON.stringify(data, null, 2));
     
     // Dans une implémentation réelle, vous chercheriez la référence dans la base de données
-    // Pour les besoins de démonstration, nous simulons une réponse positive
+    // ou appelleriez un service externe pour vérifier le statut du paiement
+    
+    // Exemple d'utilisation d'Axios pour vérifier un paiement auprès d'un service externe
+    // try {
+    //   const paymentGatewayResponse = await axios.get(
+    //     `${process.env.PAYMENT_GATEWAY_URL}/transactions/${data.ref}`,
+    //     {
+    //       headers: {
+    //         'Authorization': `Bearer ${process.env.PAYMENT_GATEWAY_API_KEY}`,
+    //         'Content-Type': 'application/json'
+    //       }
+    //     }
+    //   );
+    //   
+    //   // Traiter la réponse du service de paiement
+    //   const gatewayData = paymentGatewayResponse.data;
+    //   const paymentExists = gatewayData.status === 'success';
+    //   
+    //   // Utiliser les données réelles du service de paiement
+    //   if (paymentExists) {
+    //     return NextResponse.json(
+    //       { 
+    //         success: true, 
+    //         message: 'Payment found',
+    //         data: {
+    //           ref: data.ref,
+    //           code: gatewayData.metadata.code,
+    //           reason: gatewayData.metadata.reason,
+    //           academic_year_id: gatewayData.metadata.academic_year_id,
+    //           status: gatewayData.status === 'success' ? 'completed' : 'pending',
+    //           paytype: gatewayData.payment_method,
+    //           amount: gatewayData.amount,
+    //           currency: gatewayData.currency,
+    //           payer_email: gatewayData.customer.email,
+    //           payer_phone: gatewayData.customer.phone,
+    //           payer_name: gatewayData.customer.name,
+    //           created_at: gatewayData.created_at,
+    //           completed_at: gatewayData.completed_at
+    //         }
+    //       },
+    //       { status: 200 }
+    //     );
+    //   }
+    // } catch (verifyError) {
+    //   console.error('Payment verification error:', verifyError);
+    //   return NextResponse.json(
+    //     { 
+    //       success: false, 
+    //       message: 'Error verifying payment with gateway' 
+    //     },
+    //     { status: 502 }
+    //   );
+    // }
+    
+    // Pour la démonstration, nous simulons une réponse positive
     const paymentExists = true; // Simulation - en réalité, vérifier dans la base de données
     
     if (paymentExists) {

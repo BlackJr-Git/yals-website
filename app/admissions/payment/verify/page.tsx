@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { PaymentService, PaymentVerificationResponse } from "@/services/api";
 import { title, subtitle } from "@/components/primitives";
 import { Card } from "@heroui/card";
 import { Button } from "@heroui/button";
@@ -41,18 +42,11 @@ export default function VerifyPaymentPage() {
     setError(null);
     
     try {
-      const response = await fetch('/api/admissions/payment/verify', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ ref: invoiceRef })
-      });
+      // Utiliser notre service API pour vérifier le paiement
+      const result = await PaymentService.verifyPayment(invoiceRef);
       
-      const result = await response.json();
-      
-      if (response.ok && result.success) {
-        setPaymentDetails(result.data);
+      if (result.success && result.data) {
+        setPaymentDetails(result.data as unknown as PaymentDetails);
       } else {
         setError(result.message || "Payment not found");
         setPaymentDetails(null);
