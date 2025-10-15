@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { PaymentService, PaymentRequest, SchoolService, Grade, AcademicYear } from "@/services/api";
+import { PaymentService, PaymentRequest, SchoolService, Grade, AcademicYear, MaxiCashPaymentRequest } from "@/services/api";
 import { title, subtitle } from "@/components/primitives";
 import { Card } from "@heroui/card";
 import { Divider } from "@heroui/divider";
@@ -26,7 +26,8 @@ export default function PaymentPage() {
   const [isLoading, setIsLoading] = useState({
     grades: false,
     academicYears: false,
-    admissionFees: false
+    admissionFees: false,
+    payment: false
   });
   
   // Selected grade and cycle
@@ -185,15 +186,20 @@ export default function PaymentPage() {
     }
   };
 
+  // État pour stocker l'URL de redirection MaxiCash
+  const [maxiCashRedirectUrl, setMaxiCashRedirectUrl] = useState<string | null>(null);
+
   const handleSubmitPayment = async () => {
     // Validation pour l'étape finale
     if (!formData.confirmTerms) {
-      alert("Please confirm that all information is correct to proceed.");
+      alert("Veuillez confirmer que toutes les informations sont correctes pour continuer.");
       return;
     }
 
     try {
-      // Préparer les données de paiement
+      setIsLoading(prev => ({ ...prev, payment: true }));
+      
+      // Préparer les données de paiement pour notre API
       const paymentData: PaymentRequest = {
         code: formData.code,
         reason: formData.reason,
@@ -204,24 +210,109 @@ export default function PaymentPage() {
         payer_name: formData.payer_name || formData.payer_email.split("@")[0], // Utiliser la première partie de l'email si le nom n'est pas fourni
       };
 
-      // Utiliser notre service API pour traiter le paiement
-      const result = await PaymentService.createPayment(paymentData);
+      // Si le type de paiement est MaxiCash, utiliser l'API MaxiCash
+      if (formData.paytype === "maxicash") {
+        // Préparer les données pour MaxiCash
+        const maxiCashData: MaxiCashPaymentRequest = {
+          amount: admissionFees?.amount || 0,
+          currency: admissionFees?.currency_id || "XAF",
+          phone: formData.payer_phone,
+          email: formData.payer_email,
+          first_name: formData.payer_name?.split(" ")[0] || formData.payer_email.split("@")[0],
+          last_name: formData.payer_name?.split(" ").slice(1).join(" ") || "",
+          description: `Frais d'admission - ${selectedGrade?.name || ""} - ${formData.code}`,
+          external_reference: formData.code,
+          callback_url: `${window.location.origin}/api/payments/callback`,
+          return_url: `${window.location.origin}/admissions/payment/verify`,
+          cancel_url: `${window.location.origin}/admissions/payment`
+        };
 
-      if (result.success && result.data) {
-        // Sauvegarder la référence de facture pour vérification ultérieure
-        setInvoiceRef(result.data.ref);
-        // Move to success step (step 5)
-        setCurrentStep(5);
+        // Initier le paiement MaxiCash
+        const maxiCashResult = await PaymentService.initiateMaxiCashPayment(maxiCashData);
+
+        if (maxiCashResult.status === "success" && maxiCashResult.data?.payment_url) {
+          // Enregistrer d'abord le paiement dans notre système
+          const result = await PaymentService.createPayment(paymentData);
+          
+          if (result.success && result.data) {
+            // Sauvegarder la référence de facture pour vérification ultérieure
+            setInvoiceRef(result.data.ref);
+            
+            // Rediriger vers la page de paiement MaxiCash
+            setMaxiCashRedirectUrl(maxiCashResult.data.payment_url);
+            window.location.href = maxiCashResult.data.payment_url;
+          } else {
+            alert(`Erreur lors de l'enregistrement du paiement: ${result.message}`);
+          }
+        } else {
+          alert(`Erreur lors de l'initialisation du paiement MaxiCash: ${maxiCashResult.message || maxiCashResult.error}`);
+        }
       } else {
-        alert(`Error processing payment: ${result.message}`);
+        // Pour les autres types de paiement, utiliser notre API standard
+        const result = await PaymentService.createPayment(paymentData);
+
+        if (result.success && result.data) {
+          // Sauvegarder la référence de facture pour vérification ultérieure
+          setInvoiceRef(result.data.ref);
+          // Passer à l'étape de succès (step 5)
+          setCurrentStep(5);
+        } else {
+          alert(`Erreur lors du traitement du paiement: ${result.message}`);
+        }
       }
     } catch (error) {
       console.error("Error submitting payment:", error);
-      alert("Error processing payment. Please try again.");
+      alert("Erreur lors du traitement du paiement. Veuillez réessayer.");
+    } finally {
+      setIsLoading(prev => ({ ...prev, payment: false }));
     }
   };
 
+  // Composant pour la redirection vers MaxiCash
+  const MaxiCashRedirectComponent = ({ url }: { url: string }) => {
+    return (
+      <div className="space-y-6 sm:space-y-8 text-center">
+        <div className="flex flex-col items-center">
+          <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center mb-4">
+            <Spinner size="lg" color="white" />
+          </div>
+          <h3 className="text-xl sm:text-2xl font-semibold mb-2">
+            Redirection vers MaxiCash
+          </h3>
+          <p className="text-default-600 text-sm sm:text-base mb-6">
+            Vous allez être redirigé vers la plateforme de paiement MaxiCash. Veuillez patienter...
+          </p>
+        </div>
+        
+        <div className="bg-default-50 p-4 sm:p-6 rounded-lg max-w-md mx-auto">
+          <p className="text-sm text-default-700 mb-4">
+            Si vous n'êtes pas redirigé automatiquement, veuillez cliquer sur le bouton ci-dessous.
+          </p>
+          
+          <Button
+            as="a"
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={buttonStyles({
+              color: "primary",
+              variant: "shadow",
+              size: "lg",
+            })}
+          >
+            Continuer vers MaxiCash
+          </Button>
+        </div>
+      </div>
+    );
+  };
+
   const renderStepContent = () => {
+    // Si nous avons une URL de redirection MaxiCash, afficher le composant de redirection
+    if (maxiCashRedirectUrl) {
+      return <MaxiCashRedirectComponent url={maxiCashRedirectUrl} />;
+    }
+    
     switch (currentStep) {
       case 1: // Grade Selection
         return (
@@ -1012,9 +1103,10 @@ export default function PaymentPage() {
                           class: "sm:w-auto",
                         })}
                         onClick={handleSubmitPayment}
-                        isDisabled={!formData.confirmTerms}
+                        isDisabled={!formData.confirmTerms || isLoading.payment}
+                        isLoading={isLoading.payment}
                       >
-                        Complete Payment ✓
+                        {isLoading.payment ? "Traitement en cours..." : "Finaliser le paiement ✓"}
                       </Button>
                     ) : (
                       <Button
